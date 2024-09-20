@@ -13,12 +13,14 @@ export default function Dashboard() {
                             <h5>
                                 CS1234 React JS
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Full Stack software developer
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Full Stack software developer
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -28,12 +30,14 @@ export default function Dashboard() {
                             <h5>
                                 DS3000
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Foundations of Data Science
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Foundations of Data Science
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -43,12 +47,14 @@ export default function Dashboard() {
                             <h5>
                                 MISM2510
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Fundamentals of Information Analytics
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Fundamentals of Information Analytics
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -58,12 +64,14 @@ export default function Dashboard() {
                             <h5>
                                 ORGB3201
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Organizational Behavior
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Organizational Behavior
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -73,12 +81,14 @@ export default function Dashboard() {
                             <h5>
                                 PHIL1300
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Knowledge in a Digital World
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Knowledge in a Digital World
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -88,12 +98,14 @@ export default function Dashboard() {
                             <h5>
                                 ACCT1201
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Financial Accounting & Reporting
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Financial Accounting & Reporting
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -103,12 +115,14 @@ export default function Dashboard() {
                             <h5>
                                 COOP3945
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Co-op Work Experience
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Co-op Work Experience
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
@@ -118,12 +132,14 @@ export default function Dashboard() {
                             <h5>
                                 IS3500
                             </h5>
-                            <p className="wd-dashboard-course-title">
-                                Information System Design & Development
-                            </p>
-                            <button> Go </button>
                         </div>
                     </Link>
+                    <p className="wd-dashboard-course-title">
+                        Information System Design & Development
+                    </p>
+                    <Link className="wd-dashboard-course-button"
+                        to="/Kanbas/Courses/1234/Home">
+                        <button> Go </button><br /><br /></Link>
                 </div>
             </div>
         </div>
