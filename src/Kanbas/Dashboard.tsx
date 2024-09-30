@@ -12,17 +12,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/web.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">CS1234.F.24.1</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         CS1234 React JS
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text card-text">
+                                        Full Stack software developer
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text card-text">
-                                Full Stack software developer
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -31,17 +32,19 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/ds.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">DS3000.F.24.2</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         DS3000
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Foundations of Data Science
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Foundations of Data Science
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
+
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -50,17 +53,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/mism.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">MISM2510.F.24.5</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         MISM2510
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Fundamentals of Information Analytics
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Fundamentals of Information Analytics
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -69,17 +73,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/orgb.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">ORGB3201.F.24.10</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         ORGB3201
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Organizational Behavior
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Organizational Behavior
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -88,17 +93,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/phil.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">PHIL1300.F.24.1</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         PHIL1300
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Knowledge in a Digital World
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Knowledge in a Digital World
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -107,17 +113,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/acct.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">ACCT1201.F.24.11</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         ACCT1201
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Financial Accounting & Reporting
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Financial Accounting & Reporting
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -126,17 +133,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/coop.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">COOP3945.F.24.6</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         COOP3945
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Co-op Work Experience
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Co-op Work Experience
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                     <div className="wd-dashboard-course col" style={ { width: "260px" } }>
@@ -145,17 +153,18 @@ export default function Dashboard() {
                                 to="/Kanbas/Courses/1234/Home">
                                 <img src="/images/is.jpg" width="100%" height={ 160 } />
                                 <div className="card-body">
+                                    <a href="/Kanbas/Courses/1234/Home">IS3500.F.24.8</a>
                                     <h5 className="wd-dashboard-course-title card-title">
                                         IS3500
                                     </h5>
+                                    <p className="wd-dashboard-course-title card-text">
+                                        Information System Design & Development
+                                    </p>
+                                    <Link className="wd-dashboard-course-button"
+                                        to="/Kanbas/Courses/1234/Home">
+                                        <button className="btn btn-primary"> Go </button></Link>
                                 </div>
                             </Link>
-                            <p className="wd-dashboard-course-title card-text">
-                                Information System Design & Development
-                            </p>
-                            <Link className="wd-dashboard-course-button"
-                                to="/Kanbas/Courses/1234/Home">
-                                <button className="btn btn-primary"> Go </button><br /><br /></Link>
                         </div>
                     </div>
                 </div>
