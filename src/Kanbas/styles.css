@@ -21,3 +21,14 @@ body * {
     width: 200px;
     white-space: nowrap;
 }
+
+.list-group.wd {
+    font-size: 1rem;
+}
+
+.list-group.wd>.list-group-item.active {
+    color: black;
+    background-color: white;
+    border-left: 3px solid black !important;
+    font-weight: bold;
+}
