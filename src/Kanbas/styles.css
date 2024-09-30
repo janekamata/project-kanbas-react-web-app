@@ -22,10 +22,6 @@ body * {
     white-space: nowrap;
 }
 
-.list-group.wd {
-    font-size: 1rem;
-}
-
 .list-group.wd>.list-group-item.active {
     color: black;
     background-color: white;
@@ -50,4 +46,8 @@ body * {
 
 .wd-lesson {
     border-left: 3px solid green !important;
+}
+
+.wd-title {
+    font-weight: bold;
 }

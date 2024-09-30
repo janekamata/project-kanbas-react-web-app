@@ -13,7 +13,7 @@ export default function Courses() {
             </h2>
             <hr />
             <div className="d-flex">
-                <div className="d-none d-md-block">
+                <div className="d-none d-md-block ">
                     <CoursesNavigation />
                 </div>
                 <div className="flex-fill">
