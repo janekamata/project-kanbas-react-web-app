@@ -5,7 +5,7 @@ export default function ModulesControls() {
     return (
         <div id="wd-modules-controls" className="text-nowrap">
             <div className="search-bar me-1 float-start d-flex align-items-center">
-                <CiSearch className="position-relative m-2" />
+                <CiSearch className="position-relative m-2 fs-4" />
                 <input id="wd-search-assignment" className="form-control border-0"
                     placeholder="Search..."></input>
             </div>

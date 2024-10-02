@@ -51,6 +51,7 @@ body * {
 
 .wd-title {
     font-weight: bold;
+    font-size: 16px;
 }
 
 .wd-assignment-link {
@@ -63,4 +64,8 @@ body * {
     padding: 2px;
     height: 45px;
     border-radius: 5px;
+}
+
+.form_input_header_label {
+    font-weight: 500;
 }
