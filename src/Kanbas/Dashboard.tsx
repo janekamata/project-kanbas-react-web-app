@@ -17,7 +17,7 @@ export default function Dashboard() {
                                         CS1234 React JS
                                     </h5>
                                     <p className="wd-dashboard-course-title card-text card-text">
-                                        Full Stack software developer
+                                        Full Stack Software Developer
                                     </p>
                                     <Link className="wd-dashboard-course-button"
                                         to="/Kanbas/Courses/1234/Home">

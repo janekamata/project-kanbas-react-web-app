@@ -44,10 +44,23 @@ body * {
     --bs-list-group-border-color: gray;
 }
 
-.wd-lesson {
+.wd-lesson,
+.wd-assignment-list-item {
     border-left: 3px solid green !important;
 }
 
 .wd-title {
     font-weight: bold;
+}
+
+.wd-assignment-link {
+    color: black;
+    text-decoration-line: none;
+}
+
+.search-bar {
+    border: 1px solid black;
+    padding: 2px;
+    height: 45px;
+    border-radius: 5px;
 }
