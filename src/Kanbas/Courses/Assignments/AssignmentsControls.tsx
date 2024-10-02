@@ -9,7 +9,6 @@ export default function ModulesControls() {
                 <input id="wd-search-assignment" className="form-control border-0"
                     placeholder="Search..."></input>
             </div>
-
             <button id="wd-add-assignment" className="btn btn-lg btn-danger  me-1 float-end">
                 <FaPlus className="position-relative me-2" />
                 Assignment
