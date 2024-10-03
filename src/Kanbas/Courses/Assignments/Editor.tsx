@@ -73,7 +73,9 @@ export default function AssignmentEditor() {
                     <div className="border rounded p-3">
                         <div>
                             <label htmlFor="wd-assign-to" className="form_input_header_label form-label">Assign to</label>
-                            <input id="wd-assign-to" value="Everyone" className="form-control mb-3" />
+                            <select id="wd-assign-to" className="form-select mb-3">
+                                <option selected value="Online">Everyone</option>
+                            </select>
                         </div>
                         <div>
                             <label htmlFor="wd-due-date" className="form_input_header_label form-label">Due</label>
