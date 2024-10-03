@@ -1,7 +1,7 @@
 import { FaUserCircle } from "react-icons/fa";
 export default function PeopleTable() {
     return (
-        <div id="wd-people-table">
+        <div id="wd-people-table" className="me-2">
             <table className="table table-striped">
                 <thead>
                     <tr><th>Name</th><th>Login ID</th><th>Section</th><th>Role</th><th>Last Activity</th><th>Total Activity</th></tr>
