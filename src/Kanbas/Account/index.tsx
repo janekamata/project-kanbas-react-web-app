@@ -6,22 +6,20 @@ import Signup from "./Signup";
 export default function Account() {
     return (
         <div id="wd-account-screen">
-            <table>
-                <tr>
-                    <td valign="top">
-                        <AccountNavigation />
-                    </td>
-                    <td valign="top">
-                        <Routes>
-                            <Route path="/"
-                                element={<Signin />} />
-                            <Route path="/Signin" element={<Signin />} />
-                            <Route path="/Profile" element={<Profile />} />
-                            <Route path="/Signup" element={<Signup />} />
-                        </Routes>
-                    </td>
-                </tr>
-            </table>
+            <div className="d-flex mt-2">
+                <div className="d-none d-md-block me-2">
+                    <AccountNavigation />
+                </div>
+                <div className="w-25" style={ { minWidth: "200px" } }>
+                    <Routes>
+                        <Route path="/"
+                            element={ <Signin /> } />
+                        <Route path="/Signin" element={ <Signin /> } />
+                        <Route path="/Profile" element={ <Profile /> } />
+                        <Route path="/Signup" element={ <Signup /> } />
+                    </Routes>
+                </div>
+            </div>
         </div>
     );
 }
