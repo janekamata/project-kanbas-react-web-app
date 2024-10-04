@@ -10,7 +10,7 @@ export default function Account() {
                 <div className="d-none d-md-block me-2">
                     <AccountNavigation />
                 </div>
-                <div className="w-25" style={ { minWidth: "200px" } }>
+                <div className="w-25 ms-2 mt-2" style={ { minWidth: "200px" } }>
                     <Routes>
                         <Route path="/"
                             element={ <Signin /> } />

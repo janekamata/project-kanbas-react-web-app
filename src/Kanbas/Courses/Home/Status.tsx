@@ -13,11 +13,11 @@ export default function CourseStatus() {
             <div className="d-flex mb-3">
                 <div className="w-50 pe-1">
                     <button className="btn btn-lg btn-secondary w-100 text-nowrap">
-                        <FaBan className="me-2 fs-5" />Unpublish</button>
+                        <FaBan className="me-2 fs-5 mb-1" />Unpublish</button>
                 </div>
                 <div className="w-50">
                     <button className="btn btn-lg btn-success w-100">
-                        <FaCheckCircle className="me-2 fs-5" />Publish</button>
+                        <FaCheckCircle className="me-2 fs-5 mb-1" />Publish</button>
                 </div>
             </div>
             <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">

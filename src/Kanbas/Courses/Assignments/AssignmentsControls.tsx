@@ -10,13 +10,13 @@ export default function AssignmentsControls() {
                     placeholder="Search..."></input>
             </div>
             <div className="row float-end">
-                <button id="wd-add-assignment" className="btn btn-lg btn-danger  me-2 mb-2 float-end col text-nowrap">
-                    <FaPlus className="position-relative me-2" />
-                    Assignment
-                </button>
                 <button id="wd-add-assignment-group" className="btn btn-lg btn-secondary mb-2 me-2 float-end col">
                     <FaPlus className="position-relative me-2" />
                     Group
+                </button>
+                <button id="wd-add-assignment" className="btn btn-lg btn-danger  me-2 mb-2 float-end col text-nowrap">
+                    <FaPlus className="position-relative me-2" />
+                    Assignment
                 </button>
             </div>
         </div>

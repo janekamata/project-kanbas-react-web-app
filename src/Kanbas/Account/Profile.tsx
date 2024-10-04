@@ -7,9 +7,9 @@ export default function Profile() {
             <input id="wd-password" value="123" placeholder="password"
                 className="form-control mb-2" />
             <input id="wd-firstname" value="Jane" placeholder="First Name" className="form-control mb-2" />
-            <input id="wd-lastname" value="Kamata" placeholder="Last Name" className="form-control mb-2" />
-            <input id="wd-dob" value="2000-01-01" type="date" className="form-control mb-2" />
-            <input id="wd-email" value="jane@kamata" type="email" className="form-control mb-2" />
+            <input id="wd-lastname" value="Doe" placeholder="Last Name" className="form-control mb-2" />
+            <input id="wd-dob" value="yyyy-mm-dd" type="date" className="form-control mb-2" />
+            <input id="wd-email" value="jane@doe.mail" type="email" className="form-control mb-2" />
             <select id="wd-role" className="form-select mb-2">
                 <option value="USER">User</option>
                 <option value="ADMIN">Admin</option>

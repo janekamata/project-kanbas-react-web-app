@@ -17,9 +17,6 @@ export default function ModulesControls() {
                             borderRadius: "50%"
                         } }
                     />
-
-
-
                     Publish All</button>
                 <ul className="dropdown-menu">
                     <li>

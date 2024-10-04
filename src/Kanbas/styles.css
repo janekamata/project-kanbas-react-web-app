@@ -18,7 +18,7 @@ body * {
 .wd-dashboard-course-title {
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 200px;
+    width: 240px;
     white-space: nowrap;
 }
 

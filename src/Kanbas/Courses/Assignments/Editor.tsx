@@ -1,9 +1,9 @@
 export default function AssignmentEditor() {
     return (
         <form id="wd-assignments-editor" className="g-3">
-            <label htmlFor="wd-name" className="col-sm-2 col-form-label">Assignment Name</label>
+            <label htmlFor="wd-name" className="col-mb-2 col-form-label">Assignment Name</label>
             <input id="wd-name" className="form-control mb-3" value="A1 - ENV + HTML" />
-            <textarea id="wd-description" className="form-control mb-3">
+            <textarea id="wd-description" rows={ 5 } className="form-control mb-3">
                 The assignment is available online Submit a link to the landing page of
             </textarea>
             <div className="row mb-3">
@@ -43,22 +43,22 @@ export default function AssignmentEditor() {
                                 <option value="Offline">Offline</option>
                             </select>
                         </div>
-                        <legend className="form_input_header_label col-form-label col-sm-3 pt-0">Online Entry Options</legend>
+                        <legend className="form_input_header_label col-form-label col-sm-3 pt-0 mb-2">Online Entry Options</legend>
                         <div className="form-check">
                             <input type="checkbox" name="check-online-option" className="form-check-input" id="wd-text-entry" />
-                            <label htmlFor="wd-text-entry" className="form-check-label ms-2">Text Entry</label>
+                            <label htmlFor="wd-text-entry" className="form-check-label ms-2 mb-3">Text Entry</label>
                         </div>
                         <div className="form-check">
                             <input type="checkbox" name="check-online-option" className="form-check-input" id="wd-website-url" />
-                            <label htmlFor="wd-website-url" className="form-check-label ms-2">Website URL</label>
+                            <label htmlFor="wd-website-url" className="form-check-label ms-2 mb-3">Website URL</label>
                         </div>
                         <div className="form-check">
                             <input type="checkbox" name="check-online-option" className="form-check-input" id="wd-media-recordings" />
-                            <label htmlFor="wd-media-recordings" className="form-check-label ms-2">Media Recordings</label>
+                            <label htmlFor="wd-media-recordings" className="form-check-label ms-2 mb-3">Media Recordings</label>
                         </div>
                         <div className="form-check">
                             <input type="checkbox" name="check-online-option" className="form-check-input" id="wd-student-annotation" />
-                            <label htmlFor="wd-student-annotation" className="form-check-label ms-2">Student Annotation</label>
+                            <label htmlFor="wd-student-annotation" className="form-check-label ms-2 mb-3">Student Annotation</label>
                         </div>
                         <div className="form-check">
                             <input type="checkbox" name="check-online-option" className="form-check-input" id="wd-file-upload" />

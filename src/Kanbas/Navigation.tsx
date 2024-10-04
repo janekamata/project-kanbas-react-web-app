@@ -18,7 +18,7 @@ export default function KanbasNavigation() {
                 className="list-group-item text-center border-0 bg-black text-white">
                 <FaRegCircleUser className="fs-1 text text-gray" style={ {
                     color: "white",
-                    backgroundColor: "gray",
+                    backgroundColor: "dimgray",
                     borderRadius: "50%"
                 } } /><div>Account</div></Link>
             <Link to="/Kanbas/Dashboard" id="wd-dashboard-link"
