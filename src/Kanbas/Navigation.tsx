@@ -32,7 +32,7 @@ export default function KanbasNavigation() {
         <img src="/images/NEU.png" width="75px" />
       </a>
       <Link
-        to="/Kanbas/Account"
+        to="/Kanbas/Account/Signin"
         id="wd-account-link"
         className={`list-group-item text-center border-0 bg-black
             ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
