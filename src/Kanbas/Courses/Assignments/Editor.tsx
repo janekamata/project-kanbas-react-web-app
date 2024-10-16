@@ -1,15 +1,22 @@
+import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
+import { Link } from "react-router-dom";
+import * as db from "../../Database";
+
 export default function AssignmentEditor() {
+    const { cid, aid } = useParams();
+    const assignment = db.assignments.find( assignment => assignment._id === aid );
     return (
-        <form id="wd-assignments-editor" className="g-3">
+        <div>
+        {assignment && <form id="wd-assignments-editor" className="g-3">
             <label htmlFor="wd-name" className="col-mb-2 col-form-label">Assignment Name</label>
-            <input id="wd-name" className="form-control mb-3" value="A1 - ENV + HTML" />
+            <input id="wd-name" className="form-control mb-3" value={assignment.title } />
             <textarea id="wd-description" rows={ 5 } className="form-control mb-3">
-                The assignment is available online Submit a link to the landing page of
+                { assignment.description }
             </textarea>
             <div className="row mb-3">
                 <label htmlFor="wd-points" className="col-sm-2 col-form-label text-end">Points</label>
                 <div className="col">
-                    <input id="wd-points" className="form-control" value={ 100 } />
+                    <input id="wd-points" className="form-control" value={assignment.points}/>
                 </div>
             </div>
             <div className="row mb-3">
@@ -81,28 +88,29 @@ export default function AssignmentEditor() {
                             <label htmlFor="wd-due-date" className="form_input_header_label form-label">Due</label>
                             <input type="date" className="form-control mb-3"
                                 id="wd-due-date"
-                                value="2024-05-13" />
+                                value={new Date(assignment.due_date).toISOString().split('T')[0]} />
                         </div>
                         <div className="row g-3">
                             <div className="col-md-6">
                                 <label htmlFor="wd-available-from" className="form_input_header_label form-label">Available from</label>
                                 <input type="date" className="form-control mb-3"
                                     id="wd-available-from"
-                                    value="2024-05-06" />
+                                    value={new Date(assignment.available_date).toISOString().split('T')[0]} />
                             </div>
                             <div className="col-md-6">
                                 <label htmlFor="wd-available-until" className="form_input_header_label form-label">Until</label>
                                 <input type="date" className="form-control mb-3"
-                                    id="wd-available-until"
-                                    value="2024-05-20" />
+                                    id="wd-available-until" />
                             </div>
                         </div>
                     </div>
                 </div>
             </fieldset>
             <hr />
-            <button id="wd-assignment-save" className="btn btn-lg btn-danger me-1 float-end">Save</button>
-            <button id="wd-assignment-cancel" className="btn btn-lg btn-secondary me-1 float-end">Cancel</button>
+            <Link to={`/Kanbas/Courses/${cid}/Assignments`}><button id="wd-assignment-save" className="btn btn-lg btn-danger me-1 float-end">Save</button></Link>
+            <Link to={`/Kanbas/Courses/${cid}/Assignments`}><button id="wd-assignment-cancel" className="btn btn-lg btn-secondary me-1 float-end">Cancel</button></Link>
         </form>
+        }
+        </div>
     );
 }

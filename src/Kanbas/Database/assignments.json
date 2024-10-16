@@ -1,0 +1,11 @@
+[
+    { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "modules": "Multiple Modules", "description": "This is Propulsion Assignment.", "points": 100, "due_date":"2024-08-10T22:18:26.625Z","available_date":"2024-10-11T22:18:26.625Z" },
+    { "_id": "A102", "title": "Combustion Analysis", "course": "RS101", "modules": "Multiple Modules","description": "This is Combustion Analysis.", "points": 70, "due_date":"2024-07-10T22:18:26.625Z","available_date":"2024-10-12T22:18:26.625Z" },
+    { "_id": "A103", "title": "Nozzle Design Project", "course": "RS101" ,"modules": "Multiple Modules", "description": "This is Nozzle Design Project.", "points": 65, "due_date":"2024-08-11T22:18:26.625Z","available_date":"2024-12-12T22:18:26.625Z"},
+    { "_id": "A201", "title": "Aerodynamics Quiz", "course": "RS102", "modules": "Multiple Modules","description": "This is an Aerodynamics Quiz.", "points": 80, "due_date":"2024-04-10T22:18:26.625Z","available_date":"2024-11-10T22:18:26.625Z" },
+    { "_id": "A202", "title": "Flow Analysis", "course": "RS102", "modules": "Multiple Modules","description": "This is Flow Analysis assignment.", "points": 100, "due_date":"2024-02-10T22:18:26.625Z","available_date":"2024-12-11T22:18:26.625Z" },
+    { "_id": "A203", "title": "Heating Analysis", "course": "RS102" , "modules": "Multiple Modules","description": "This is Heating Analysis assignment.", "points": 77, "due_date":"2024-09-10T22:18:26.625Z","available_date":"2024-12-01T22:18:26.625Z"},
+    { "_id": "A301", "title": "Structural Design Task", "course": "RS103", "modules": "Multiple Modules","description": "This is Structural Design Task assignment.", "points": 5, "due_date":"2024-08-12T22:18:26.625Z","available_date":"2024-08-24T22:18:26.625Z" },
+    { "_id": "A302", "title": "Orbital Calculations", "course": "RS103" , "modules": "Multiple Modules","description": "This is Orbital Calculations.", "points": 19, "due_date":"2024-08-15T22:18:26.625Z","available_date":"2024-10-18T22:18:26.625Z"},
+    { "_id": "A303", "title": "Systems Engineering Exam", "course": "RS103", "modules": "Multiple Modules","description": "This is an assignment.", "points": 75, "due_date":"2024-08-19T22:18:26.625Z","available_date":"2024-10-20T22:18:26.625Z" }
+  ]
