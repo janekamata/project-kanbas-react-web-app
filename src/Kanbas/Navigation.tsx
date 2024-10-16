@@ -18,7 +18,7 @@ export default function KanbasNavigation() {
   return (
     <div
       id="wd-kanbas-navigation"
-      style={{ width: 110 }}
+      style={ { width: 110 } }
       className="list-group rounded-0 position-fixed
         bottom-0 top-0 d-none d-md-block bg-black z-2"
     >
@@ -34,34 +34,30 @@ export default function KanbasNavigation() {
       <Link
         to="/Kanbas/Account"
         id="wd-account-link"
-        className={`list-group-item text-center border-0 ${
-          pathname.includes("Account")
-            ? "bg-white text-danger"
-            : "bg-black text-white"
-        }`}
-      >
+        className={`list-group-item text-center border-0 bg-black
+            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}>
+      
         <FaRegCircleUser
-          className="fs-1 text-danger" 
+           className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`}
         />
         <div>Account</div>
       </Link>
 
-      {links.map((link) => (
+      { links.map( ( link ) => (
         <Link
-          key={link.path}
-          to={link.path}
-          className={`list-group-item bg-black text-center border-0
-              ${
-                pathname.includes(link.label)
-                  ? "text-danger bg-white"
-                  : "text-white bg-black"
-              }`}
+          key={ link.path }
+          to={ link.path }
+          className={ `list-group-item bg-black text-center border-0
+              ${pathname.includes( link.label )
+              ? "text-danger bg-white"
+              : "text-white bg-black"
+            }` }
         >
-          {link.icon({ className: "fs-1 text-danger" })}
+          { link.icon( { className: "fs-1 text-danger" } ) }
           <br />
-          {link.label}
+          { link.label }
         </Link>
-      ))}
+      ) ) }
     </div>
   );
 }
