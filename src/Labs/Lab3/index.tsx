@@ -1,4 +1,5 @@
 import Add from "./Add";
+import AddingAndRemovingToFromArrays from "./AddingAndRemovingToFromArrays";
 import AddPathParameters from "./AddPathParameters";
 import ArrayIndexAndLength from "./ArrayIndexAndLength";
 import ArrowFunctions from "./ArrowFunctions";
@@ -43,13 +44,14 @@ export default function Lab3() {
             <IfElse />
             <TernaryOperator />
             <ConditionalOutputIfElse />
-            <ConditionalOutputInline />
+            <ConditionalOutputInline /><hr />
             <LegacyFunctions />
             <ArrowFunctions />
             <ImpliedReturn />
             <TemplateLiterals />
             <SimpleArrays />
             <ArrayIndexAndLength />
+            <AddingAndRemovingToFromArrays />
             <ForLoops />
             <MapFunction />
             <FindFunction />
