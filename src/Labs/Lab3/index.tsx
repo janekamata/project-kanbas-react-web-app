@@ -36,7 +36,7 @@ import VariableTypes from "./VariableTypes";
 export default function Lab3() {
     console.log( 'Hello World!' );
     return (
-        <div className="ms-4">
+        <div>
             <h2>Lab 3</h2>
             <VariablesAndConstants />
             <VariableTypes />
