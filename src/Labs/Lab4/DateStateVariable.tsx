@@ -12,7 +12,7 @@ export default function DateStateVariable() {
       <h3>{JSON.stringify(startDate)}</h3>
       <h3>{dateObjectToHtmlDateString(startDate)}</h3>
       <input
-        className="form-control"
+        className="form-control w-25"
         type="date"
         defaultValue={dateObjectToHtmlDateString(startDate)}
         onChange={(e) => setStartDate(new Date(e.target.value))}

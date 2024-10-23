@@ -5,10 +5,10 @@ export default function BooleanStateVariables() {
     <div id="wd-boolean-state-variables">
       <h2>Boolean State Variables</h2>
       <p>{done ? "Done" : "Not done"}</p>
-      <label className="form-control">
+      <label className="form-control w-25">
         <input type="checkbox" checked={done}
                onChange={() => setDone(!done)} /> Done
       </label>
-      {done && <div className="alert alert-success">
+      {done && <div className="alert alert-success w-25">
                Yay! you are done</div>}
 <hr/></div>);}

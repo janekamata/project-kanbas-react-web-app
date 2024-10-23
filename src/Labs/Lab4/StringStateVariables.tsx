@@ -6,7 +6,7 @@ export default function StringStateVariables() {
       <h2>String State Variables</h2>
       <p>{firstName}</p>
       <input
-        className="form-control"
+        className="form-control w-25"
         defaultValue={firstName}
         onChange={(e) => setFirstName(e.target.value)}/>
 <hr/></div>);}
