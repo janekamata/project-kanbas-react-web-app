@@ -5,7 +5,7 @@ export default function TodoItem({ todo }: { todo: { id: any; title: any } }) {
   const dispatch = useDispatch();
 
   return (
-    <li key={todo.id} className="list-group-item">
+    <li key={todo.id} className="list-group-item list-group-item-light">
       <button
         onClick={() => dispatch(deleteTodo(todo.id))}
         id="wd-delete-todo-click"
