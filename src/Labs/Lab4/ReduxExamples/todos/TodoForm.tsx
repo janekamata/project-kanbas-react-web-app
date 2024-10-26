@@ -23,7 +23,7 @@ export default function TodoForm() {
       </button>
       <input
         className="form-control w-50 fs-5"
-        defaultValue={todo.title}
+        value={todo.title}
         onChange={(e) => dispatch(setTodo({ ...todo, title: e.target.value }))}
       />
     </li>
