@@ -2,6 +2,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaCheckCircle, FaBan } from "react-icons/fa";
 
 import ModuleEditor from "./ModuleEditor";
+import { useSelector } from "react-redux";
 export default function ModulesControls({
   moduleName,
   setModuleName,
@@ -11,17 +12,24 @@ export default function ModulesControls({
   setModuleName: (title: string) => void;
   addModule: () => void;
 }) {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+
   return (
-    <div id="wd-modules-controls" className="text-nowrap d-block mb-3">
-      <button
-        id="wd-add-module-btn"
-        className="btn btn-lg btn-danger m-1 float-end"
-        data-bs-toggle="modal"
-        data-bs-target="#wd-add-module-dialog"
-      >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Module
-      </button>
+    <div id="wd-modules-controls" className="text-nowrap d-block mb-3 p-0 pe-2">
+      {currentUser.role === "FACULTY" && (
+        <button
+          id="wd-add-module-btn"
+          className="btn btn-lg btn-danger m-1 ms-1 float-end"
+          data-bs-toggle="modal"
+          data-bs-target="#wd-add-module-dialog"
+        >
+          <FaPlus
+            className="position-relative me-2"
+            style={{ bottom: "1px" }}
+          />
+          Module
+        </button>
+      )}
       <div className="dropdown d-inline m-1 float-end">
         <button
           id="wd-publish-all-btn"
