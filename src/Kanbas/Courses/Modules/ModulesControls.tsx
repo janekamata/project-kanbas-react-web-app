@@ -3,6 +3,7 @@ import { FaCheckCircle, FaBan } from "react-icons/fa";
 
 import ModuleEditor from "./ModuleEditor";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 export default function ModulesControls({
   moduleName,
   setModuleName,
@@ -13,6 +14,7 @@ export default function ModulesControls({
   addModule: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { cid, aid } = useParams();
 
   return (
     <div id="wd-modules-controls" className="text-nowrap d-block mb-3 p-0 pe-2">
@@ -50,56 +52,49 @@ export default function ModulesControls({
         </button>
         <ul className="dropdown-menu">
           <li>
-            <a
+            <div
               id="wd-publish-all-modules-and-items-btn"
               className="dropdown-item"
-              href="#/Kanbas/Courses/1234/Home"
             >
               <FaCheckCircle
                 className="position-relative me-2"
                 style={{ bottom: "1px", color: "green" }}
               />
               Publish all modules and items
-            </a>
+            </div>
           </li>
           <li>
-            <a
-              id="wd-publish-modules-only-button"
-              className="dropdown-item"
-              href="#/Kanbas/Courses/1234/Home"
-            >
+            <div id="wd-publish-modules-only-button" className="dropdown-item">
               <FaCheckCircle
                 className="position-relative me-2"
                 style={{ bottom: "1px", color: "green" }}
               />
               Publish modules only
-            </a>
+            </div>
           </li>
           <li id="wd-unpublish-all-modules-and-items">
-            <a
+            <div
               id="wd-unpublish-all-modules-and-items-button"
               className="dropdown-item"
-              href="#/Kanbas/Courses/1234/Home"
             >
               <FaBan
                 className="position-relative me-2"
                 style={{ bottom: "1px" }}
               />
               Unpublish all modules
-            </a>
+            </div>
           </li>
           <li id="wd-unpublish-modules-only">
-            <a
+            <div
               id="wd-unpublish-modules-only-button"
               className="dropdown-item"
-              href="#/Kanbas/Courses/1234/Home"
             >
               <FaBan
                 className="position-relative me-2"
                 style={{ bottom: "1px" }}
               />
               Unpublish modules only
-            </a>
+            </div>
           </li>
         </ul>
       </div>
