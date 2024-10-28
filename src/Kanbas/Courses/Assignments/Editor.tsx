@@ -49,6 +49,7 @@ export default function AssignmentEditor() {
           onChange={(e) =>
             setAssignment({ ...assignment, title: e.target.value })
           }
+          placeholder="Name"
         />
         <textarea
           id="wd-description"
@@ -57,6 +58,7 @@ export default function AssignmentEditor() {
           onChange={(e) =>
             setAssignment({ ...assignment, description: e.target.value })
           }
+          placeholder="Description"
         >
           {assignment.description}
         </textarea>

@@ -12,6 +12,7 @@ export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const [currentAssignmentId, setId] = useState("");
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const dispatch = useDispatch();
 
@@ -36,12 +37,17 @@ export default function Assignments() {
                     <BsGripVertical className="me-2 fs-3" />
                     <MdOutlineAssignment className="me-3 fs-5 text-success" />
                     <div className="d-flex flex-column">
-                      <a
-                        className="wd-assignment-link wd-title"
-                        href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                      >
-                        {assignment.title}
-                      </a>
+                      {currentUser.role === "FACULTY" && (
+                        <a
+                          className="wd-assignment-link wd-title"
+                          href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                        >
+                          {assignment.title}
+                        </a>
+                      )}
+                      {currentUser.role !== "FACULTY" && (
+                        <span className="wd-title">{assignment.title}</span>
+                      )}
                       <div className="wd-assignment-list-details">
                         <div>
                           {assignment.modules && (
