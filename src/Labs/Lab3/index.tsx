@@ -40,7 +40,7 @@ export default function Lab3() {
   return (
     <div>
       <h2>Lab 3</h2>
-      <ul className="list-group">
+      <ul className="list-group w-25">
         {todos.map((todo: any) => (
           <li className="list-group-item" key={todo.id}>
             {todo.title}
