@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
-import * as db from "./Database";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { current } from "@reduxjs/toolkit";
 import { unenroll, enroll, enrollmentsOnSwitch } from "./reducer";
 
 export default function Dashboard({
@@ -149,7 +147,8 @@ export default function Dashboard({
               (enrollment: { user: any; course: any }) =>
                 (enrollment.user === currentUser._id &&
                   enrollment.course === course._id &&
-                  (!enrollmentsOn || currentUser.role !== "STUDENT")) ||
+                  ((!enrollmentsOn && currentUser.role === "STUDENT") ||
+                    currentUser.role !== "STUDENT")) ||
                 (currentUser.role === "STUDENT" && enrollmentsOn)
             )
           ).length
@@ -165,7 +164,8 @@ export default function Dashboard({
                 (enrollment: { user: any; course: any }) =>
                   (enrollment.user === currentUser._id &&
                     enrollment.course === course._id &&
-                    (!enrollmentsOn || currentUser.role !== "STUDENT")) ||
+                    ((!enrollmentsOn && currentUser.role === "STUDENT") ||
+                      currentUser.role !== "STUDENT")) ||
                   (currentUser.role === "STUDENT" && enrollmentsOn)
               )
             )
@@ -185,6 +185,7 @@ export default function Dashboard({
                       }.jpg`}
                       width="100%"
                       height={160}
+                      alt=""
                     />
                     <div className="card-body ">
                       <a
@@ -216,12 +217,12 @@ export default function Dashboard({
                               deleteCourse(course._id);
                             }}
                             className="btn btn-danger float-end"
-                            id="wd-delete-course-click"
+                            id={`wd-delete-course-click-${course._id}`}
                           >
                             Delete
                           </button>
                           <button
-                            id="wd-edit-course-click"
+                            id={`wd-edit-course-click-${course._id}`}
                             onClick={(event) => {
                               event.preventDefault();
                               setCourse(course);
@@ -244,13 +245,13 @@ export default function Dashboard({
                                 e.preventDefault();
                                 dispatch(
                                   unenroll({
-                                    user: currentUser.id,
+                                    user: currentUser._id,
                                     course: course._id,
                                   })
                                 );
                               }}
                               className="btn btn-danger float-end"
-                              id="wd-delete-course-click"
+                              id={`unenroll-button-${course._id}`}
                             >
                               Unenroll
                             </button>
@@ -271,7 +272,7 @@ export default function Dashboard({
                                 );
                               }}
                               className="btn btn-success float-end"
-                              id="wd-delete-course-click"
+                              id={`enroll-button-${course._id}`}
                             >
                               Enroll
                             </button>

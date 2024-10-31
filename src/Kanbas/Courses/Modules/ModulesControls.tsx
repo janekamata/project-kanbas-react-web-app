@@ -3,7 +3,6 @@ import { FaCheckCircle, FaBan } from "react-icons/fa";
 
 import ModuleEditor from "./ModuleEditor";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
 import ProtectedRouteRole from "../ProtectedRouteRole";
 export default function ModulesControls({
   moduleName,
@@ -15,7 +14,6 @@ export default function ModulesControls({
   addModule: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { cid, aid } = useParams();
 
   return (
     <div id="wd-modules-controls" className="text-nowrap d-block mb-3 p-0">
