@@ -149,7 +149,7 @@ export default function Dashboard({
               (enrollment: { user: any; course: any }) =>
                 (enrollment.user === currentUser._id &&
                   enrollment.course === course._id &&
-                  !enrollmentsOn) ||
+                  (!enrollmentsOn || currentUser.role !== "STUDENT")) ||
                 (currentUser.role === "STUDENT" && enrollmentsOn)
             )
           ).length
@@ -165,7 +165,7 @@ export default function Dashboard({
                 (enrollment: { user: any; course: any }) =>
                   (enrollment.user === currentUser._id &&
                     enrollment.course === course._id &&
-                    !enrollmentsOn) ||
+                    (!enrollmentsOn || currentUser.role !== "STUDENT")) ||
                   (currentUser.role === "STUDENT" && enrollmentsOn)
               )
             )
