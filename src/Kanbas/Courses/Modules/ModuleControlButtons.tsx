@@ -3,6 +3,7 @@ import { BsPlus } from "react-icons/bs";
 import { FaCheckCircle, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import ProtectedRouteRole from "../ProtectedRouteRole";
 
 export default function LessonControlButtons({
   moduleId,
@@ -37,7 +38,9 @@ export default function LessonControlButtons({
           borderRadius: "50%",
         }}
       />
-      <BsPlus className="fs-3" />
+      <ProtectedRouteRole>
+        <BsPlus className="fs-3" />
+      </ProtectedRouteRole>
       <IoEllipsisVertical className="fs-4" />
     </div>
   );

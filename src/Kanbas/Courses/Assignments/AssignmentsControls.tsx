@@ -2,6 +2,7 @@ import { FaPlus } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import ProtectedRouteRole from "../ProtectedRouteRole";
 
 export default function AssignmentsControls() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -18,13 +19,15 @@ export default function AssignmentsControls() {
         ></input>
       </div>
       <div className="row float-end">
-        <button
-          id="wd-add-assignment-group"
-          className="btn btn-lg btn-secondary mb-2 me-2 float-end col"
-        >
-          <FaPlus className="position-relative me-2" />
-          Group
-        </button>
+        <ProtectedRouteRole>
+          <button
+            id="wd-add-assignment-group"
+            className="btn btn-lg btn-secondary mb-2 me-2 float-end col"
+          >
+            <FaPlus className="position-relative me-2" />
+            Group
+          </button>
+        </ProtectedRouteRole>
         {currentUser.role === "FACULTY" && (
           <a
             href={`#/Kanbas/Courses/${cid}/Assignments/New`}

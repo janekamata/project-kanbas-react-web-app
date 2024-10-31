@@ -4,6 +4,7 @@ import { FaCheckCircle, FaBan } from "react-icons/fa";
 import ModuleEditor from "./ModuleEditor";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import ProtectedRouteRole from "../ProtectedRouteRole";
 export default function ModulesControls({
   moduleName,
   setModuleName,
@@ -17,7 +18,7 @@ export default function ModulesControls({
   const { cid, aid } = useParams();
 
   return (
-    <div id="wd-modules-controls" className="text-nowrap d-block mb-3 p-0 pe-2">
+    <div id="wd-modules-controls" className="text-nowrap d-block mb-3 p-0">
       {currentUser.role === "FACULTY" && (
         <button
           id="wd-add-module-btn"
@@ -33,23 +34,25 @@ export default function ModulesControls({
         </button>
       )}
       <div className="dropdown d-inline m-1 float-end">
-        <button
-          id="wd-publish-all-btn"
-          className="btn btn-lg btn-secondary dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-        >
-          <FaCheckCircle
-            className="position-relative me-2"
-            style={{
-              bottom: "1px",
-              color: "green",
-              backgroundColor: "white",
-              borderRadius: "50%",
-            }}
-          />
-          Publish All
-        </button>
+        <ProtectedRouteRole>
+          <button
+            id="wd-publish-all-btn"
+            className="btn btn-lg btn-secondary dropdown-toggle ms-1"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <FaCheckCircle
+              className="position-relative me-2"
+              style={{
+                bottom: "1px",
+                color: "green",
+                backgroundColor: "white",
+                borderRadius: "50%",
+              }}
+            />
+            Publish All
+          </button>
+        </ProtectedRouteRole>
         <ul className="dropdown-menu">
           <li>
             <div
