@@ -22,6 +22,14 @@ body * {
     white-space: nowrap;
 }
 
+.wd-dashboard-course-title-number {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 240px;
+    white-space: nowrap;
+    display: inline-block;
+}
+
 .list-group.wd>.list-group-item.active {
     color: black;
     background-color: white;

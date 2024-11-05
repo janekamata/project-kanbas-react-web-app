@@ -1,6 +1,5 @@
 import Add from "./Add";
 import AddingAndRemovingToFromArrays from "./AddingAndRemovingToFromArrays";
-import AddPathParameters from "./AddPathParameters";
 import ArrayIndexAndLength from "./ArrayIndexAndLength";
 import ArrowFunctions from "./ArrowFunctions";
 import BooleanVariables from "./BooleanVariables";
@@ -32,49 +31,64 @@ import TodoItem from "./TodoItem";
 import TodoList from "./TodoList";
 import VariablesAndConstants from "./VariablesAndConstants";
 import VariableTypes from "./VariableTypes";
+import { useSelector } from "react-redux";
 
 export default function Lab3() {
-    console.log( 'Hello World!' );
-    return (
-        <div className="ms-4">
-            <h2>Lab 3</h2>
-            <VariablesAndConstants />
-            <VariableTypes />
-            <BooleanVariables />
-            <IfElse />
-            <TernaryOperator />
-            <ConditionalOutputIfElse />
-            <ConditionalOutputInline /><hr />
-            <LegacyFunctions />
-            <ArrowFunctions />
-            <ImpliedReturn />
-            <TemplateLiterals />
-            <SimpleArrays />
-            <ArrayIndexAndLength />
-            <AddingAndRemovingToFromArrays />
-            <ForLoops />
-            <MapFunction />
-            <FindFunction />
-            <FindIndex />
-            <FilterFunction />
-            <JsonStringify />
-            <House />
-            <TodoItem />
-            <TodoList />
-            <Spreading />
-            <Destructing />
-            <FunctionDestructing />
-            <DestructingImports />
-            <Classes />
-            <Styles />
-            <Add a={ 3 } b={ 4 } />
-            <h4>Square of 4</h4>
-            <Square>4</Square><hr />
-            <Highlight>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
-                vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
-            </Highlight><hr />
-            <PathParameters />
-        </div>
-    );
+  const { todos } = useSelector((state: any) => state.todosReducer);
+  console.log("Hello World!");
+  return (
+    <div>
+      <h2>Lab 3</h2>
+      <ul className="list-group w-25">
+        {todos.map((todo: any) => (
+          <li className="list-group-item" key={todo.id}>
+            {todo.title}
+          </li>
+        ))}
+      </ul>
+      <hr />
+      <VariablesAndConstants />
+      <VariableTypes />
+      <BooleanVariables />
+      <IfElse />
+      <TernaryOperator />
+      <ConditionalOutputIfElse />
+      <ConditionalOutputInline />
+      <hr />
+      <LegacyFunctions />
+      <ArrowFunctions />
+      <ImpliedReturn />
+      <TemplateLiterals />
+      <SimpleArrays />
+      <ArrayIndexAndLength />
+      <AddingAndRemovingToFromArrays />
+      <ForLoops />
+      <MapFunction />
+      <FindFunction />
+      <FindIndex />
+      <FilterFunction />
+      <JsonStringify />
+      <House />
+      <TodoItem />
+      <TodoList />
+      <Spreading />
+      <Destructing />
+      <FunctionDestructing />
+      <DestructingImports />
+      <Classes />
+      <Styles />
+      <Add a={3} b={4} />
+      <h4>Square of 4</h4>
+      <Square>4</Square>
+      <hr />
+      <Highlight>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione
+        eaque illo minus cum, saepe totam vel nihil repellat nemo explicabo
+        excepturi consectetur. Modi omnis minus sequi maiores, provident
+        voluptates.
+      </Highlight>
+      <hr />
+      <PathParameters />
+    </div>
+  );
 }

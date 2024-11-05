@@ -1,5 +1,5 @@
 [
-    { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "modules": "Multiple Modules", "description": "This is Propulsion Assignment.", "points": 100, "due_date":"2024-08-10T22:18:26.625Z","available_date":"2024-10-11T22:18:26.625Z" },
+    { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "modules": "Multiple Modules", "description": "This is Propulsion Assignment.", "points": 100, "due_date":"2024-08-10T22:18:26.625Z","available_date":"2024-10-11T22:18:26.625Z", "available_until_date":"2024-10-11T22:18:26.625Z" },
     { "_id": "A102", "title": "Combustion Analysis", "course": "RS101", "modules": "Multiple Modules","description": "This is Combustion Analysis.", "points": 70, "due_date":"2024-07-10T22:18:26.625Z","available_date":"2024-10-12T22:18:26.625Z" },
     { "_id": "A103", "title": "Nozzle Design Project", "course": "RS101" ,"modules": "Multiple Modules", "description": "This is Nozzle Design Project.", "points": 65, "due_date":"2024-08-11T22:18:26.625Z","available_date":"2024-12-12T22:18:26.625Z"},
     { "_id": "A201", "title": "Aerodynamics Quiz", "course": "RS102", "modules": "Multiple Modules","description": "This is an Aerodynamics Quiz.", "points": 80, "due_date":"2024-04-10T22:18:26.625Z","available_date":"2024-11-10T22:18:26.625Z" },
