@@ -58,7 +58,7 @@ export default function WorkingWithArrays() {
         className="btn btn-primary float-end"
         href={`${API}/${todo.id}/delete`}
       >
-        Delete Todo with ID = {todo.id}{" "}
+        Delete Todo with ID = {todo.id}
       </a>
       <input
         defaultValue={todo.id}
@@ -87,43 +87,47 @@ export default function WorkingWithArrays() {
       <br />
       <hr />
       <h3>On Your Own</h3>
-      <a
-        href={`${API}/${todo.id}/completed/${todo.completed}`}
-        className="btn btn-primary float-end"
-      >
-        Update Todo Completed
-      </a>
-      <input
-        defaultValue={todo.id}
-        className="form-control w-25 float-start me-2"
-        onChange={(e) => setTodo({ ...todo, id: e.target.value })}
-      />
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        className="form-checked w-50 float-start"
-        onChange={(e) =>
-          setTodo({ ...todo, completed: Boolean(e.target.value) })
-        }
-      />
-      <a
-        href={`${API}/${todo.id}/description/${todo.description}`}
-        className="btn btn-primary float-end"
-      >
-        Update Todo Description
-      </a>
-      <input
-        defaultValue={todo.id}
-        className="form-control w-25 float-start me-2"
-        onChange={(e) => setTodo({ ...todo, id: e.target.value })}
-      />
-      <input
-        defaultValue={todo.description}
-        className="form-control w-50 float-start"
-        onChange={(e) => setTodo({ ...todo, description: e.target.value })}
-      />
-      <br />
-      <br />
+      <div className="d-flex align-items-center">
+        <input
+          defaultValue={todo.id}
+          className="form-control w-25 me-2"
+          onChange={(e) => setTodo({ ...todo, id: e.target.value })}
+        />
+        <div className="flex-fill">
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            className="form-checked w-25 "
+            onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
+          />
+        </div>
+        <a
+          href={`${API}/${todo.id}/completed/${todo.completed}`}
+          className="btn btn-primary float-end"
+        >
+          Update Todo {todo.id} Completed
+        </a>
+      </div>
+      <div className="d-flex align-items-center mt-2">
+        <input
+          defaultValue={todo.id}
+          className="form-control w-25 float-start me-2"
+          onChange={(e) => setTodo({ ...todo, id: e.target.value })}
+        />
+        <div className="flex-fill">
+          <input
+            defaultValue={todo.description}
+            className="form-control float-start"
+            onChange={(e) => setTodo({ ...todo, description: e.target.value })}
+          />
+        </div>
+        <a
+          href={`${API}/${todo.id}/description/${todo.description}`}
+          className="btn btn-primary ms-2"
+        >
+          Update Todo {todo.id} Description
+        </a>
+      </div>
       <hr />
     </div>
   );

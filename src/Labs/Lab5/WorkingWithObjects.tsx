@@ -105,7 +105,7 @@ export default function WorkingWithObjects() {
             onChange={(e) =>
               setAssignment({
                 ...assignment,
-                completed: Boolean(e.target.value),
+                completed: e.target.checked,
               })
             }
           />
