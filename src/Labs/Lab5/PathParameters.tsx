@@ -7,14 +7,14 @@ export default function PathParameters() {
     <div>
       <h3>Path Parameters</h3>
       <input
-        className="form-control mb-2"
+        className="form-control mb-2 w-25"
         id="wd-path-parameter-a"
         type="number"
         defaultValue={a}
         onChange={(e) => setA(e.target.value)}
       />
       <input
-        className="form-control mb-2"
+        className="form-control mb-2 w-25"
         id="wd-path-parameter-b"
         type="number"
         defaultValue={b}

@@ -8,14 +8,14 @@ export default function QueryParameters() {
       <h3>Query Parameters</h3>
       <input
         id="wd-query-parameter-a"
-        className="form-control mb-2"
+        className="form-control mb-2 w-25"
         defaultValue={a}
         type="number"
         onChange={(e) => setA(e.target.value)}
       />
       <input
         id="wd-query-parameter-b"
-        className="form-control mb-2"
+        className="form-control mb-2 w-25"
         defaultValue={b}
         type="number"
         onChange={(e) => setB(e.target.value)}
