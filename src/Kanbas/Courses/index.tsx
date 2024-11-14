@@ -7,6 +7,7 @@ import CoursesNavigation from "./Navigation";
 import { Route, Routes, useParams, useLocation } from "react-router";
 import PeopleTable from "./People/Table";
 import ProtectedRouteEditor from "./ProtectedRouteEditor";
+import ProtectedRouteQuizEditor from "./ProtectedRouteQuizEditor";
 import Quizzes from "./Quizzes";
 import QuizEditor from "./Quizzes/QuizEditor";
 export default function Courses({ courses }: { courses: any[] }) {
@@ -50,9 +51,9 @@ export default function Courses({ courses }: { courses: any[] }) {
                 <Route
                   path="Quizzes/:qid"
                   element={
-                    <ProtectedRouteEditor>
+                    <ProtectedRouteQuizEditor>
                       <QuizEditor />
-                    </ProtectedRouteEditor>
+                    </ProtectedRouteQuizEditor>
                   }
                 />
                 <Route path="Grades" element={<h2>Grades</h2>} />
