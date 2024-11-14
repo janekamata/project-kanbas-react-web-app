@@ -44,8 +44,8 @@ export default function QuizEditor() {
   };
   return (
     <ProtectedRouteRole>
-      <div>
-        <div className="d-flex align-items-center">
+      <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
+        <div className="d-flex align-items-center justify-content-center">
           <div className="fs-4">
             Points:{" "}
             {quiz.questions.reduce(

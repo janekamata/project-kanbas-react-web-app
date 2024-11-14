@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Editor from "./Editor";
-import { FaArrowRight, FaPencil, FaPlus } from "react-icons/fa6";
-import { current } from "@reduxjs/toolkit";
+import { FaPencil, FaPlus } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
+import Editor from "react-simple-wysiwyg";
+import DOMPurify from "isomorphic-dompurify";
 
 interface Choice {
   _id: string;
@@ -58,13 +58,36 @@ export default function QuestionEditor({
       type: value,
     });
   };
+  const addAnswer = () => {
+    currentQuestion.choices
+      ? setQuestion({
+          ...currentQuestion,
+          choices: [
+            ...currentQuestion.choices,
+            {
+              _id: new Date().getTime().toString(),
+              question: currentQuestion._id,
+              correct: false,
+              answer: "",
+            },
+          ],
+        })
+      : setQuestion({
+          ...currentQuestion,
+          choices: [
+            {
+              _id: new Date().getTime().toString(),
+              question: currentQuestion._id,
+              correct: false,
+              answer: "",
+            },
+          ],
+        });
+  };
 
   return (
     <div>
-      <form
-        id="wd-assignments-editor"
-        className="g-4 border rounded p-3 ms-5 me-5 mt-4"
-      >
+      <form id="wd-assignments-editor" className="g-4 border rounded p-3 mt-4">
         <fieldset className="d-flex align-items-center">
           {currentQuestion.edit ? (
             <input
@@ -154,19 +177,44 @@ export default function QuestionEditor({
               >
                 Question:
               </label>
-              <textarea
-                className="form-control mb-4"
+              <Editor
+                placeholder="Question"
                 id={`question-text-${currentQuestion._id}`}
                 value={currentQuestion.question}
+                onChange={(e) =>
+                  setQuestion({
+                    ...currentQuestion,
+                    question: e.target.value,
+                  })
+                }
               />
             </div>
           </fieldset>
         ) : (
-          <div className="mt-2 fs-6">{currentQuestion.question}</div>
+          <div className="mt-2">
+            {
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(question.question),
+                }}
+              />
+            }
+          </div>
         )}
+        {!currentQuestion.edit &&
+          currentQuestion.choices &&
+          currentQuestion.choices.map((choice) => (
+            <div
+              className={`border rounded mb-2 mt-2 p-2 ${
+                choice.correct && "fw-bolder text-success border-success"
+              }`}
+            >
+              {choice.answer}
+            </div>
+          ))}
         {currentQuestion.edit && (
           <fieldset>
-            <div className="fw-bolder fs-6">Answers:</div>
+            <div className="fw-bolder mt-4 fs-6">Answers:</div>
             {currentQuestion.type === "Multiple Choice" && (
               <span>
                 <div className="mt-2 container">
@@ -216,6 +264,19 @@ export default function QuestionEditor({
                                   c._id === choice._id
                                     ? { ...c, answer: e.target.value }
                                     : c
+                                ),
+                              })
+                            }
+                          />
+                        </div>
+                        <div className="col">
+                          <FaTrash
+                            className="text-danger ms-2 fs-6"
+                            onClick={(e) =>
+                              setQuestion({
+                                ...currentQuestion,
+                                choices: currentQuestion.choices.filter(
+                                  (c) => c._id !== choice._id
                                 ),
                               })
                             }
@@ -272,10 +333,10 @@ export default function QuestionEditor({
                       <div className="row align-items-center mt-3 justify-content-start">
                         <div className="col-auto">Possible Answer:</div>
                         <div className="col-10 col-lg-6">
-                          <textarea
+                          <input
                             id={`question-choice-${currentQuestion._id}-${choice._id}`}
                             className="form-control"
-                            rows={1}
+                            type="text"
                             value={choice.answer}
                             placeholder="Answer"
                             onChange={(e) =>
@@ -290,6 +351,19 @@ export default function QuestionEditor({
                             }
                           />
                         </div>
+                        <div className="col">
+                          <FaTrash
+                            className="text-danger ms-2 fs-6"
+                            onClick={(e) =>
+                              setQuestion({
+                                ...currentQuestion,
+                                choices: currentQuestion.choices.filter(
+                                  (c) => c._id !== choice._id
+                                ),
+                              })
+                            }
+                          />
+                        </div>
                       </div>
                     ))}
                 </div>
@@ -299,20 +373,8 @@ export default function QuestionEditor({
               <div>
                 <button
                   className="me-1 btn btn-outline-danger border-0 float-end mt-2"
-                  onClick={(e) =>
-                    setQuestion({
-                      ...currentQuestion,
-                      choices: [
-                        ...currentQuestion.choices,
-                        {
-                          _id: new Date().getTime().toString(),
-                          question: currentQuestion._id,
-                          correct: false,
-                          answer: "",
-                        },
-                      ],
-                    })
-                  }
+                  type="button"
+                  onClick={addAnswer}
                 >
                   <FaPlus className="position-relative me-2 mb-1" />
                   Add Another Answer
