@@ -1,0 +1,91 @@
+[
+    {
+      "_id": "QZ101",
+      "name": "Introduction to Rocket Propulsion",
+      "description": "Basic principles of rocket propulsion and rocket engines.",
+      "course": "RS101",
+      "questions": [
+        {
+          "_id": "QA101",
+          "quiz": "QZ101",
+          "title": "Easy Question",
+          "type": "Multiple Choice",
+          "points": 4,
+          "question": "How much is 2 + 2?",
+          "choices":[
+            {
+                "_id": "A101",
+                "question": "QA101",
+                "correct": false,
+                "answer": 4
+            },
+            {
+                "_id": "A102",
+                "question": "QA101",
+                "correct": false,
+                "answer": 3
+            },
+            {
+                "_id": "A103",
+                "question": "QA101",
+                "correct": true,
+                "answer": 5
+            },
+            {
+                "_id": "A104",
+                "question": "QA101",
+                "correct": false,
+                "answer": 7
+            }
+          ]
+        },
+        {
+            "_id": "QA102",
+            "quiz": "QZ101",
+            "title": "Is 2 + 2 = 4?",
+            "type": "True/False",
+            "points": 3,
+            "question": "Is it true that 2 + 2 = 4?",
+            "choices":[
+              {
+                  "_id": "A201",
+                  "question": "QA102",
+                  "correct": true,
+                  "answer": "True"
+              },
+              {
+                  "_id": "A202",
+                  "question": "QA102",
+                  "correct": false,
+                  "answer": "False"
+              }
+            ]
+          },
+          {
+            "_id": "QA103",
+            "quiz": "QZ101",
+            "title": "Easy fill in the blank",
+            "type": "Fill In the Blank",
+            "points": 4,
+            "question": "How much is 2 + 2 = __________?",
+            "choices":[
+              {
+                  "_id": "A301",
+                  "question": "QA103",
+                  "answer": "2"
+              },
+              {
+                  "_id": "A302",
+                  "question": "QA103",
+                  "answer": "two"
+              },
+              {
+                "_id": "A303",
+                "question": "QA103",
+                "answer": "dos"
+            }
+            ]
+          }
+      ]
+    }
+  ]
