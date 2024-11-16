@@ -43,7 +43,7 @@ export default function Dashboard({
         <div>
           <button
             className="btn btn-primary float-end"
-            id="wd-add-new-course-click"
+            id="wd-enrollments"
             onClick={(e) => dispatch(enrollmentsOnSwitch())}
           >
             Enrollments
