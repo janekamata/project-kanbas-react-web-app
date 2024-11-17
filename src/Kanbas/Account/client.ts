@@ -37,3 +37,13 @@ export const createCourse = async (course: any) => {
   const { data } = await axiosWithCredentials.post(`${USERS_API}/current/courses`, course);
   return data;
 };
+
+export const enrollCourse = async (course: any) => {
+  const { data } = await axiosWithCredentials.post(`${USERS_API}/enrollments`, course);
+  return data;
+};
+
+export const unenrollCourse = async (course: any) => {
+  const { data } = await axiosWithCredentials.post(`${USERS_API}/enrollments`, course);
+  return data;
+};

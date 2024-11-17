@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { unenroll, enroll, enrollmentsOnSwitch } from "./reducer";
+import {
+  unenroll,
+  enroll,
+  enrollmentsOnSwitch,
+  setEnrollments,
+} from "./reducer";
+import * as enrollmentsClient from "./client";
 
 export default function Dashboard({
   courses,
@@ -34,7 +40,17 @@ export default function Dashboard({
   const { enrollments, enrollmentsOn } = useSelector(
     (state: any) => state.enrollmentsReducer
   );
+  const [shownEnrollments, setShownEnrollments] = useState(enrollments);
   const dispatch = useDispatch();
+
+  const switchEnrollments = async (moduleId: string) => {
+    if (enrollmentsOn) {
+      const allEnrollments = enrollmentsClient.fetchAllEnrollments;
+      setShownEnrollments(allEnrollments);
+    } else {
+      setShownEnrollments(enrollments);
+    }
+  };
 
   return (
     <div id="wd-dashboard">

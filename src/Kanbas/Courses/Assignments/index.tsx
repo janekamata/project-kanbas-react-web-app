@@ -3,18 +3,32 @@ import { MdOutlineAssignment } from "react-icons/md";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import AssignmentsControls from "./AssignmentsControls";
 import AssignmentGroupControlButtons from "./AssignmentGroupControlButtons";
-import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
-import React, { useState } from "react";
-import { addAssignment, updateAssignment, deleteAssignment } from "./reducer";
+import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { deleteAssignment, setAssignments } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const [currentAssignmentId, setId] = useState("");
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
   const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
 
   return (
     <div id="wd-assignments" className="me-2">
@@ -103,7 +117,7 @@ export default function Assignments() {
                       currentAssignmentId={currentAssignmentId}
                       setId={setId}
                       deleteAssignment={(assignmentId) => {
-                        dispatch(deleteAssignment(assignmentId));
+                        removeAssignment(assignmentId);
                       }}
                     />
                   </div>
