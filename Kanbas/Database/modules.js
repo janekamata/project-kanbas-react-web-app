@@ -1,5 +1,5 @@
 export default [
-  ({
+  {
     _id: "M101",
     name: "Introduction to Rocket Propulsion",
     description: "Basic principles of rocket propulsion and rocket engines.",
@@ -619,5 +619,5 @@ export default [
         module: "M2102",
       },
     ],
-  }),
+  },
 ];

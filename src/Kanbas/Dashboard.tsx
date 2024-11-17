@@ -143,13 +143,14 @@ export default function Dashboard({
       <hr />
       <div id="wd-dashboard-courses" className="mt-4 mb-4">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses.map((course) => (
-            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          {courses.map((course, index) => (
+            <div
+              className="wd-dashboard-course col"
+              style={{ width: "300px" }}
+              key={index}
+            >
               <div className="card rounded-3 overflow-hidden shadow-sm ">
-                <Link
-                  className="wd-dashboard-course-link text-decoration-none text-dark "
-                  to={`/Kanbas/Courses/${course._id}/Home`}
-                >
+                <div className="wd-dashboard-course-link text-decoration-none text-dark ">
                   <img
                     src={`/images/${
                       images[parseInt(course._id.slice(-1), 10)].path
@@ -159,12 +160,12 @@ export default function Dashboard({
                     alt=""
                   />
                   <div className="card-body ">
-                    <a
-                      href={`/Kanbas/Courses/${course._id}/Home`}
+                    <Link
+                      to={`/Kanbas/Courses/${course._id}/Home`}
                       className="wd-dashboard-course-title-number text-decoration-none fw-bold"
                     >
                       {course._id}.{course.number}.{course.startDate}
-                    </a>
+                    </Link>
                     <h5 className="wd-dashboard-course-title card-title">
                       {course.name}
                     </h5>
@@ -251,7 +252,7 @@ export default function Dashboard({
                       </span>
                     )}
                   </div>
-                </Link>
+                </div>
               </div>
             </div>
           ))}
