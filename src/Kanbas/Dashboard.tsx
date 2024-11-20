@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   unenroll,
@@ -51,9 +50,6 @@ export default function Dashboard({
       user: currentUser._id,
       course: course_id,
     };
-    const status = await userClient.unenrollCourse({
-      courseId: course_id,
-    });
     dispatch(unenroll(enrollment));
   };
 
@@ -73,7 +69,7 @@ export default function Dashboard({
           <button
             className="btn btn-primary float-end"
             id="wd-enrollments"
-            onClick={(e) => dispatch(enrollmentsOnSwitch())}
+            onClick={() => dispatch(enrollmentsOnSwitch())}
           >
             Enrollments
           </button>
