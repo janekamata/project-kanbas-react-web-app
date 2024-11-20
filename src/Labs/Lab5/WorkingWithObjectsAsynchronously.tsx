@@ -49,8 +49,7 @@ export default function WorkingWithObjectsAsynchronously() {
           }
         />
         <label className="form-check-label" htmlFor="wd-completed">
-          {" "}
-          Completed{" "}
+          Completed
         </label>
       </div>
       <button

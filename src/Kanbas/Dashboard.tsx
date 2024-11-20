@@ -164,7 +164,7 @@ export default function Dashboard({
           <hr />
         </div>
       )}
-      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>{" "}
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
       <hr />
       <div id="wd-dashboard-courses" className="mt-4 mb-4">
         <div className="row row-cols-1 row-cols-md-5 g-4">
