@@ -8,9 +8,13 @@ export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signup = async () => {
-    const currentUser = await client.signup(user);
-    dispatch(setCurrentUser(currentUser));
-    navigate("/Kanbas/Account/Profile");
+    try {
+      const currentUser = await client.signup(user);
+      dispatch(setCurrentUser(currentUser));
+      navigate("/Kanbas/Account/Profile");
+    } catch (error) {
+      console.error("Caught: ", error);
+    }
   };
   return (
     <div id="wd-signup-screen">
