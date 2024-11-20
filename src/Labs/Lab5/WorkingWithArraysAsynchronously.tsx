@@ -88,12 +88,12 @@ export default function WorkingWithArraysAsynchronously() {
             />
             <TiDelete
               onClick={() => deleteTodo(todo)}
-              className="text-danger float-end me-2 fs-3"
+              className="text-danger float-end me-2 fs-4"
               id="wd-delete-todo"
             />
             <FaPencil
               onClick={() => editTodo(todo)}
-              className="text-primary float-end me-2 mt-1"
+              className="text-primary float-end me-2 my-1"
             />
             <input
               type="checkbox"
