@@ -32,7 +32,7 @@ export default function Kanbas() {
         ? await userClient.findMyCourses()
         : await courseClient.fetchAllCourses();
     } catch (error) {
-      console.error(error);
+      console.error("Caught: ", error);
     }
     setCourses(courses);
   };
