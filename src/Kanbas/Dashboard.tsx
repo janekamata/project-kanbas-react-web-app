@@ -8,6 +8,7 @@ import {
   setEnrollments,
 } from "./reducer";
 import * as enrollmentsClient from "./client";
+import * as userClient from "./Account/client";
 
 export default function Dashboard({
   courses,
@@ -40,16 +41,28 @@ export default function Dashboard({
   const { enrollments, enrollmentsOn } = useSelector(
     (state: any) => state.enrollmentsReducer
   );
-  const [shownEnrollments, setShownEnrollments] = useState(enrollments);
   const dispatch = useDispatch();
+  const fetchEnrollments = async () => {
+    const enrollments = await enrollmentsClient.fetchAllEnrollments();
+    dispatch(setEnrollments(enrollments));
+  };
+  const unenrollCourse = async (course_id: string) => {
+    const enrollment = {
+      user: currentUser._id,
+      course: course_id,
+    };
+    const status = await userClient.unenrollCourse({
+      courseId: course_id,
+    });
+    dispatch(unenroll(enrollment));
+  };
 
-  const switchEnrollments = async (moduleId: string) => {
-    if (enrollmentsOn) {
-      const allEnrollments = enrollmentsClient.fetchAllEnrollments;
-      setShownEnrollments(allEnrollments);
-    } else {
-      setShownEnrollments(enrollments);
-    }
+  const enrollCourse = async (course_id: string) => {
+    const newEnrollment = await userClient.enrollCourse({
+      courseId: course_id,
+    });
+    dispatch(enroll(newEnrollment));
+    await fetchEnrollments();
   };
 
   return (
@@ -231,12 +244,7 @@ export default function Dashboard({
                           <button
                             onClick={(e) => {
                               e.preventDefault();
-                              dispatch(
-                                unenroll({
-                                  user: currentUser._id,
-                                  course: course._id,
-                                })
-                              );
+                              unenrollCourse(course._id);
                             }}
                             className="btn btn-danger float-end"
                             id={`unenroll-button-${course._id}`}
@@ -252,12 +260,7 @@ export default function Dashboard({
                           <button
                             onClick={(e) => {
                               e.preventDefault();
-                              dispatch(
-                                enroll({
-                                  user: currentUser._id,
-                                  course: course._id,
-                                })
-                              );
+                              enrollCourse(course._id);
                             }}
                             className="btn btn-success float-end"
                             id={`enroll-button-${course._id}`}
