@@ -46,6 +46,7 @@ export default function Dashboard({
     dispatch(setEnrollments(enrollments));
   };
   const unenrollCourse = async (course_id: string) => {
+    await userClient.unenrollCourse({ courseId: course_id });
     const enrollment = {
       user: currentUser._id,
       course: course_id,
