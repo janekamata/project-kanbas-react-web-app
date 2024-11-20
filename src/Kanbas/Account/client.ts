@@ -49,7 +49,6 @@ export const enrollCourse = async (course: any) => {
 };
 
 export const unenrollCourse = async (course: any) => {
-  console.log(course);
   const { data } = await axiosWithCredentials.delete(`${USERS_API}/current/enrollments`, {data:course,});
   return data;
 };

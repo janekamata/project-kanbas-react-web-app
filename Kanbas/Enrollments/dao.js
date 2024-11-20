@@ -15,5 +15,4 @@ export function unenrollUserInCourse(userId, courseId) {
     (enrollment) =>
       !(enrollment.course === courseId && enrollment.user === userId)
   );
-  console.log(Database.enrollments);
 }
