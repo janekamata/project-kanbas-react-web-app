@@ -52,6 +52,7 @@ export default function Dashboard({
       course: course_id,
     };
     dispatch(unenroll(enrollment));
+    await fetchEnrollments();
   };
 
   const enrollCourse = async (course_id: string) => {
