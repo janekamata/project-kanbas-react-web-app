@@ -14,7 +14,6 @@ export default function PeopleTable() {
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const fetchUsers = async () => {
     const users = await usersClient.findAllUsers();
-    console.log(users);
     dispatch(setUsers(users));
   };
   const fetchEnrollments = async () => {
