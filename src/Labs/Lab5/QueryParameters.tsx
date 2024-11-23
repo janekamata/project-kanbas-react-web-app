@@ -9,14 +9,14 @@ export default function QueryParameters() {
       <input
         id="wd-query-parameter-a"
         className="form-control mb-2 w-25"
-        defaultValue={a}
+        value={a}
         type="number"
         onChange={(e) => setA(e.target.value)}
       />
       <input
         id="wd-query-parameter-b"
         className="form-control mb-2 w-25"
-        defaultValue={b}
+        value={b}
         type="number"
         onChange={(e) => setB(e.target.value)}
       />

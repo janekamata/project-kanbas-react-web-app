@@ -10,14 +10,14 @@ export default function PathParameters() {
         className="form-control mb-2 w-25"
         id="wd-path-parameter-a"
         type="number"
-        defaultValue={a}
+        value={a}
         onChange={(e) => setA(e.target.value)}
       />
       <input
         className="form-control mb-2 w-25"
         id="wd-path-parameter-b"
         type="number"
-        defaultValue={b}
+        value={b}
         onChange={(e) => setB(e.target.value)}
       />
       <a

@@ -29,7 +29,7 @@ export default function WorkingWithArrays() {
       </a>
       <input
         id="wd-todo-id"
-        defaultValue={todo.id}
+        value={todo.id}
         className="form-control w-50"
         onChange={(e) => setTodo({ ...todo, id: e.target.value })}
       />
@@ -61,7 +61,7 @@ export default function WorkingWithArrays() {
         Delete Todo with ID = {todo.id}
       </a>
       <input
-        defaultValue={todo.id}
+        value={todo.id}
         className="form-control w-50"
         onChange={(e) => setTodo({ ...todo, id: e.target.value })}
       />
@@ -71,15 +71,15 @@ export default function WorkingWithArrays() {
         href={`${API}/${todo.id}/title/${todo.title}`}
         className="btn btn-primary float-end"
       >
-        Update Todo
+        Update {todo.id} Todo
       </a>
       <input
-        defaultValue={todo.id}
+        value={todo.id}
         className="form-control w-25 float-start me-2"
         onChange={(e) => setTodo({ ...todo, id: e.target.value })}
       />
       <input
-        defaultValue={todo.title}
+        value={todo.title}
         className="form-control w-50 float-start"
         onChange={(e) => setTodo({ ...todo, title: e.target.value })}
       />
@@ -89,7 +89,7 @@ export default function WorkingWithArrays() {
       <h3>On Your Own</h3>
       <div className="d-flex align-items-center">
         <input
-          defaultValue={todo.id}
+          value={todo.id}
           className="form-control w-25 me-2"
           onChange={(e) => setTodo({ ...todo, id: e.target.value })}
         />
@@ -110,13 +110,13 @@ export default function WorkingWithArrays() {
       </div>
       <div className="d-flex align-items-center mt-2">
         <input
-          defaultValue={todo.id}
+          value={todo.id}
           className="form-control w-25 float-start me-2"
           onChange={(e) => setTodo({ ...todo, id: e.target.value })}
         />
         <div className="flex-fill">
           <input
-            defaultValue={todo.description}
+            value={todo.description}
             className="form-control float-start"
             onChange={(e) => setTodo({ ...todo, description: e.target.value })}
           />
