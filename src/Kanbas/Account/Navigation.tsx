@@ -14,6 +14,7 @@ export default function AccountNavigation() {
       {links.map((link) => (
         <Link
           id={`wd-course-${link}-link`}
+          key={`wd-course-${link}-link`}
           to={link}
           className={`list-group-item border border-0 fs-5
               ${pathname.includes(link) ? "active" : "text-danger"}`}

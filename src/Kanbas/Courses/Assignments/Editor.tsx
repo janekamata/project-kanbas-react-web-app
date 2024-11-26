@@ -1,20 +1,24 @@
-import {
-  Navigate,
-  Route,
-  Routes,
-  useParams,
-  useLocation,
-  useNavigate,
-} from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addAssignment, updateAssignment } from "./reducer";
-import { useState } from "react";
+import { addAssignment, updateAssignment, setAssignments } from "./reducer";
+import { useEffect, useState } from "react";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
   const [assignment, setAssignment] = useState(
     assignments.find(
       (assignment: { _id: string | undefined }) => assignment._id === aid
@@ -30,12 +34,21 @@ export default function AssignmentEditor() {
     }
   );
   const navigate = useNavigate();
-  const save = () => {
-    assignment._id
-      ? dispatch(updateAssignment(assignment))
-      : dispatch(addAssignment(assignment));
+  const save = async () => {
+    if (assignment._id) {
+      await assignmentsClient.updateAssignment(assignment);
+      dispatch(updateAssignment(assignment));
+    } else {
+      if (!cid) return;
+      const newAssignment = await coursesClient.createAssignmentForCourse(
+        cid,
+        assignment
+      );
+      dispatch(addAssignment(newAssignment));
+    }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
+
   return (
     <div>
       <form id="wd-assignments-editor" className="g-3">

@@ -18,7 +18,7 @@ export default function Courses({ courses }: { courses: any[] }) {
         <div>
           <h2 className="text-danger">
             <FaAlignJustify className="me-4 fs-4 mb-1" />
-            {course && course.name} &gt; {pathname.split("/")[4]}{" "}
+            {course && course.name} &gt; {pathname.split("/")[4]}
             {pathname.split("/").length > 5
               ? `> ${pathname.split("/")[5]}`
               : ""}
