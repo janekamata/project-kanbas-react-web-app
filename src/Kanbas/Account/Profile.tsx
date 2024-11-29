@@ -28,7 +28,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div id="wd-profile-screen">
+    <div id="wd-profile-screen" style={{ minWidth: "300px" }} className="w-25">
       <h3>Profile</h3>
       {profile && (
         <div>

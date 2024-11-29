@@ -20,7 +20,7 @@ export default function Signin() {
   };
 
   return (
-    <div id="wd-signin-screen">
+    <div id="wd-signin-screen" style={{ minWidth: "300px" }} className="w-25">
       <h3>Sign in</h3>
       <input
         defaultValue={credentials.username}

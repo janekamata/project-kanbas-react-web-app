@@ -1,65 +1,63 @@
 import { FaUserCircle } from "react-icons/fa";
-import { useParams } from "react-router-dom";
-import * as usersClient from "../../Account/client";
-import * as enrollmentsClient from "../../client";
-import { setEnrollments } from "../../reducer";
-import { setUsers } from "../../Account/reducer";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import PeopleDetails from "./Details";
+import { Link } from "react-router-dom";
 
-export default function PeopleTable() {
-  const { cid } = useParams();
-  const dispatch = useDispatch();
-  const { users } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
-  const fetchUsers = async () => {
-    const users = await usersClient.findAllUsers();
-    dispatch(setUsers(users));
-  };
-  const fetchEnrollments = async () => {
-    const enrollments = await enrollmentsClient.fetchAllEnrollments();
-    dispatch(setEnrollments(enrollments));
-  };
-  useEffect(() => {
-    fetchUsers();
-    fetchEnrollments();
-  }, []);
-
+export default function PeopleTable({ users = [] }: { users?: any[] }) {
   return (
-    <div id="wd-people-table" className="me-2">
+    <div id="wd-people-table" className="me-2 ">
+      <PeopleDetails />
       <table className="table table-striped">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Login ID</th>
-            <th>Section</th>
-            <th>Role</th>
-            <th>Last Activity</th>
-            <th>Total Activity</th>
+            <th scope="col" className="col-1">
+              Name
+            </th>
+            <th scope="col" className="col-1">
+              Login ID
+            </th>
+            <th scope="col" className="col-1">
+              Section
+            </th>
+            <th scope="col" className="col-1">
+              Role
+            </th>
+            <th scope="col" className="col-1">
+              Last Activity
+            </th>
+            <th scope="col" className="col-1">
+              Total Activity
+            </th>
           </tr>
         </thead>
         <tbody>
-          {users
-            .filter((user: any) =>
-              enrollments.some(
-                (enrollment: any) =>
-                  enrollment.user === user._id && enrollment.course === cid
-              )
-            )
-            .map((user: any) => (
-              <tr>
-                <td className="wd-full-name text-nowrap">
+          {users.map((user: any) => (
+            <tr>
+              <td className="wd-full-name text-nowrap text-danger me-4">
+                <Link
+                  to={`/Kanbas/Account/Users/${user._id}`}
+                  className="text-decoration-none text-danger"
+                >
                   <FaUserCircle className="me-2 fs-1 text-secondary" />
-                  <span className="wd-first-name">{user.firstName}</span>
-                  <span className="wd-last-name">{user.lastName}</span>
-                </td>
-                <td className="wd-login-id">{user.loginId}</td>
-                <td className="wd-section">{user.section}</td>
-                <td className="wd-role">{user.role}</td>
-                <td className="wd-last-activity">{user.lastActivity}</td>
-                <td className="wd-total-activity">{user.totalActivity}</td>
-              </tr>
-            ))}
+                  <span className="wd-first-name align-middle">
+                    {user.firstName}&nbsp;
+                  </span>
+                  <span className="wd-last-name me-2 align-middle">
+                    {user.lastName}
+                  </span>
+                </Link>
+              </td>
+              <td className="wd-login-id me-2 align-middle">{user.loginId}</td>
+              <td className="wd-section me-2 align-middle">{user.section}</td>
+              <td className="wd-role me-2 align-middle">{user.role}</td>
+              <td className="wd-last-activity me-2 align-middle">
+                {user.lastActivity &&
+                  new Date(user.lastActivity).toLocaleDateString("en-US")}
+              </td>
+              <td className="wd-total-activity me-2 align-middle">
+                {user.totalActivity}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
