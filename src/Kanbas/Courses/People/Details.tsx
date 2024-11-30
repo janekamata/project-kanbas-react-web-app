@@ -10,12 +10,17 @@ export default function PeopleDetails() {
   const { uid } = useParams();
   const [user, setUser] = useState<any>({});
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
   const fetchUser = async () => {
     if (!uid) return;
     const user = await client.findUserById(uid);
     setUser(user);
+    setName(user.firstName + " " + user.lastName);
+    setEmail(user.email);
+    setRole(user.role);
   };
   useEffect(() => {
     if (uid) fetchUser();
@@ -27,11 +32,11 @@ export default function PeopleDetails() {
   };
   const saveUser = async () => {
     const [firstName, lastName] = name.split(" ");
-    const updatedUser = { ...user, firstName, lastName };
+    const updatedUser = { ...user, firstName, lastName, email, role };
     await client.updateUser(updatedUser);
     setUser(updatedUser);
     setEditing(false);
-    navigate(-1);
+    navigate("/Kanbas/Account/Users");
   };
 
   return (
@@ -47,15 +52,6 @@ export default function PeopleDetails() {
       </div>
       <hr />
       <div className="text-danger fs-4 wd-name text-wrap text-break">
-        {user.firstName} {user.lastName}
-      </div>
-      <b>Roles:</b> <span className="wd-roles"> {user.role} </span> <br />
-      <b>Login ID:</b> <span className="wd-login-id"> {user.loginId} </span>
-      <br />
-      <b>Section:</b> <span className="wd-section"> {user.section} </span>
-      <br />
-      <b>Total Activity:</b>
-      <div className="text-danger fs-4">
         {!editing && (
           <FaPencil
             onClick={() => setEditing(true)}
@@ -69,14 +65,14 @@ export default function PeopleDetails() {
           />
         )}
         {!editing && (
-          <div className="wd-name" onClick={() => setEditing(true)}>
+          <div className="wd-name fs-4" onClick={() => setEditing(true)}>
             {user.firstName} {user.lastName}
           </div>
         )}
         {user && editing && (
           <input
-            className="form-control w-50 wd-edit-name"
-            defaultValue={`${user.firstName} ${user.lastName}`}
+            className="form-control w-50 wd-edit-name  fs-5 text-danger"
+            value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -86,7 +82,55 @@ export default function PeopleDetails() {
           />
         )}
       </div>
-      <span className="wd-total-activity">{user.totalActivity}</span>
+      <b>Roles: </b>
+      {!editing && (
+        <span className="wd-roles" onClick={() => setEditing(true)}>
+          {user.role}
+        </span>
+      )}
+      <br />
+      {editing && (
+        <select
+          id="wd-role"
+          value={role}
+          className="form-select mb-2 w-50"
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="USER">User</option>
+          <option value="ADMIN">Admin</option>
+          <option value="FACULTY">Faculty</option>
+          <option value="STUDENT">Student</option>
+          <option value="ASSISTANT">Assistant</option>
+        </select>
+      )}
+      <b>Login ID: </b> <span className="wd-login-id"> {user.loginId} </span>
+      <br />
+      <b>Section: </b> <span className="wd-section"> {user.section} </span>
+      <br />
+      <b>Total Activity: </b>
+      <span className="wd-total-activity"> {user.totalActivity}</span>
+      <br />
+      <b>Email: </b>
+      <span>
+        {!editing && (
+          <span className="wd-name" onClick={() => setEditing(true)}>
+            {user.email}
+          </span>
+        )}
+        {user && editing && (
+          <input
+            className="form-control w-50 wd-edit-email"
+            value={`${email}`}
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                saveUser();
+              }
+            }}
+          />
+        )}
+      </span>
       <hr />
       <button
         onClick={() => deleteUser(uid)}
