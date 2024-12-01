@@ -28,9 +28,10 @@ export default function Kanbas() {
   const fetchCourses = async () => {
     let courses = [];
     try {
-      courses = !enrollmentsOn
-        ? await userClient.findMyCourses()
-        : await courseClient.fetchAllCourses();
+      // courses = !enrollmentsOn
+      //   ? await userClient.findMyCourses()
+      //   : await courseClient.fetchAllCourses();
+      courses = await courseClient.fetchAllCourses();
     } catch (error) {
       console.error("Caught: ", error);
     }
@@ -61,8 +62,8 @@ export default function Kanbas() {
   const deleteCourse = async (courseId: string) => {
     const status = await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
-    // await fetchCourses();
-    // await fetchEnrollments();
+    //await fetchCourses();
+    //await fetchEnrollments();
   };
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
@@ -76,7 +77,7 @@ export default function Kanbas() {
       })
     );
     setCourse(initialCourse);
-    await fetchCourses();
+    // await fetchCourses();
   };
 
   return (
