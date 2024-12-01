@@ -16,6 +16,9 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  updateEnrollment,
+  enrolling,
+  setEnrolling,
 }: {
   courses: any[];
   course: any;
@@ -23,6 +26,9 @@ export default function Dashboard({
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
 }) {
   const images = [
     { label: 1, path: "web" },
@@ -37,31 +43,7 @@ export default function Dashboard({
     { label: 0, path: "mism" },
   ];
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments, enrollmentsOn } = useSelector(
-    (state: any) => state.enrollmentsReducer
-  );
   const dispatch = useDispatch();
-  const fetchEnrollments = async () => {
-    const enrollments = await enrollmentsClient.fetchAllEnrollments();
-    dispatch(setEnrollments(enrollments));
-  };
-  const unenrollCourse = async (course_id: string) => {
-    const status = await userClient.unenrollCourse({ courseId: course_id });
-    const enrollment = {
-      user: currentUser._id,
-      course: course_id,
-    };
-    dispatch(unenroll(enrollment));
-    await fetchEnrollments();
-  };
-
-  const enrollCourse = async (course_id: string) => {
-    const newEnrollment = await userClient.enrollCourse({
-      courseId: course_id,
-    });
-    dispatch(enroll(newEnrollment));
-    await fetchEnrollments();
-  };
 
   return (
     <div id="wd-dashboard">
@@ -71,9 +53,9 @@ export default function Dashboard({
           <button
             className="btn btn-primary float-end"
             id="wd-enrollments"
-            onClick={() => dispatch(enrollmentsOnSwitch())}
+            onClick={() => setEnrolling(!enrolling)}
           >
-            Enrollments
+            {enrolling ? "My Courses" : "All Courses"}
           </button>
         </div>
       )}
@@ -183,7 +165,11 @@ export default function Dashboard({
                       src={`/images/${
                         images[
                           parseInt(course._id.slice(-1), 10) ||
-                            Math.floor(Math.random() * 10)
+                            Number(
+                              String(
+                                course._id.charCodeAt(course._id.length - 1)
+                              )[0]
+                            )
                         ].path
                       }.jpg`}
                       width="100%"
@@ -191,12 +177,19 @@ export default function Dashboard({
                       alt=""
                     />
                     <div className="card-body ">
-                      <Link
-                        to={`/Kanbas/Courses/${course._id}/Home`}
-                        className="wd-dashboard-course-title-number text-decoration-none fw-bold"
-                      >
-                        {course._id}.{course.number}.{course.startDate}
-                      </Link>
+                      {course.enrolled && (
+                        <Link
+                          to={`/Kanbas/Courses/${course._id}/Home`}
+                          className="wd-dashboard-course-title-number text-decoration-none fw-bold"
+                        >
+                          {course._id}.{course.number}.{course.startDate}
+                        </Link>
+                      )}
+                      {!course.enrolled && (
+                        <span className="wd-dashboard-course-title-number text-decoration-none fw-bold">
+                          {course._id}.{course.number}.{course.startDate}
+                        </span>
+                      )}
                       <h5 className="wd-dashboard-course-title card-title">
                         {course.name}
                       </h5>
@@ -206,12 +199,17 @@ export default function Dashboard({
                       >
                         {course.description}
                       </p>
-                      <Link
-                        className="wd-dashboard-course-button"
-                        to={`/Kanbas/Courses/${course._id}/Home`}
-                      >
+                      {course.enrolled && (
+                        <Link
+                          className="wd-dashboard-course-button"
+                          to={`/Kanbas/Courses/${course._id}/Home`}
+                        >
+                          <button className="btn btn-primary"> Go </button>
+                        </Link>
+                      )}
+                      {!course.enrolled && (
                         <button className="btn btn-primary"> Go </button>
-                      </Link>
+                      )}
                       {currentUser.role === "FACULTY" && (
                         <span>
                           <button
@@ -236,40 +234,20 @@ export default function Dashboard({
                           </button>
                         </span>
                       )}
-                      {currentUser.role === "STUDENT" && enrollmentsOn && (
+                      {currentUser.role === "STUDENT" && enrolling && (
                         <span>
-                          {enrollments.some(
-                            (enrollment: { user: any; course: any }) =>
-                              enrollment.user === currentUser._id &&
-                              enrollment.course === course._id
-                          ) && (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                unenrollCourse(course._id);
-                              }}
-                              className="btn btn-danger float-end"
-                              id={`unenroll-button-${course._id}`}
-                            >
-                              Unenroll
-                            </button>
-                          )}
-                          {!enrollments.some(
-                            (enrollment: { user: any; course: any }) =>
-                              enrollment.user === currentUser._id &&
-                              enrollment.course === course._id
-                          ) && (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                enrollCourse(course._id);
-                              }}
-                              className="btn btn-success float-end"
-                              id={`enroll-button-${course._id}`}
-                            >
-                              Enroll
-                            </button>
-                          )}
+                          <button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              updateEnrollment(course._id, !course.enrolled);
+                            }}
+                            className={`btn ${
+                              course.enrolled ? "btn-danger" : "btn-success"
+                            } float-end`}
+                            id={`unenroll-button-${course._id}`}
+                          >
+                            {course.enrolled ? "Unenroll" : "Enroll"}
+                          </button>
                         </span>
                       )}
                     </div>

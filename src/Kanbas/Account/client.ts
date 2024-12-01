@@ -38,21 +38,24 @@ export const findAllUsers = async () => {
   return response.data;
 };
 
+export const findCoursesForUser = async (userId: string) => {
+  const response = await axiosWithCredentials.get(`${USERS_API}/${userId}/courses`);
+  return response.data;
+};
 
 export const createCourse = async (course: any) => {
   const { data } = await axiosWithCredentials.post(`${USERS_API}/current/courses`, course);
   return data;
 };
 
-export const enrollCourse = async (course: any) => {
-  const { data } = await axiosWithCredentials.post(`${USERS_API}/current/enrollments`, course);
-  return data;
-};
-
-export const unenrollCourse = async (course: any) => {
-  const { data } = await axiosWithCredentials.delete(`${USERS_API}/current/enrollments`, {data:course,});
-  return data;
-};
+export const enrollIntoCourse = async (userId: string, courseId: string) => {
+  const response = await axiosWithCredentials.post(`${USERS_API}/${userId}/courses/${courseId}`);
+  return response.data;
+ };
+ export const unenrollFromCourse = async (userId: string, courseId: string) => {
+  const response = await axiosWithCredentials.delete(`${USERS_API}/${userId}/courses/${courseId}`);
+  return response.data;
+ }; 
 
 export const findUsersByRole = async (role: string) => {
   const response = await
