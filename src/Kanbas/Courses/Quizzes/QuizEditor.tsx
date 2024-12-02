@@ -63,6 +63,15 @@ export default function QuizEditor() {
             <FaPlus className="position-relative me-2" />
             New Question
           </button>
+          <button
+            id="wd-add-question"
+            className="btn btn-lg btn-secondary float-end ms-2"
+            onClick={(e) =>
+              navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
+            }
+          >
+            Preview Quiz
+          </button>
         </div>
         <div>
           {quiz.questions.map((question: any) => (

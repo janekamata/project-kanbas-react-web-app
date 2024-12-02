@@ -181,7 +181,7 @@ export default function QuestionEditor({
                 placeholder="Question"
                 id={`question-text-${currentQuestion._id}`}
                 value={currentQuestion.question}
-                onChange={(e) =>
+                onChange={(e: { target: { value: any; }; }) =>
                   setQuestion({
                     ...currentQuestion,
                     question: e.target.value,

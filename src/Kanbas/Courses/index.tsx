@@ -10,6 +10,7 @@ import ProtectedRouteEditor from "./ProtectedRouteEditor";
 import ProtectedRouteQuizEditor from "./ProtectedRouteQuizEditor";
 import Quizzes from "./Quizzes";
 import QuizEditor from "./Quizzes/QuizEditor";
+import QuizPreview from "./Quizzes/QuizPreview";
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
@@ -53,6 +54,14 @@ export default function Courses({ courses }: { courses: any[] }) {
                   element={
                     <ProtectedRouteQuizEditor>
                       <QuizEditor />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
+                <Route
+                  path="Quizzes/:qid/Preview"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizPreview />
                     </ProtectedRouteQuizEditor>
                   }
                 />
