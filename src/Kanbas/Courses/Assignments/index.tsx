@@ -51,7 +51,8 @@ export default function Assignments() {
                     <BsGripVertical className="me-2 fs-3" />
                     <MdOutlineAssignment className="me-3 fs-5 text-success" />
                     <div className="d-flex flex-column">
-                      {currentUser.role === "FACULTY" && (
+                      {(currentUser.role === "FACULTY" ||
+                        currentUser.role === "ADMIN") && (
                         <a
                           className="wd-assignment-link wd-title"
                           href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
@@ -59,9 +60,10 @@ export default function Assignments() {
                           {assignment.title}
                         </a>
                       )}
-                      {currentUser.role !== "FACULTY" && (
-                        <span className="wd-title">{assignment.title}</span>
-                      )}
+                      {currentUser.role !== "FACULTY" &&
+                        currentUser.role !== "ADMIN" && (
+                          <span className="wd-title">{assignment.title}</span>
+                        )}
                       <div className="wd-assignment-list-details">
                         <div>
                           {assignment.modules && (

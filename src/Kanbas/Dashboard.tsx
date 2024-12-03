@@ -8,6 +8,7 @@ import {
 } from "./reducer";
 import * as enrollmentsClient from "./client";
 import * as userClient from "./Account/client";
+import { current } from "@reduxjs/toolkit";
 
 export default function Dashboard({
   courses,
@@ -59,7 +60,7 @@ export default function Dashboard({
           </button>
         </div>
       )}
-      {currentUser.role === "FACULTY" && (
+      {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") && (
         <div>
           <div className="row align-items-center mb-2">
             <h5 className="col mb-0 d-flex align-items-center">
@@ -210,7 +211,8 @@ export default function Dashboard({
                       {!course.enrolled && (
                         <button className="btn btn-primary"> Go </button>
                       )}
-                      {currentUser.role === "FACULTY" && (
+                      {(currentUser.role === "FACULTY" ||
+                        currentUser.role === "ADMIN") && (
                         <span>
                           <button
                             onClick={(event) => {

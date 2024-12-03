@@ -19,7 +19,11 @@ export default function Kanbas() {
   const findCoursesForUser = async () => {
     try {
       const courses = await userClient.findCoursesForUser(currentUser._id);
-      setCourses(courses);
+      const switchCourses = courses.map((course: any) => ({
+        ...course,
+        enrolled: true,
+      }));
+      setCourses(switchCourses);
     } catch (error) {
       console.error(error);
     }
@@ -37,6 +41,7 @@ export default function Kanbas() {
           return course;
         }
       });
+
       setCourses(coursesSwitch);
     } catch (error) {
       console.error(error);
