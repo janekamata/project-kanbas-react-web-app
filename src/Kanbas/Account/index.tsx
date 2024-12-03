@@ -5,6 +5,7 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
+import Users from "./Users";
 
 export default function Account() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -15,7 +16,7 @@ export default function Account() {
         <div className="d-none d-md-block me-2">
           <AccountNavigation />
         </div>
-        <div className="w-25 ms-2 mt-2" style={{ minWidth: "200px" }}>
+        <div className="ms-2 mt-2 w-100">
           <Routes>
             <Route
               path="/"
@@ -32,6 +33,8 @@ export default function Account() {
             <Route path="/Signin" element={<Signin />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Signup" element={<Signup />} />
+            <Route path="/Users" element={<Users />} />
+            <Route path="/Users/:uid" element={<Users />} />
           </Routes>
         </div>
       </div>

@@ -17,7 +17,7 @@ export default function Signup() {
     }
   };
   return (
-    <div id="wd-signup-screen">
+    <div id="wd-signup-screen" style={{ minWidth: "300px" }} className="w-25">
       <h3>Sign up</h3>
       <input
         placeholder="username"

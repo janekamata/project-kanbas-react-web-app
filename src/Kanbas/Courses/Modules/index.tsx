@@ -32,12 +32,13 @@ export default function Modules() {
     const newModule = { name: moduleName, course: cid };
     const module = await coursesClient.createModuleForCourse(cid, newModule);
     dispatch(addModule(module));
-    await fetchModules();
+    // await fetchModules();
     setModuleName("");
   };
   const removeModule = async (moduleId: string) => {
     await modulesClient.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
+    await fetchModules();
   };
   const saveModule = async (module: any) => {
     await modulesClient.updateModule(module);

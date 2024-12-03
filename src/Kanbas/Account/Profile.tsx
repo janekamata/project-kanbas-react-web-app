@@ -12,6 +12,7 @@ export default function Profile() {
   const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
     dispatch(setCurrentUser(updatedProfile));
+    navigate(0);
   };
 
   const fetchProfile = () => {
@@ -28,7 +29,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div id="wd-profile-screen">
+    <div id="wd-profile-screen" style={{ minWidth: "300px" }} className="w-25">
       <h3>Profile</h3>
       {profile && (
         <div>

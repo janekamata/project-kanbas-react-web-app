@@ -7,10 +7,28 @@ import CoursesNavigation from "./Navigation";
 import { Route, Routes, useParams, useLocation } from "react-router";
 import PeopleTable from "./People/Table";
 import ProtectedRouteEditor from "./ProtectedRouteEditor";
+import ProtectedRouteQuizEditor from "./ProtectedRouteQuizEditor";
+import Quizzes from "./Quizzes";
+import QuizEditor from "./Quizzes/QuizEditor";
+import QuizPreview from "./Quizzes/QuizPreview";
+import { useEffect, useState } from "react";
+import * as coursesClient from "../Courses/client";
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+  const [users, setUsers] = useState<any[]>([]);
+  const fetchUsers = async () => {
+    try {
+      const usersIn = await coursesClient.findUsersForCourse(cid as string);
+      setUsers(usersIn);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div id="wd-courses">
@@ -19,9 +37,6 @@ export default function Courses({ courses }: { courses: any[] }) {
           <h2 className="text-danger">
             <FaAlignJustify className="me-4 fs-4 mb-1" />
             {course && course.name} &gt; {pathname.split("/")[4]}
-            {pathname.split("/").length > 5
-              ? `> ${pathname.split("/")[5]}`
-              : ""}
           </h2>
           <hr />
           <div className="d-flex">
@@ -44,9 +59,25 @@ export default function Courses({ courses }: { courses: any[] }) {
                     </ProtectedRouteEditor>
                   }
                 />
-                <Route path="Quizzes" element={<h2>Quizzes</h2>} />
+                <Route path="Quizzes" element={<Quizzes />} />
+                <Route
+                  path="Quizzes/:qid"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizEditor />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
+                <Route
+                  path="Quizzes/:qid/Preview"
+                  element={
+                    <ProtectedRouteQuizEditor>
+                      <QuizPreview />
+                    </ProtectedRouteQuizEditor>
+                  }
+                />
                 <Route path="Grades" element={<h2>Grades</h2>} />
-                <Route path="People" element={<PeopleTable />} />
+                <Route path="People" element={<PeopleTable users={users} />} />
               </Routes>
             </div>
           </div>
