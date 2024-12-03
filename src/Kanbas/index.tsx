@@ -54,7 +54,7 @@ export default function Kanbas() {
     } else {
       findCoursesForUser();
     }
-  }, [currentUser, enrolling, courses]);
+  }, [currentUser, enrolling]);
 
   const initialCourse = {
     _id: "0",
@@ -70,6 +70,7 @@ export default function Kanbas() {
   const addNewCourse = async () => {
     const newCourse = await courseClient.createCourse(course);
     setCourses([...courses, newCourse]);
+    findCoursesForUser();
     // await fetchCourses();
     // await fetchEnrollments();
   };
