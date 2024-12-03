@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { enrollments } from "../Kanbas/Database";
 const initialState = {
-  enrollments: enrollments,
+  enrollments: [],
   enrollmentsOn: false,
 };
 const enrollmentsSlice = createSlice({
   name: "enrollments",
   initialState,
   reducers: {
+    setEnrollments: (state, action) => {
+      state.enrollments = action.payload;
+    },
     enroll: (state, { payload: enrollment }) => {
       const newEnrollment: any = {
         _id: new Date().getTime().toString(),
@@ -27,6 +29,6 @@ const enrollmentsSlice = createSlice({
     },
   },
 });
-export const { enroll, unenroll, enrollmentsOnSwitch } =
+export const { enroll, unenroll, enrollmentsOnSwitch, setEnrollments } =
   enrollmentsSlice.actions;
 export default enrollmentsSlice.reducer;

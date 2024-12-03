@@ -20,7 +20,7 @@ export default function ModuleEditor({
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="staticBackdropLabel">
-              {dialogTitle}{" "}
+              {dialogTitle}
             </h1>
             <button
               type="button"
@@ -31,7 +31,7 @@ export default function ModuleEditor({
           <div className="modal-body">
             <input
               className="form-control"
-              defaultValue={moduleName}
+              value={moduleName}
               placeholder="Module Name"
               onChange={(e) => setModuleName(e.target.value)}
             />

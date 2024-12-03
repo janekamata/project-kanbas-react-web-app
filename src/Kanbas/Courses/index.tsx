@@ -11,10 +11,24 @@ import ProtectedRouteQuizEditor from "./ProtectedRouteQuizEditor";
 import Quizzes from "./Quizzes";
 import QuizEditor from "./Quizzes/QuizEditor";
 import QuizPreview from "./Quizzes/QuizPreview";
+import { useEffect, useState } from "react";
+import * as coursesClient from "../Courses/client";
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+  const [users, setUsers] = useState<any[]>([]);
+  const fetchUsers = async () => {
+    try {
+      const usersIn = await coursesClient.findUsersForCourse(cid as string);
+      setUsers(usersIn);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div id="wd-courses">
@@ -22,10 +36,7 @@ export default function Courses({ courses }: { courses: any[] }) {
         <div>
           <h2 className="text-danger">
             <FaAlignJustify className="me-4 fs-4 mb-1" />
-            {course && course.name} &gt; {pathname.split("/")[4]}{" "}
-            {pathname.split("/").length > 5
-              ? `> ${pathname.split("/")[5]}`
-              : ""}
+            {course && course.name} &gt; {pathname.split("/")[4]}
           </h2>
           <hr />
           <div className="d-flex">
@@ -66,7 +77,7 @@ export default function Courses({ courses }: { courses: any[] }) {
                   }
                 />
                 <Route path="Grades" element={<h2>Grades</h2>} />
-                <Route path="People" element={<PeopleTable />} />
+                <Route path="People" element={<PeopleTable users={users} />} />
               </Routes>
             </div>
           </div>

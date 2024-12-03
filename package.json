@@ -1,6 +1,7 @@
 {
   "name": "kanbas-react-web-app",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
@@ -11,6 +12,7 @@
     "@types/node": "^16.18.108",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "axios": "^1.7.8",
     "bootstrap": "^5.3.3",
     "dompurify": "^3.2.0",
     "isomorphic-dompurify": "^2.16.0",
@@ -52,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^9.1.0",
     "eslint-config-react": "^1.1.7"
   }
 }

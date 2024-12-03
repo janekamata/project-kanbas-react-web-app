@@ -29,7 +29,7 @@ export default function AddRedux() {
         id="wd-add-redux-click"
         onClick={() => dispatch(add({ a, b }))}
       >
-        Add Redux{" "}
+        Add Redux
       </button>
       <hr />
     </div>

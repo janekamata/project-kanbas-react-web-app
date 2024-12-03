@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { unenroll, enroll, enrollmentsOnSwitch } from "./reducer";
+import {
+  unenroll,
+  enroll,
+  enrollmentsOnSwitch,
+  setEnrollments,
+} from "./reducer";
+import * as enrollmentsClient from "./client";
+import * as userClient from "./Account/client";
+import { current } from "@reduxjs/toolkit";
 
 export default function Dashboard({
   courses,
@@ -10,6 +17,9 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  updateEnrollment,
+  enrolling,
+  setEnrolling,
 }: {
   courses: any[];
   course: any;
@@ -17,6 +27,9 @@ export default function Dashboard({
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
 }) {
   const images = [
     { label: 1, path: "web" },
@@ -31,9 +44,6 @@ export default function Dashboard({
     { label: 0, path: "mism" },
   ];
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments, enrollmentsOn } = useSelector(
-    (state: any) => state.enrollmentsReducer
-  );
   const dispatch = useDispatch();
 
   return (
@@ -43,14 +53,14 @@ export default function Dashboard({
         <div>
           <button
             className="btn btn-primary float-end"
-            id="wd-add-new-course-click"
-            onClick={(e) => dispatch(enrollmentsOnSwitch())}
+            id="wd-enrollments"
+            onClick={() => setEnrolling(!enrolling)}
           >
-            Enrollments
+            {enrolling ? "My Courses" : "All Courses"}
           </button>
         </div>
       )}
-      {currentUser.role === "FACULTY" && (
+      {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") && (
         <div>
           <div className="row align-items-center mb-2">
             <h5 className="col mb-0 d-flex align-items-center">
@@ -139,61 +149,48 @@ export default function Dashboard({
           <hr />
         </div>
       )}
-      <h2 id="wd-dashboard-published">
-        Published Courses (
-        {
-          courses.filter((course) =>
-            enrollments.some(
-              (enrollment: { user: any; course: any }) =>
-                (enrollment.user === currentUser._id &&
-                  enrollment.course === course._id &&
-                  ((!enrollmentsOn && currentUser.role === "STUDENT") ||
-                    currentUser.role !== "STUDENT")) ||
-                (currentUser.role === "STUDENT" && enrollmentsOn)
-            )
-          ).length
-        }
-        )
-      </h2>{" "}
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
       <hr />
       <div id="wd-dashboard-courses" className="mt-4 mb-4">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses
-            .filter((course) =>
-              enrollments.some(
-                (enrollment: { user: any; course: any }) =>
-                  (enrollment.user === currentUser._id &&
-                    enrollment.course === course._id &&
-                    ((!enrollmentsOn && currentUser.role === "STUDENT") ||
-                      currentUser.role !== "STUDENT")) ||
-                  (currentUser.role === "STUDENT" && enrollmentsOn)
-              )
-            )
-            .map((course) => (
+          {courses &&
+            courses.map((course, index) => (
               <div
                 className="wd-dashboard-course col"
                 style={{ width: "300px" }}
+                key={index}
               >
                 <div className="card rounded-3 overflow-hidden shadow-sm ">
-                  <Link
-                    className="wd-dashboard-course-link text-decoration-none text-dark "
-                    to={`/Kanbas/Courses/${course._id}/Home`}
-                  >
+                  <div className="wd-dashboard-course-link text-decoration-none text-dark ">
                     <img
                       src={`/images/${
-                        images[parseInt(course._id.slice(-1), 10)].path
+                        images[
+                          parseInt(course._id.slice(-1), 10) ||
+                            Number(
+                              String(
+                                course._id.charCodeAt(course._id.length - 1)
+                              )[0]
+                            )
+                        ].path
                       }.jpg`}
                       width="100%"
                       height={160}
                       alt=""
                     />
                     <div className="card-body ">
-                      <a
-                        href={`/Kanbas/Courses/${course._id}/Home`}
-                        className="wd-dashboard-course-title-number text-decoration-none fw-bold"
-                      >
-                        {course._id}.{course.number}.{course.startDate}
-                      </a>
+                      {course.enrolled && (
+                        <Link
+                          to={`/Kanbas/Courses/${course._id}/Home`}
+                          className="wd-dashboard-course-title-number text-decoration-none fw-bold"
+                        >
+                          {course._id}.{course.number}.{course.startDate}
+                        </Link>
+                      )}
+                      {!course.enrolled && (
+                        <span className="wd-dashboard-course-title-number text-decoration-none fw-bold">
+                          {course._id}.{course.number}.{course.startDate}
+                        </span>
+                      )}
                       <h5 className="wd-dashboard-course-title card-title">
                         {course.name}
                       </h5>
@@ -203,13 +200,19 @@ export default function Dashboard({
                       >
                         {course.description}
                       </p>
-                      <Link
-                        className="wd-dashboard-course-button"
-                        to={`/Kanbas/Courses/${course._id}/Home`}
-                      >
+                      {course.enrolled && (
+                        <Link
+                          className="wd-dashboard-course-button"
+                          to={`/Kanbas/Courses/${course._id}/Home`}
+                        >
+                          <button className="btn btn-primary"> Go </button>
+                        </Link>
+                      )}
+                      {!course.enrolled && (
                         <button className="btn btn-primary"> Go </button>
-                      </Link>
-                      {currentUser.role === "FACULTY" && (
+                      )}
+                      {(currentUser.role === "FACULTY" ||
+                        currentUser.role === "ADMIN") && (
                         <span>
                           <button
                             onClick={(event) => {
@@ -233,54 +236,24 @@ export default function Dashboard({
                           </button>
                         </span>
                       )}
-                      {currentUser.role === "STUDENT" && enrollmentsOn && (
+                      {currentUser.role === "STUDENT" && enrolling && (
                         <span>
-                          {enrollments.some(
-                            (enrollment: { user: any; course: any }) =>
-                              enrollment.user === currentUser._id &&
-                              enrollment.course === course._id
-                          ) && (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                dispatch(
-                                  unenroll({
-                                    user: currentUser._id,
-                                    course: course._id,
-                                  })
-                                );
-                              }}
-                              className="btn btn-danger float-end"
-                              id={`unenroll-button-${course._id}`}
-                            >
-                              Unenroll
-                            </button>
-                          )}
-                          {!enrollments.some(
-                            (enrollment: { user: any; course: any }) =>
-                              enrollment.user === currentUser._id &&
-                              enrollment.course === course._id
-                          ) && (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                dispatch(
-                                  enroll({
-                                    user: currentUser._id,
-                                    course: course._id,
-                                  })
-                                );
-                              }}
-                              className="btn btn-success float-end"
-                              id={`enroll-button-${course._id}`}
-                            >
-                              Enroll
-                            </button>
-                          )}
+                          <button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              updateEnrollment(course._id, !course.enrolled);
+                            }}
+                            className={`btn ${
+                              course.enrolled ? "btn-danger" : "btn-success"
+                            } float-end`}
+                            id={`unenroll-button-${course._id}`}
+                          >
+                            {course.enrolled ? "Unenroll" : "Enroll"}
+                          </button>
                         </span>
                       )}
                     </div>
-                  </Link>
+                  </div>
                 </div>
               </div>
             ))}

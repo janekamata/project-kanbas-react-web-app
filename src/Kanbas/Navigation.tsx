@@ -49,9 +49,9 @@ export default function KanbasNavigation() {
         <div>Account</div>
       </Link>
 
-      {links.map((link) => (
+      {links.map((link, index) => (
         <Link
-          key={link.path}
+          key={index}
           to={link.path}
           className={`list-group-item bg-black text-center border-0
               ${
