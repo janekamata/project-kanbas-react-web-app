@@ -54,7 +54,7 @@ export default function Kanbas() {
     } else {
       findCoursesForUser();
     }
-  }, [currentUser, enrolling]);
+  }, [currentUser, enrolling, courses]);
 
   const initialCourse = {
     _id: "0",
