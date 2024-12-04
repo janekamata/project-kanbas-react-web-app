@@ -13,6 +13,7 @@ import QuizEditor from "./Quizzes/QuizEditor";
 import QuizPreview from "./Quizzes/QuizPreview";
 import { useEffect, useState } from "react";
 import * as coursesClient from "../Courses/client";
+import QuizDetails from "./Quizzes/QuizDetails";
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
@@ -62,6 +63,12 @@ export default function Courses({ courses }: { courses: any[] }) {
                 <Route path="Quizzes" element={<Quizzes />} />
                 <Route
                   path="Quizzes/:qid"
+                  element={
+                    <QuizDetails />
+                  }
+                />
+                <Route
+                  path="Quizzes/edit/*"
                   element={
                     <ProtectedRouteQuizEditor>
                       <QuizEditor />

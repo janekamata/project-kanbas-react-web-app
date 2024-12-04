@@ -3,7 +3,10 @@
       "_id": "QZ101",
       "name": "Introduction to Rocket Propulsion",
       "description": "Basic principles of rocket propulsion and rocket engines.",
-      "course": "674a871941529416d87428fd",
+      "course": "674e3c7cf38066775326cb6d",
+      "dateAvailable": "2024-11-26T11:59:59Z",
+      "dateUnavailable": "2024-12-03T11:59:59Z",
+      "dueDate": "2024-12-02T11:59:59Z",
       "questions": [
         {
           "_id": "QA101",
