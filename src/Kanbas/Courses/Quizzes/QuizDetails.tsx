@@ -8,7 +8,7 @@ export default function QuizDetails() {
     let this_quiz = quizzes.find((quiz : {_id: string}) => quiz._id === qid);
     return (
         <div>
-        <h3 className = "mt-2 mb-4 ms-3">{this_quiz.name}</h3>
+        <h3 className = "mt-2 mb-4 ms-3">{this_quiz.title}</h3>
 
         {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") && <div>
         <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
@@ -72,10 +72,10 @@ export default function QuizDetails() {
         </div>
         <div className="row">
             <div className="col-3"><span className="float-end"><strong>Available</strong></span></div>
-            <div className="col-9">from <strong>{this_quiz.dateAvailable && this_quiz.dateAvailable.substring(0, 10)}
-                </strong> at <strong>{this_quiz.dateAvailable && this_quiz.dateAvailable.substring(11, 16)}
-                </strong> until <strong>{this_quiz.dateUnavailable && this_quiz.dateUnavailable.substring(0, 10)}
-                </strong> at <strong>{this_quiz.dateUnavailable && this_quiz.dateUnavailable.substring(11, 16)}</strong></div>
+            <div className="col-9">from <strong>{this_quiz.availableFromDate && this_quiz.availableFromDate.substring(0, 10)}
+                </strong> at <strong>{this_quiz.availableFromDate && this_quiz.availableFromDate.substring(11, 16)}
+                </strong> until <strong>{this_quiz.availableUntilDate && this_quiz.availableUntilDate.substring(0, 10)}
+                </strong> at <strong>{this_quiz.availableUntilDate && this_quiz.availableUntilDate.substring(11, 16)}</strong></div>
         </div></div>}
         {!(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") && <div><button className="btn btn-danger ms-3">Begin Quiz</button></div>}
         </div>

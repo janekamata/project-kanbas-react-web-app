@@ -1,37 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { quizzes } from "../../Database";
+
 const initialState = {
   quizzes: quizzes,
 };
+
 const quizzesSlice = createSlice({
   name: "quizzes",
   initialState,
   reducers: {
-    addQuiz: (state, { payload: quiz }) => {
-      if (quiz.title.startsWith("@")) {
-          return;
-      } 
-    const newQuiz: any = {
-      _id: new Date().getTime().toString(),
-      title: quiz.title,
-      course: quiz.course,
-      dateAvailable: quiz.dateAvailable,
-      timeAvailable: quiz.timeAvailable,
-      dueDate: quiz.dueDate,
-      dueTime: quiz.dueTime,
-      points: quiz.points,
-      description: quiz.description
-    };
-    state.quizzes = [...state.quizzes, newQuiz] as any;
-  },
-  deleteQuiz: (state, { payload: quiz }) => {
-    state.quizzes = state.quizzes.filter(
-      (a: any) => a._id !== quiz._id);
-  },
     updateQuiz: (state, { payload: quiz }) => {
       state.quizzes = state.quizzes.map((q: any) =>
         q._id === quiz._id ? quiz : q
-      ) as any;
+      );
+    },
+    // Add a new quiz to the state
+    addQuiz: (state, { payload: quiz }) => {
+      state.quizzes.push(quiz);
+    },
+    // Delete a quiz from the state
+    deleteQuiz: (state, { payload: quizId }) => {
+      state.quizzes = state.quizzes.filter((q: any) => q._id !== quizId);
+    },
+    // Replace the entire quizzes state with a new array
+    setQuizzes: (state, { payload: quizzes }) => {
+      state.quizzes = quizzes;
     },
     publish: (state, {payload: quiz}) => {
       state.quizzes = state.quizzes.map((q) => {return q._id === quiz._id ? {...quiz, published: true} : q})
@@ -43,5 +36,5 @@ const quizzesSlice = createSlice({
   }
   },
 });
-export const { addQuiz, deleteQuiz, updateQuiz, publish, unPublish } = quizzesSlice.actions;
+export const { addQuiz, deleteQuiz, updateQuiz, publish, unPublish, setQuizzes } = quizzesSlice.actions;
 export default quizzesSlice.reducer;

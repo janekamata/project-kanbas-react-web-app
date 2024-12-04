@@ -3,16 +3,30 @@ import { FaPlus } from "react-icons/fa6";
 import { BsGripVertical } from "react-icons/bs";
 import { RxRocket } from "react-icons/rx";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import QuizControlButtons from "./QuizControlButtons";
 import { CiSearch } from "react-icons/ci";
+import { useEffect, useState } from "react";
+import * as coursesClient from "../client";
+import { deleteQuiz, setQuizzes } from "./reducer";
+import QuizGroupControlButtons from "./QuizGroupControlButtons";
 
 export default function Quizzes() {
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
-  console.log(currentUser.role);
+  const [currentQuizId, setId] = useState("");
+  const dispatch = useDispatch();
+  const fetchQuizzes = async () => {
+    const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+    console.log(quizzes);
+    dispatch(setQuizzes(quizzes));
+  };
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
+
   return (
     <div id="wd-quizzes" className="m-5">
       <div id="wd-search-quizzes-box" className="row">
@@ -37,7 +51,9 @@ export default function Quizzes() {
         <li className="list-group-item p-0 fs-5 border-gray">
           <div className="wd-title p-3 ps-3 bg-secondary">
           {currentUser.role === "FACULTY" && <BsGripVertical className="me-2 fs-3" />}
-          Assignment Quizzes</div>
+          QUIZZES
+          <QuizGroupControlButtons />
+          </div>
         </li>
         <ul id="wd-quizzes-list" className="list-group rounded-0">
         {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") &&
@@ -52,7 +68,7 @@ export default function Quizzes() {
                                     published: boolean}) =>
                                     (quiz.course === cid))
                       .map((quiz : {_id: string,
-                                    name: string,
+                                    title: string,
                                     course: string,
                                     dateAvailable: string,
                                     timeAvailable: string,
@@ -70,10 +86,10 @@ export default function Quizzes() {
                             <div className="col-9">
                               <a className="wd-quiz-link text-decoration-none text-dark h5"
                                 href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}>
-                              {quiz.name}</a><br />
+                              {quiz.title}</a><br />
                               <span className="fs-6 text-wrap">
                               <span className="custom-gray1"><strong>Not available until
-                                </strong> {quiz.dateAvailable && quiz.dateAvailable.substring(0, 10)} at {quiz.dateAvailable
+                                </strong>{quiz.dateAvailable && quiz.dateAvailable.substring(0, 10)} at {quiz.dateAvailable
                                 && quiz.dateAvailable.substring(11, 16)} | <strong>Due</strong> {quiz.dueDate &&
                                 quiz.dueDate.substring(0, 10)} <span>at {quiz.dueDate && quiz.dueDate.substring(11, 16)} </span>
                                  | {quiz.points} pts | {quiz.questions.length} Questions
@@ -97,7 +113,7 @@ export default function Quizzes() {
                                     published: boolean,
                                     score: number}) => (quiz.course === cid && quiz.published))
                       .map((quiz : {_id: string,
-                                    name: string,
+                                    title: string,
                                     course: string,
                                     dateAvailable: string,
                                     timeAvailable: string,
@@ -115,7 +131,7 @@ export default function Quizzes() {
                             <div className="col-11">
                             <a className="wd-quiz-link text-decoration-none text-dark h5"
                                 href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}>
-                              {quiz.name}</a><br />
+                              {quiz.title}</a><br />
                               <span className="fs-6 text-wrap">
                               <span className="custom-gray1"><strong>Not available until
                               </strong> {quiz.dateAvailable && quiz.dateAvailable.substring(0, 10)} at {quiz.dateAvailable
