@@ -9,7 +9,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { FaPencil } from "react-icons/fa6";
 import DOMPurify from "dompurify";
 
-export default function QuizPreview() {
+export default function QuizReview() {
   const { cid, qid } = useParams();
   const { pathname } = useLocation();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
@@ -55,7 +55,7 @@ export default function QuizPreview() {
         {quiz.questions.map((question: any) => (
           <QuizQuestion
             question={question}
-            review={false}
+            review={true}
             updateQuestion={(question) => {
               setQuiz({
                 ...quiz,
@@ -68,32 +68,14 @@ export default function QuizPreview() {
         ))}
       </div>
       <hr />
-      <button
-        id="wd-quiz-save"
-        className="btn btn-lg btn-danger me-1 float-end"
-        onClick={save}
-      >
-        Submit Quiz
-      </button>
-      <Link to={`/Kanbas/Courses/${cid}/Quizzes`}>
+      <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
         <button
           id="wd-quiz-cancel"
           className="btn btn-lg btn-secondary ms-4 me-1 float-end"
         >
-          Cancel
+          Back
         </button>
       </Link>
-      <ProtectedRouteRole>
-        <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit/Questions`}>
-          <button
-            id="wd-quiz-cancel"
-            className="btn btn-lg btn-secondary me-1 float-start"
-          >
-            <FaPencil className="me-2" />
-            Keep Editing This Quiz
-          </button>
-        </Link>
-      </ProtectedRouteRole>
     </div>
   );
 }

@@ -18,6 +18,11 @@ export default function QuizDetails() {
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit/Details`}>
             <button className="btn btn-secondary">Edit</button>
           </Link>
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
+            <button className="btn btn-secondary ms-2">
+              Review Last Attempt
+            </button>
+          </Link>
           <hr />
           <div className="row">
             <div className="col-3">
@@ -189,7 +194,14 @@ export default function QuizDetails() {
       )}
       {currentUser.role === "STUDENT" && (
         <div>
-          <button className="btn btn-danger ms-3">Begin Quiz</button>
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Attempt`}>
+            <button className="btn btn-danger ms-3">Begin Quiz</button>
+          </Link>
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
+            <button className="btn btn-secondary ms-3">
+              Review Last Attempt
+            </button>
+          </Link>
         </div>
       )}
     </div>

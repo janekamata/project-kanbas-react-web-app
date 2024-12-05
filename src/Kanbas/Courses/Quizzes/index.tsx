@@ -152,77 +152,87 @@ export default function Quizzes() {
               )
             )}
           {!(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") &&
-            quizzes
-              .filter(
-                (quiz: {
-                  _id: string;
-                  course: string;
-                  dateAvailable: string;
-                  timeAvailable: string;
-                  dueDate: string;
-                  dueTime: string;
-                  points: number;
-                  questions: any[];
-                  published: boolean;
-                  score: number;
-                }) => quiz.course === cid && quiz.published
-              )
-              .map(
-                (quiz: {
-                  _id: string;
-                  name: string;
-                  course: string;
-                  dateAvailable: string;
-                  timeAvailable: string;
-                  dueDate: string;
-                  dueTime: string;
-                  points: number;
-                  questions: any[];
-                  published: boolean;
-                  score: number;
-                }) => (
-                  <li className="wd-quiz-list-item list-group-item p-3 ps-3 fs-5">
-                    <div className="row align-items-center">
-                      <div className="col-1 ms-2" style={{ width: "4%" }}>
-                        <RxRocket className="fs-5" />
-                      </div>
-                      <div className="col-11">
-                        <a
-                          className="wd-quiz-link text-decoration-none text-dark h5"
-                          href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}
-                        >
-                          {quiz.name}
-                        </a>
-                        <br />
-                        <span className="fs-6 text-wrap">
-                          <span className="custom-gray1">
-                            <strong>Not available until</strong>
-                            {quiz.dateAvailable &&
-                              quiz.dateAvailable.substring(0, 10)}
-                            at
-                            {quiz.dateAvailable &&
-                              quiz.dateAvailable.substring(11, 16)}
-                            | <strong>Due</strong>
-                            {quiz.dueDate && quiz.dueDate.substring(0, 10)}
-                            <span>
-                              at
-                              {quiz.dueDate && quiz.dueDate.substring(11, 16)}
-                            </span>
-                            | {quiz.points} pts | {quiz.questions.length}
-                            Questions |
-                            {quiz.score && (
-                              <span>Last attempt score: {quiz.score}</span>
-                            )}
-                            {!quiz.score && (
-                              <span>Last attempt score: N/A</span>
-                            )}
-                          </span>
-                        </span>
-                      </div>
+            quizzes.map(
+              (quiz: {
+                _id: string;
+                course: string;
+                points: number;
+                questions: any[];
+                published: boolean;
+                score: number;
+                title: string;
+                availableFrom: Date;
+                availableUntil: Date;
+                dueDate: Date;
+              }) => (
+                <li className="wd-quiz-list-item list-group-item p-3 ps-3 fs-5">
+                  <div className="row align-items-center">
+                    <div className="col-1 ms-2" style={{ width: "4%" }}>
+                      <RxRocket className="fs-5" />
                     </div>
-                  </li>
-                )
-              )}
+                    <div className="col-11">
+                      <a
+                        className="wd-quiz-link text-decoration-none text-dark h5"
+                        href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}
+                      >
+                        {quiz.title}
+                      </a>
+                      <br />
+                      <span className="custom-gray1 fw-bold">
+                        {quiz.availableFrom &&
+                          new Date(quiz.availableFrom) > new Date() &&
+                          "Not available until"}
+                        {quiz.availableUntil &&
+                          new Date(quiz.availableUntil) < new Date() &&
+                          "Closed"}
+                        {quiz.availableFrom &&
+                          new Date(quiz.availableFrom) <= new Date() &&
+                          new Date(quiz.availableUntil) >= new Date() &&
+                          "Available"}
+                        &nbsp;
+                      </span>
+                      <span className="">
+                        <span className="custom-gray1">
+                          {quiz.availableFrom &&
+                            !(new Date(quiz.availableUntil) < new Date()) &&
+                            new Date(quiz.availableFrom).toLocaleDateString(
+                              "en-US",
+                              {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                                hour12: true,
+                              }
+                            )}
+                          &nbsp;&nbsp;|&nbsp;&nbsp;
+                          <strong>Due</strong>&nbsp;
+                          {quiz.dueDate &&
+                            new Date(quiz.dueDate).toLocaleDateString("en-US", {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })}
+                          &nbsp;&nbsp;|&nbsp;&nbsp;{quiz.points}&nbsp;
+                          pts&nbsp;&nbsp;|&nbsp;&nbsp; {quiz.questions.length}
+                          &nbsp;Questions&nbsp;&nbsp;|&nbsp;&nbsp;
+                        </span>
+                        {quiz.score && (
+                          <span>Last attempt score: {quiz.score}</span>
+                        )}
+                        {!quiz.score && <span>Last attempt score: N/A</span>}
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              )
+            )}
         </ul>
       </ul>
     </div>

@@ -2,10 +2,12 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import Editor from "react-simple-wysiwyg";
+import DOMPurify from "isomorphic-dompurify";
 
 export default function QuizDetailsEditor() {
-  const { cid } = useParams();
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { cid, qid } = useParams();
+  const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
 
   const [quiz, setQuiz] = useState({
@@ -23,8 +25,7 @@ export default function QuizDetailsEditor() {
     availableUntil: "",
   });
 
-  const quizId = window.location.pathname.split("/")[5];
-  const foundQuiz = assignments.find((q: any) => q._id === quizId);
+  const foundQuiz = quizzes.find((q: any) => q._id === qid);
 
   useEffect(() => {
     if (foundQuiz) {
@@ -52,10 +53,9 @@ export default function QuizDetailsEditor() {
       <label htmlFor="quiz-description" className="mt-3">
         Quiz Instructions:
       </label>
-      <textarea
+      <Editor
         id="quiz-description"
         className="form-control"
-        rows={4}
         value={quiz.description}
         onChange={(e) => handleChange("description", e.target.value)}
       />
@@ -146,7 +146,9 @@ export default function QuizDetailsEditor() {
             type="date"
             id="due-date"
             className="form-control"
-            value={quiz.dueDate}
+            value={
+              quiz.dueDate && new Date(quiz.dueDate).toISOString().split("T")[0]
+            }
             onChange={(e) => handleChange("dueDate", e.target.value)}
           />
         </div>
@@ -157,7 +159,10 @@ export default function QuizDetailsEditor() {
             type="date"
             id="available-from"
             className="form-control"
-            value={quiz.availableFrom}
+            value={
+              quiz.availableFrom &&
+              new Date(quiz.availableFrom).toISOString().split("T")[0]
+            }
             onChange={(e) => handleChange("availableFrom", e.target.value)}
           />
         </div>
@@ -168,7 +173,10 @@ export default function QuizDetailsEditor() {
             type="date"
             id="available-until"
             className="form-control"
-            value={quiz.availableUntil}
+            value={
+              quiz.availableUntil &&
+              new Date(quiz.availableUntil).toISOString().split("T")[0]
+            }
             onChange={(e) => handleChange("availableUntil", e.target.value)}
           />
         </div>

@@ -26,9 +26,11 @@ interface QuizQuestion {
 export default function QuizQuestion({
   question,
   updateQuestion,
+  review,
 }: {
   question: QuizQuestion;
   updateQuestion: (updatedQuestion: QuizQuestion) => void;
+  review: Boolean;
 }) {
   const [currentQuestion, setQuestion] = useState(question);
   const [presaveQuestion, setPresaveQuestion] = useState(question);
@@ -75,7 +77,7 @@ export default function QuizQuestion({
         {currentQuestion.choices &&
           currentQuestion.choices.map((choice) => (
             <div>
-              {currentQuestion.type !== "Fill In the Blank" && (
+              {currentQuestion.type !== "Fill In the Blank" && !review && (
                 <button
                   className={`border rounded mb-2 mt-2 p-2 ps-3 bg-white w-100 text-start ${
                     choice.selected && "fw-bolder text-success border-success"
@@ -85,7 +87,7 @@ export default function QuizQuestion({
                       ...currentQuestion,
                       choices: currentQuestion.choices.map((c) =>
                         c._id === choice._id
-                          ? { ...c, selected: !c.selected }
+                          ? { ...c, selected: true }
                           : { ...c, selected: false }
                       ),
                     })
@@ -94,15 +96,29 @@ export default function QuizQuestion({
                   {choice.answer}
                 </button>
               )}
+              {currentQuestion.type !== "Fill In the Blank" && review && (
+                <div
+                  className={`border rounded mb-2 mt-2 p-2 ps-3 bg-white w-100 text-start ${
+                    choice.selected && "fw-bolder text-success border-success"
+                  }`}
+                >
+                  {choice.answer}
+                </div>
+              )}
             </div>
           ))}
-        {currentQuestion.type === "Fill In the Blank" && (
+        {currentQuestion.type === "Fill In the Blank" && !review && (
           <div>
             <input
               className="form-control border rounded mb-2 mt-2 p-2 ps-3 bg-white w-50 text-start"
               type="text"
               placeholder="Type your answer here..."
             ></input>
+          </div>
+        )}
+        {currentQuestion.type === "Fill In the Blank" && review && (
+          <div className="form-control border rounded mb-2 mt-2 p-2 ps-3 bg-white w-50 text-start">
+            Insert user answer
           </div>
         )}
       </form>
