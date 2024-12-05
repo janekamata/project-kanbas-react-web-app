@@ -61,14 +61,9 @@ export default function Courses({ courses }: { courses: any[] }) {
                   }
                 />
                 <Route path="Quizzes" element={<Quizzes />} />
+                <Route path="Quizzes/:qid" element={<QuizDetails />} />
                 <Route
-                  path="Quizzes/:qid"
-                  element={
-                    <QuizDetails />
-                  }
-                />
-                <Route
-                  path="Quizzes/edit/*"
+                  path="Quizzes/:qid/Edit/*"
                   element={
                     <ProtectedRouteQuizEditor>
                       <QuizEditor />

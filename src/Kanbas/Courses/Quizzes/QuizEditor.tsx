@@ -13,8 +13,10 @@ import { useState } from "react";
 import ProtectedRouteRole from "../ProtectedRouteRole";
 import { FaPlus } from "react-icons/fa";
 import QuestionEditor from "./QuestionEditor";
+import QuizDetailsEditor from "./QuizDetailsEditor";
 
 export default function QuizEditor() {
+  const { pathname } = useLocation();
   const { cid, qid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ export default function QuizEditor() {
     <ProtectedRouteRole>
       <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
         <div className="d-flex align-items-center justify-content-center">
-          <div className="fs-4">
+          <div className="fs-4 ms-auto">
             Points:{" "}
             {quiz.questions.reduce(
               (sumQuestions: any, question: { points: any }) =>
@@ -55,14 +57,16 @@ export default function QuizEditor() {
               0
             )}
           </div>
-          <button
-            id="wd-add-question"
-            className="btn btn-lg btn-secondary float-end ms-auto"
-            onClick={addQuestion}
-          >
-            <FaPlus className="position-relative me-2" />
-            New Question
-          </button>
+          {pathname.includes("Questions") && (
+            <button
+              id="wd-add-question"
+              className="btn btn-lg btn-secondary float-end ms-2"
+              onClick={addQuestion}
+            >
+              <FaPlus className="position-relative me-2" />
+              New Question
+            </button>
+          )}
           <button
             id="wd-add-question"
             className="btn btn-lg btn-secondary float-end ms-2"
@@ -73,37 +77,66 @@ export default function QuizEditor() {
             Preview Quiz
           </button>
         </div>
-        <div>
-          {quiz.questions.map((question: any) => (
-            <QuestionEditor
-              question={question}
-              updateQuestion={(question) => {
-                setQuiz({
-                  ...quiz,
-                  questions: quiz.questions.map((q: { _id: string }) =>
-                    q._id === question._id ? question : q
-                  ),
-                });
-              }}
-            />
-          ))}
-        </div>
-        <hr />
-        <Link to={`/Kanbas/Courses/${cid}/Quizzes`}>
-          <button
-            id="wd-quiz-cancel"
-            className="btn btn-lg btn-secondary ms-4 me-1 float-start"
-          >
-            Cancel
-          </button>
-        </Link>
-        <button
-          id="wd-quiz-save"
-          className="btn btn-lg btn-danger me-1 float-start"
-          onClick={save}
-        >
-          Save
-        </button>
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <Link
+              className={`nav-link  ${
+                pathname.includes("Details") ? "active" : "text-danger"
+              }`}
+              aria-current="page"
+              to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit/Details`}
+            >
+              Details
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              className={`nav-link  ${
+                pathname.includes("Questions") ? "active" : "text-danger"
+              }`}
+              aria-current="page"
+              to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit/Questions`}
+            >
+              Questions
+            </Link>
+          </li>
+        </ul>
+        {pathname.includes("Questions") && (
+          <div>
+            <div>
+              {quiz.questions.map((question: any) => (
+                <QuestionEditor
+                  question={question}
+                  updateQuestion={(question) => {
+                    setQuiz({
+                      ...quiz,
+                      questions: quiz.questions.map((q: { _id: string }) =>
+                        q._id === question._id ? question : q
+                      ),
+                    });
+                  }}
+                />
+              ))}
+            </div>
+            <hr />
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes`}>
+              <button
+                id="wd-quiz-cancel"
+                className="btn btn-lg btn-secondary ms-4 me-1 float-start"
+              >
+                Cancel
+              </button>
+            </Link>
+            <button
+              id="wd-quiz-save"
+              className="btn btn-lg btn-danger me-1 float-start"
+              onClick={save}
+            >
+              Save
+            </button>
+          </div>
+        )}
+        {pathname.includes("Details") && <QuizDetailsEditor />}
       </div>
     </ProtectedRouteRole>
   );
