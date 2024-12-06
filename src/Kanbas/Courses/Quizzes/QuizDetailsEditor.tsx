@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ export default function QuizDetailsEditor() {
   const { cid, qid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [quiz, setQuiz] = useState({
     _id: "",
@@ -44,10 +45,12 @@ export default function QuizDetailsEditor() {
       console.log("Updating Quiz");
       const updatedQuiz = await coursesClient.updateQuizForCourse(cid as string, quiz);
       dispatch(updateQuiz(updatedQuiz));
+      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     } else {
       console.log("Creating New Quiz");
       const newQuiz = await coursesClient.createQuizForCourse(cid as string, quiz);
       dispatch(addQuiz(newQuiz));
+      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     }
   };
 

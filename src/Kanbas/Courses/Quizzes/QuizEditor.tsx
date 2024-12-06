@@ -14,6 +14,7 @@ import ProtectedRouteRole from "../ProtectedRouteRole";
 import { FaPlus } from "react-icons/fa";
 import QuestionEditor from "./QuestionEditor";
 import QuizDetailsEditor from "./QuizDetailsEditor";
+import * as coursesClient from "../client";
 
 export default function QuizEditor() {
   const { pathname } = useLocation();
@@ -41,6 +42,7 @@ export default function QuizEditor() {
   };
   const save = () => {
     console.log(quiz);
+    //coursesClient.saveQuiz(cid, quiz);
     dispatch(updateQuiz(quiz));
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
