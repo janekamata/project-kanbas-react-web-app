@@ -20,7 +20,6 @@ export default function Quizzes() {
   const dispatch = useDispatch();
   const fetchQuizzes = async () => {
     const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
-    console.log(quizzes);
     dispatch(setQuizzes(quizzes));
   };
   useEffect(() => {
@@ -42,7 +41,7 @@ export default function Quizzes() {
         </div>
         {currentUser.role === "FACULTY" && (
           <div className="col-4">
-            <Link to={`/Kanbas/Courses/${cid}/Quizzes/edit/New`}>
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes/@/edit/`}>
               <button
                 id="wd-add-quizzes"
                 className="btn btn-lg btn-danger me-1 float-end"

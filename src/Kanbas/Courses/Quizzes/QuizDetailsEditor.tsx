@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Editor from "react-simple-wysiwyg";
 import DOMPurify from "isomorphic-dompurify";
+import * as coursesClient from "../client";
+import {addQuiz, updateQuiz} from "./reducer";
 
 export default function QuizDetailsEditor() {
   const { cid, qid } = useParams();
@@ -12,7 +14,7 @@ export default function QuizDetailsEditor() {
 
   const [quiz, setQuiz] = useState({
     _id: "",
-    title: "",
+    title: "Testing Nonempty Title",
     description: "",
     quizType: "Graded Quiz",
     assignmentGroup: "Assignments",
@@ -37,13 +39,15 @@ export default function QuizDetailsEditor() {
     setQuiz({ ...quiz, [field]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (foundQuiz) {
       console.log("Updating Quiz");
-      // dispatch(updateQuiz(quiz));
+      const updatedQuiz = await coursesClient.updateQuizForCourse(cid as string, quiz);
+      dispatch(updateQuiz(updatedQuiz));
     } else {
       console.log("Creating New Quiz");
-      // dispatch(createQuiz(quiz));
+      const newQuiz = await coursesClient.createQuizForCourse(cid as string, quiz);
+      dispatch(addQuiz(newQuiz));
     }
   };
 
@@ -183,7 +187,7 @@ export default function QuizDetailsEditor() {
       </div>
 
       <div className="mt-5">
-        <Link to={`/courses/${cid}/quizzes`} className="btn btn-secondary me-2">
+        <Link to={`/Kanbas/Courses/${cid}/quizzes`} className="btn btn-secondary me-2">
           Cancel
         </Link>
         <button className="btn btn-danger" onClick={handleSubmit}>

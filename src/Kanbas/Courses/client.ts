@@ -78,7 +78,21 @@ export const updateQuizForCourse = async (courseId: string, quiz: any) => {
 
 export const deleteQuiz = async (courseId: string, quizId: string) => {
   const response = await axiosWithCredentials.delete(
-    `${COURSES_API}/${courseId}/quizzes/${quizId}`
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/publish`
   );
   return response.data;
 };
+
+export const publishQuiz = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.put(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/publish`
+  );
+  return response.data;
+}
+
+export const unpublishQuiz = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.put(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/unpublish`
+  );
+  return response.data;
+}

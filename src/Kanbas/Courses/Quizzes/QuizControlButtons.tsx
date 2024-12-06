@@ -3,6 +3,7 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BsBanFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { deleteQuiz, publish, unPublish } from "./reducer";
+import * as coursesClient from "../client";
 export default function QuizControlButtons({
   quiz,
   cid,
@@ -16,6 +17,7 @@ export default function QuizControlButtons({
       {quiz.published && (
         <span
           onClick={() => {
+            coursesClient.unpublishQuiz(cid, quiz._id);
             dispatch(unPublish(quiz));
           }}
         >
@@ -26,6 +28,7 @@ export default function QuizControlButtons({
         <BsBanFill
           className="text-danger me-1 mt-1 fs-5"
           onClick={() => {
+            coursesClient.publishQuiz(cid, quiz._id);
             dispatch(publish(quiz));
           }}
         />
@@ -60,6 +63,7 @@ export default function QuizControlButtons({
               <button
                 className="dropdown-item me-0"
                 onClick={() => {
+                  coursesClient.unpublishQuiz(cid, quiz._id);
                   dispatch(unPublish(quiz));
                 }}
               >
@@ -70,6 +74,7 @@ export default function QuizControlButtons({
               <button
                 className="dropdown-item me-0"
                 onClick={() => {
+                  coursesClient.publishQuiz(cid, quiz._id);
                   dispatch(publish(quiz));
                 }}
               >
