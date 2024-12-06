@@ -1,17 +1,11 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Editor from "react-simple-wysiwyg";
-import DOMPurify from "isomorphic-dompurify";
-import * as coursesClient from "../client";
-import {addQuiz, updateQuiz} from "./reducer";
 
-export default function QuizDetailsEditor() {
-  const { cid, qid } = useParams();
-  const { quizzes } = useSelector((state: any) => state.quizzesReducer);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+export default function QuizDetailsEditor({handleSubmit, quizzes, qid}:
+  {handleSubmit: (quiz:any) => void; quizzes: any[]; qid:string}) {
+  const { cid } = useParams();
 
   const [quiz, setQuiz] = useState({
     _id: "",
@@ -29,7 +23,6 @@ export default function QuizDetailsEditor() {
   });
 
   const foundQuiz = quizzes.find((q: any) => q._id === qid);
-
   useEffect(() => {
     if (foundQuiz) {
       setQuiz(foundQuiz);
@@ -38,20 +31,6 @@ export default function QuizDetailsEditor() {
 
   const handleChange = (field: any, value: any) => {
     setQuiz({ ...quiz, [field]: value });
-  };
-
-  const handleSubmit = async () => {
-    if (foundQuiz) {
-      console.log("Updating Quiz");
-      const updatedQuiz = await coursesClient.updateQuizForCourse(cid as string, quiz);
-      dispatch(updateQuiz(updatedQuiz));
-      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
-    } else {
-      console.log("Creating New Quiz");
-      const newQuiz = await coursesClient.createQuizForCourse(cid as string, quiz);
-      dispatch(addQuiz(newQuiz));
-      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
-    }
   };
 
   return (
@@ -193,7 +172,7 @@ export default function QuizDetailsEditor() {
         <Link to={`/Kanbas/Courses/${cid}/quizzes`} className="btn btn-secondary me-2">
           Cancel
         </Link>
-        <button className="btn btn-danger" onClick={handleSubmit}>
+        <button className="btn btn-danger" onClick={() => handleSubmit(quiz)}>
           Save
         </button>
       </div>

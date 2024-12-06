@@ -8,8 +8,8 @@ import {
 } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateQuiz } from "./reducer";
-import { useState } from "react";
+import { addQuiz, updateQuiz } from "./reducer";
+import { useEffect, useState } from "react";
 import ProtectedRouteRole from "../ProtectedRouteRole";
 import { FaPlus } from "react-icons/fa";
 import QuestionEditor from "./QuestionEditor";
@@ -21,6 +21,7 @@ export default function QuizEditor() {
   const { cid, qid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [quiz, setQuiz] = useState(
     quizzes.find((quiz: { _id: string | undefined }) => quiz._id === qid) ?? {
       name: "",
@@ -29,7 +30,24 @@ export default function QuizEditor() {
       questions: [],
     }
   );
-  const navigate = useNavigate();
+
+  const foundQuiz = quizzes.find((q: any) => q._id === qid);
+
+  const handleSubmit = async (quiz : any) => {
+    if (foundQuiz) {
+      console.log("Updating Quiz");
+      console.log(quiz);
+      const updatedQuiz = await coursesClient.updateQuizForCourse(cid as string, quiz);
+      dispatch(updateQuiz(updatedQuiz));
+      //navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    } else {
+      console.log("Creating New Quiz");
+      const newQuiz = await coursesClient.createQuizForCourse(cid as string, quiz);
+      dispatch(addQuiz(newQuiz));
+      //navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    }
+  };
+
   const addQuestion = () => {
     const newQuestion: any = {
       _id: new Date().getTime().toString(),
@@ -39,12 +57,6 @@ export default function QuizEditor() {
       edit: true,
     };
     setQuiz({ ...quiz, questions: [...quiz.questions, newQuestion] });
-  };
-  const save = () => {
-    console.log(quiz);
-    //coursesClient.saveQuiz(cid, quiz);
-    dispatch(updateQuiz(quiz));
-    navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
   return (
     <ProtectedRouteRole>
@@ -132,13 +144,13 @@ export default function QuizEditor() {
             <button
               id="wd-quiz-save"
               className="btn btn-lg btn-danger me-1 float-start"
-              onClick={save}
+              onClick={() => handleSubmit(quiz)}
             >
               Save
             </button>
           </div>
         )}
-        {pathname.includes("Details") && <QuizDetailsEditor />}
+        {pathname.includes("Details") && <QuizDetailsEditor handleSubmit={handleSubmit} quizzes={quizzes} qid={qid as string}/>}
       </div>
     </ProtectedRouteRole>
   );
