@@ -39,13 +39,13 @@ export default function QuestionEditor({
   };
   const tf = [
     {
-      _id: new Date().getTime().toString(),
+      _id: new Date().getTime().toString() + "00000000000",
       question: question._id,
       correct: false,
       answer: "True",
     },
     {
-      _id: new Date().getTime().toString() + "1",
+      _id: new Date().getTime().toString() + "1" + "0000000000",
       question: question._id,
       correct: false,
       answer: "False",
@@ -65,7 +65,7 @@ export default function QuestionEditor({
           choices: [
             ...currentQuestion.choices,
             {
-              _id: new Date().getTime().toString(),
+              _id: new Date().getTime().toString() + "00000000000",
               question: currentQuestion._id,
               correct: false,
               answer: "",
@@ -76,7 +76,7 @@ export default function QuestionEditor({
           ...currentQuestion,
           choices: [
             {
-              _id: new Date().getTime().toString(),
+              _id: new Date().getTime().toString() + "00000000000",
               question: currentQuestion._id,
               correct: false,
               answer: "",

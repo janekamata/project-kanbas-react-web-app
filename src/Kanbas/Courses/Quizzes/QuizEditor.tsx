@@ -50,7 +50,7 @@ export default function QuizEditor() {
 
   const addQuestion = () => {
     const newQuestion: any = {
-      _id: new Date().getTime().toString(),
+      _id: new Date().getTime().toString() + "00000000000",
       quiz: qid,
       type: "Multiple Choice",
       choice: [],
