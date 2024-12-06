@@ -26,6 +26,9 @@ export default function Quizzes() {
     fetchQuizzes();
   }, []);
 
+  console.log("quizzes", quizzes);
+  console.log("current user", currentUser);
+
   return (
     <div id="wd-quizzes" className="m-5">
       <div id="wd-search-quizzes-box" className="row">
@@ -162,6 +165,7 @@ export default function Quizzes() {
                 title: string;
                 availableFrom: Date;
                 availableUntil: Date;
+                attempts: any[];
                 dueDate: Date;
               }) => (
                 <li className="wd-quiz-list-item list-group-item p-3 ps-3 fs-5">
@@ -222,10 +226,16 @@ export default function Quizzes() {
                           pts&nbsp;&nbsp;|&nbsp;&nbsp; {quiz.questions.length}
                           &nbsp;Questions&nbsp;&nbsp;|&nbsp;&nbsp;
                         </span>
-                        {quiz.score && (
-                          <span>Last attempt score: {quiz.score}</span>
-                        )}
-                        {!quiz.score && <span>Last attempt score: N/A</span>}
+                        {/* {quiz.score && ( */}
+                        <span>
+                          Last attempt score:{" "}
+                          {quiz.attempts.find((attempt) => {
+                            console.log(attempt);
+                            return attempt.user === currentUser._id;
+                          })?.lastScore || "N/A"}
+                        </span>
+                        {/* )}
+                        {!quiz.score && <span>Last attempt score: N/A</span>} */}
                       </span>
                     </div>
                   </div>
