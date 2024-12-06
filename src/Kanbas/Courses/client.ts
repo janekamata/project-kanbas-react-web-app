@@ -78,7 +78,7 @@ export const updateQuizForCourse = async (courseId: string, quiz: any) => {
 
 export const deleteQuiz = async (courseId: string, quizId: string) => {
   const response = await axiosWithCredentials.delete(
-    `${COURSES_API}/${courseId}/quizzes/${quizId}/publish`
+    `${COURSES_API}/${courseId}/quizzes/${quizId}`
   );
   return response.data;
 };

@@ -52,6 +52,7 @@ export default function QuizControlButtons({
             <button
               className="dropdown-item me-0"
               onClick={() => {
+                coursesClient.deleteQuiz(cid, quiz._id);
                 dispatch(deleteQuiz(quiz));
               }}
             >
