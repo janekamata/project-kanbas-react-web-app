@@ -1,16 +1,131 @@
-import { useParams } from "react-router";
+// QuizDetails.tsx
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-export default function QuizDetails() {
-  const { cid, qid } = useParams();
-  const { quizzes } = useSelector((state: any) => state.quizzesReducer);
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  let this_quiz = quizzes.find((quiz: { _id: string }) => quiz._id === qid);
+import * as quizzesClient from "./client";
+
+interface Quiz {
+  _id: string;
+  title: string;
+  quizType: string;
+  points: number;
+  assignmentGroup: string;
+  shuffleAnswers: boolean;
+  timeLimit: number;
+  multipleAttempts: boolean;
+  maxAttempts: number;
+  showCorrectAnswers: boolean;
+  accessCode: string;
+  oneQuestionAtATime: boolean;
+  webcam: boolean;
+  lockQuestions: boolean;
+  dueDate: string | null;
+  availableFrom: string | null;
+  availableUntil: string | null;
+}
+
+interface User {
+  _id: string;
+  role: "STUDENT" | "FACULTY" | "ADMIN";
+  // Add other user properties as needed
+}
+
+interface RootState {
+  quizzesReducer: {
+    quizzes: Quiz[];
+  };
+  accountReducer: {
+    currentUser: User | null;
+  };
+}
+
+const QuizDetails: React.FC = () => {
+  const { cid, qid } = useParams<{ cid: string; qid: string }>();
+  const navigate = useNavigate();
+  const { quizzes } = useSelector((state: RootState) => state.quizzesReducer);
+  const { currentUser } = useSelector(
+    (state: RootState) => state.accountReducer
+  );
+  const [userAttempts, setUserAttempts] = useState<number | null>(null);
+  const [loadingAttempts, setLoadingAttempts] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Find the current quiz based on qid
+  const this_quiz = quizzes.find((quiz) => quiz._id === qid);
+
+  useEffect(() => {
+    const fetchUserAttempts = async () => {
+      if (currentUser && currentUser._id && cid && qid) {
+        try {
+          const attemptData = await quizzesClient.getUserQuizAttempts(cid, qid);
+          console.log("attemptData", attemptData);
+          setUserAttempts(attemptData.attemptCount);
+        } catch (err: any) {
+          console.error("Error fetching user attempts:", err);
+          setError("Failed to fetch your quiz attempts.");
+        } finally {
+          setLoadingAttempts(false);
+        }
+      } else {
+        setLoadingAttempts(false);
+      }
+    };
+
+    if (currentUser && this_quiz) {
+      fetchUserAttempts();
+    }
+  }, [cid, qid, currentUser, this_quiz]);
+
+  const handleBeginQuiz = async () => {
+    if (!currentUser || !currentUser._id) {
+      alert("You must be logged in to attempt the quiz.");
+      return;
+    }
+
+    if (!this_quiz) {
+      alert("Quiz not found.");
+      return;
+    }
+
+    // Check if multiple attempts are allowed
+    if (!this_quiz.multipleAttempts) {
+      // If multipleAttempts is false, allow only one attempt
+      if (userAttempts && userAttempts >= 1) {
+        alert("You have already attempted this quiz.");
+        return;
+      }
+    } else {
+      // If multipleAttempts is true, check against maxAttempts
+      if (userAttempts !== null && userAttempts >= this_quiz.maxAttempts) {
+        alert(
+          `You have reached the maximum of ${this_quiz.maxAttempts} attempts for this quiz.`
+        );
+        return;
+      }
+    }
+
+    try {
+      // Increment the user's attempt count
+      await quizzesClient.incrementUserQuizAttempt(cid!, qid!);
+      // Optionally update the local state
+      setUserAttempts((prev) => (prev !== null ? prev + 1 : 1));
+      // Navigate to the quiz attempt page
+      navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Attempt`);
+    } catch (err: any) {
+      console.error("Error incrementing quiz attempt:", err);
+      alert("Failed to begin the quiz. Please try again later.");
+    }
+  };
+
+  if (!this_quiz) {
+    return <div>Loading quiz details...</div>;
+  }
+
   return (
     <div>
       <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
 
-      {(currentUser.role === "FACULTY" || currentUser.role === "ADMIN") && (
+      {(currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN") && (
         <div>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
             <button className="btn btn-secondary me-2">Preview</button>
@@ -24,6 +139,7 @@ export default function QuizDetails() {
             </button>
           </Link>
           <hr />
+          {/* Quiz Details */}
           <div className="row">
             <div className="col-3">
               <span className="float-end">
@@ -92,7 +208,9 @@ export default function QuizDetails() {
                 <strong>Show Correct Answers</strong>
               </span>
             </div>
-            <div className="col-9">{this_quiz.showCorrectAnswers}</div>
+            <div className="col-9">
+              {this_quiz.showCorrectAnswers ? "Yes" : "No"}
+            </div>
           </div>
           <div className="row">
             <div className="col-3">
@@ -192,18 +310,36 @@ export default function QuizDetails() {
           </div>
         </div>
       )}
-      {currentUser.role === "STUDENT" && (
+
+      {currentUser?.role === "STUDENT" && (
         <div>
-          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Attempt`}>
-            <button className="btn btn-danger ms-3">Begin Quiz</button>
-          </Link>
+          <button
+            className="btn btn-danger ms-3"
+            onClick={handleBeginQuiz}
+            disabled={loadingAttempts}
+          >
+            {loadingAttempts ? "Loading..." : "Begin Quiz"}
+          </button>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
             <button className="btn btn-secondary ms-3">
               Review Last Attempt
             </button>
           </Link>
+          {error && <div className="text-danger mt-2">{error}</div>}
+          {!loadingAttempts && (
+            <div className="mt-2">
+              <strong>
+                Attempts:{" "}
+                {userAttempts !== null
+                  ? `${userAttempts} / ${this_quiz.maxAttempts}`
+                  : "N/A"}
+              </strong>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
-}
+};
+
+export default QuizDetails;
