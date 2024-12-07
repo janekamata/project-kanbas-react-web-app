@@ -47,11 +47,12 @@ export default function QuizQuestion({
       <form
         id="wd-assignments-editor"
         className={`g-4 border rounded p-3 mt-4 bg-light ${
-          question.correct
+          review &&
+          (question.correct
             ? "border-success"
             : question.correct === false
             ? "border-danger"
-            : "border-warning"
+            : "border-warning")
         }`}
       >
         <fieldset className="d-flex align-items-center">
