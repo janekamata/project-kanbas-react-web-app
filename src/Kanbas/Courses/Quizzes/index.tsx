@@ -16,11 +16,18 @@ export default function Quizzes() {
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
-  const [currentQuizId, setId] = useState("");
   const dispatch = useDispatch();
   const fetchQuizzes = async () => {
     const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
-    dispatch(setQuizzes(quizzes));
+    if (currentUser.role === "STUDENT") {
+      dispatch(
+        setQuizzes(
+          quizzes.filter((q: { published: boolean }) => q.published === true)
+        )
+      );
+    } else {
+      dispatch(setQuizzes(quizzes));
+    }
   };
   useEffect(() => {
     fetchQuizzes();
@@ -44,7 +51,7 @@ export default function Quizzes() {
         </div>
         {currentUser.role === "FACULTY" && (
           <div className="col-4">
-            <Link to={`/Kanbas/Courses/${cid}/Quizzes/@/edit/`}>
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes/@/Edit/Details`}>
               <button
                 id="wd-add-quizzes"
                 className="btn btn-lg btn-danger me-1 float-end"
@@ -109,7 +116,7 @@ export default function Quizzes() {
                         {quiz.availableFrom &&
                           new Date(quiz.availableFrom) <= new Date() &&
                           new Date(quiz.availableUntil) >= new Date() &&
-                          "Available"}
+                          "Available since"}
                         &nbsp;
                       </span>
                       <span className="">
@@ -227,13 +234,15 @@ export default function Quizzes() {
                           &nbsp;Questions&nbsp;&nbsp;|&nbsp;&nbsp;
                         </span>
                         {/* {quiz.score && ( */}
-                        <span>
-                          Last attempt score:{" "}
-                          {quiz.attempts.find((attempt) => {
-                            console.log(attempt);
-                            return attempt.user === currentUser._id;
-                          })?.lastScore || "N/A"}
-                        </span>
+                        {currentUser.role === "STUDENT" && (
+                          <span>
+                            Last attempt score:{" "}
+                            {quiz.attempts.find((attempt) => {
+                              console.log(attempt);
+                              return attempt.user === currentUser._id;
+                            })?.lastScore || "N/A"}
+                          </span>
+                        )}
                         {/* )}
                         {!quiz.score && <span>Last attempt score: N/A</span>} */}
                       </span>

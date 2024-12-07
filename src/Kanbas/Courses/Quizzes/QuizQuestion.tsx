@@ -21,6 +21,7 @@ interface QuizQuestion {
   question: string;
   choices: Choice[];
   edit: boolean;
+  correct: boolean;
 }
 
 export default function QuizQuestion({
@@ -45,7 +46,13 @@ export default function QuizQuestion({
     <div>
       <form
         id="wd-assignments-editor"
-        className="g-4 border rounded p-3 mt-4 bg-light"
+        className={`g-4 border rounded p-3 mt-4 bg-light ${
+          question.correct
+            ? "border-success"
+            : question.correct === false
+            ? "border-danger"
+            : "border-warning"
+        }`}
       >
         <fieldset className="d-flex align-items-center">
           <div className="fs-5">{currentQuestion.title}</div>
@@ -99,7 +106,7 @@ export default function QuizQuestion({
               {currentQuestion.type !== "Fill In the Blank" && review && (
                 <div
                   className={`border rounded mb-2 mt-2 p-2 ps-3 bg-white w-100 text-start ${
-                    choice.selected && "fw-bolder text-success border-success"
+                    choice.selected && "fw-bolder text-success border-dark"
                   }`}
                 >
                   {choice.answer}

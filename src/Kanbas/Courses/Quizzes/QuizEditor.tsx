@@ -33,19 +33,48 @@ export default function QuizEditor() {
 
   const foundQuiz = quizzes.find((q: any) => q._id === qid);
 
-  const handleSubmit = async (quiz : any) => {
+  const handleSubmit = async (quiz: any) => {
     if (foundQuiz) {
       console.log("Updating Quiz");
       console.log(quiz);
-      const updatedQuiz = await coursesClient.updateQuizForCourse(cid as string, quiz);
+      const updatedQuiz = await coursesClient.updateQuizForCourse(
+        cid as string,
+        quiz
+      );
       dispatch(updateQuiz(updatedQuiz));
-      //navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+      navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`);
     } else {
       console.log("Creating New Quiz");
-      const newQuiz = await coursesClient.createQuizForCourse(cid as string, quiz);
+      const newQuiz = await coursesClient.createQuizForCourse(
+        cid as string,
+        quiz
+      );
       dispatch(addQuiz(newQuiz));
-      //navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+      navigate(`/Kanbas/Courses/${cid}/Quizzes/${newQuiz._id}`);
     }
+    return quiz._id;
+  };
+
+  const handleSubmitAndPublish = async (quiz: any) => {
+    if (foundQuiz) {
+      console.log("Updating Quiz");
+      console.log(quiz);
+      const updatedQuiz = await coursesClient.updateQuizForCourse(
+        cid as string,
+        { ...quiz, published: true }
+      );
+      dispatch(updateQuiz(updatedQuiz));
+      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    } else {
+      console.log("Creating New Quiz");
+      const newQuiz = await coursesClient.createQuizForCourse(cid as string, {
+        ...quiz,
+        published: true,
+      });
+      dispatch(addQuiz(newQuiz));
+      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    }
+    return quiz._id;
   };
 
   const addQuestion = () => {
@@ -54,7 +83,7 @@ export default function QuizEditor() {
       quiz: qid,
       type: "Multiple Choice",
       choice: [],
-      edit: true,
+      edit: false,
     };
     setQuiz({ ...quiz, questions: [...quiz.questions, newQuestion] });
   };
@@ -74,7 +103,7 @@ export default function QuizEditor() {
           {pathname.includes("Questions") && (
             <button
               id="wd-add-question"
-              className="btn btn-lg btn-secondary float-end ms-2"
+              className="btn btn-secondary float-end ms-2"
               onClick={addQuestion}
             >
               <FaPlus className="position-relative me-2" />
@@ -83,7 +112,7 @@ export default function QuizEditor() {
           )}
           <button
             id="wd-add-question"
-            className="btn btn-lg btn-secondary float-end ms-2"
+            className="btn btn-secondary float-end ms-2"
             onClick={(e) =>
               navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
             }
@@ -91,6 +120,7 @@ export default function QuizEditor() {
             Preview Quiz
           </button>
         </div>
+        <hr />
         <ul className="nav nav-tabs">
           <li className="nav-item">
             <Link
@@ -136,21 +166,28 @@ export default function QuizEditor() {
             <Link to={`/Kanbas/Courses/${cid}/Quizzes`}>
               <button
                 id="wd-quiz-cancel"
-                className="btn btn-lg btn-secondary ms-4 me-1 float-start"
+                className="btn  btn-secondary ms-4 me-1 float-start"
               >
                 Cancel
               </button>
             </Link>
             <button
               id="wd-quiz-save"
-              className="btn btn-lg btn-danger me-1 float-start"
+              className="btn btn-danger me-1 float-start"
               onClick={() => handleSubmit(quiz)}
             >
               Save
             </button>
           </div>
         )}
-        {pathname.includes("Details") && <QuizDetailsEditor handleSubmit={handleSubmit} quizzes={quizzes} qid={qid as string}/>}
+        {pathname.includes("Details") && (
+          <QuizDetailsEditor
+            handleSubmit={handleSubmit}
+            handleSubmitAndPublish={handleSubmitAndPublish}
+            quizzes={quizzes}
+            qid={qid as string}
+          />
+        )}
       </div>
     </ProtectedRouteRole>
   );

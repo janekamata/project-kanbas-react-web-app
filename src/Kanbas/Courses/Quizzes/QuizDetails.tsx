@@ -1,8 +1,11 @@
 // QuizDetails.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as quizzesClient from "./client";
+import * as coursesClient from "../client";
+import { FaPencil } from "react-icons/fa6";
+import { setQuizzes } from "./reducer";
 
 interface Quiz {
   _id: string;
@@ -12,7 +15,7 @@ interface Quiz {
   assignmentGroup: string;
   shuffleAnswers: boolean;
   timeLimit: number;
-  multipleAttempts: boolean;
+  allowMultipleAttempts: boolean;
   maxAttempts: number;
   showCorrectAnswers: boolean;
   accessCode: string;
@@ -46,6 +49,28 @@ const QuizDetails: React.FC = () => {
   const { currentUser } = useSelector(
     (state: RootState) => state.accountReducer
   );
+  const defaultQuiz = {
+    course: cid,
+    questions: [],
+    maxAttempts: 1,
+    title: "Quiz Title",
+    description: "",
+    quizType: "Graded Quiz",
+    assignmentGroup: "Quizzes",
+    shuffleAnswers: true,
+    timeLimit: 20,
+    points: 0,
+    allowMultipleAttempts: false,
+    assignTo: "Everyone",
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    showCorrectAnswers: "Immediately",
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcam: false,
+    lockQuestions: false,
+  };
   const [userAttempts, setUserAttempts] = useState<number | null>(null);
   const [loadingAttempts, setLoadingAttempts] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +113,7 @@ const QuizDetails: React.FC = () => {
     }
 
     // Check if multiple attempts are allowed
-    if (!this_quiz.multipleAttempts) {
+    if (!this_quiz.allowMultipleAttempts) {
       // If multipleAttempts is false, allow only one attempt
       if (userAttempts && userAttempts >= 1) {
         alert("You have already attempted this quiz.");
@@ -123,15 +148,16 @@ const QuizDetails: React.FC = () => {
 
   return (
     <div>
-      <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
-
       {(currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN") && (
         <div>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
             <button className="btn btn-secondary me-2">Preview</button>
           </Link>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit/Details`}>
-            <button className="btn btn-secondary">Edit</button>
+            <button className="btn btn-secondary">
+              <FaPencil className="me-2" />
+              Edit
+            </button>
           </Link>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
             <button className="btn btn-secondary ms-2">
@@ -139,9 +165,10 @@ const QuizDetails: React.FC = () => {
             </button>
           </Link>
           <hr />
+          <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
           {/* Quiz Details */}
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Quiz Type</strong>
               </span>
@@ -149,7 +176,7 @@ const QuizDetails: React.FC = () => {
             <div className="col-9">{this_quiz.quizType}</div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Points</strong>
               </span>
@@ -157,7 +184,7 @@ const QuizDetails: React.FC = () => {
             <div className="col-9">{this_quiz.points}</div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3  text-end">
               <span className="float-end">
                 <strong>Assignment Group</strong>
               </span>
@@ -167,7 +194,7 @@ const QuizDetails: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3  text-end">
               <span className="float-end">
                 <strong>Shuffle Answers</strong>
               </span>
@@ -177,7 +204,7 @@ const QuizDetails: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Time Limit</strong>
               </span>
@@ -185,17 +212,17 @@ const QuizDetails: React.FC = () => {
             <div className="col-9">{this_quiz.timeLimit} minutes</div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Multiple Attempts</strong>
               </span>
             </div>
             <div className="col-9">
-              {this_quiz.multipleAttempts ? "Yes" : "No"}
+              {this_quiz.allowMultipleAttempts ? "Yes" : "No"}
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>How Many Attempts</strong>
               </span>
@@ -203,7 +230,7 @@ const QuizDetails: React.FC = () => {
             <div className="col-9">{this_quiz.maxAttempts}</div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Show Correct Answers</strong>
               </span>
@@ -213,7 +240,7 @@ const QuizDetails: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Access Code</strong>
               </span>
@@ -221,7 +248,7 @@ const QuizDetails: React.FC = () => {
             <div className="col-9">{this_quiz.accessCode}</div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>One Question at a Time</strong>
               </span>
@@ -231,7 +258,7 @@ const QuizDetails: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Webcam Required</strong>
               </span>
@@ -239,8 +266,8 @@ const QuizDetails: React.FC = () => {
             <div className="col-9">{this_quiz.webcam ? "Yes" : "No"}</div>
           </div>
           <div className="row">
-            <div className="col-3">
-              <span className="float-end">
+            <div className="col-3 text-end">
+              <span className="float-end text-end">
                 <strong>Lock Questions after Answering</strong>
               </span>
             </div>
@@ -249,7 +276,7 @@ const QuizDetails: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Due</strong>
               </span>
@@ -269,7 +296,7 @@ const QuizDetails: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-end">
               <span className="float-end">
                 <strong>Available</strong>
               </span>
