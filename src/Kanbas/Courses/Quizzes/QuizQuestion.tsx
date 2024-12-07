@@ -18,6 +18,8 @@ interface QuizAnswerType {
 }
 
 interface QuizQuestion {
+  previous_answer?: string;
+  attemptAnswer: string;
   _id: string;
   text: string;
   points: number;
@@ -29,6 +31,7 @@ interface QuizQuestion {
   choices: Choice[];
   edit: boolean;
   correct: boolean;
+  name: string;
 }
 
 export default function QuizQuestion({
@@ -40,6 +43,7 @@ export default function QuizQuestion({
   updateQuestion: (updatedQuestion: QuizQuestion) => void;
   review: boolean;
 }) {
+  // console.log("question 1", question);
   const [inputValue, setInputValue] = useState("");
 
   const handleChoiceSelect = (choiceId: string) => {
@@ -146,7 +150,7 @@ export default function QuizQuestion({
         )}
         {question.type === "Fill In the Blank" && review && (
           <div className="form-control border rounded mb-2 mt-2 p-2 ps-3 bg-white w-50 text-start">
-            Insert user answer
+            {question.previous_answer}
           </div>
         )}
       </form>

@@ -54,13 +54,20 @@ export default function QuizPreview() {
 
     const attemptData = {
       score: score,
-      questions: quiz.questions.map((question: any) => ({
-        questionId: question._id,
-        selectedChoices: question.choices
-          .filter((choice: any) => choice.selected)
-          .map((choice: any) => choice._id),
-      })),
+      questions: quiz.questions.map((question: any) => {
+        const selectedChoice = question.choices.find(
+          (choice: any) => choice.selected
+        );
+
+        return {
+          question: question.title,
+          answer: selectedChoice ? selectedChoice.answer : null,
+          correct: selectedChoice ? selectedChoice.correct : false,
+        };
+      }),
     };
+
+    console.log("attemptData", attemptData);
 
     try {
       const response = await quizzesClient.createAttempt(

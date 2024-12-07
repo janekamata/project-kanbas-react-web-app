@@ -29,6 +29,7 @@ interface Choice {
 }
 
 interface QuizQuestion {
+  name: string;
   _id: string;
   text: string;
   points: number;
@@ -40,6 +41,7 @@ interface QuizQuestion {
   choices: Choice[];
   edit: boolean;
   correct: boolean;
+  attemptAnswer: string;
 }
 
 interface QuizAnswerType {
@@ -64,9 +66,11 @@ interface Attempt {
 }
 
 interface AttemptQuestionType {
+  answer: string;
+  question: string;
   _id: string;
-  questionId: string;
-  selectedAnswerIds: string[]; // Array of selected answer IDs for the question
+  // questionId: string;
+  // selectedAnswerIds: string[]; // Array of selected answer IDs for the question
 }
 
 interface RootState {
@@ -112,28 +116,36 @@ const QuizReview: React.FC = () => {
           const attempt: Attempt = await quizzesClient.getLatestAttemptForQuiz(
             qid
           );
-          console.log("Latest Attempt:", attempt);
+          // console.log("Latest Attempt:", attempt);
           setLatestAttempt(attempt);
 
           // Merge attempt data with quiz questions to mark selected answers
           const updatedQuestions = quiz.questions.map((question) => {
-            // Find the corresponding question in the attempt
+            // Find the corresponding question in the attempt using questionId
             const attemptQuestion = attempt.questions.find(
-              (aq) => aq.questionId === question._id // Assuming questionId matches
+              (aq) => aq.question === question.title
             );
 
-            if (attemptQuestion) {
-              // Map through the answers and set 'selected' to true if the answer was chosen
-              const updatedAnswers = question.answers.map((answer) => ({
-                ...answer,
-                selected: attemptQuestion.selectedAnswerIds.includes(
-                  answer._id
-                ),
-              }));
+            // console.log("attempt question", attempt.questions);
+            // console.log("question A", question);
+            console.log("attemptQuestion", attemptQuestion);
 
+            if (attemptQuestion) {
+              // Map through the choices and set 'selected' based on attempt data
+              const updatedChoices = question.choices.map((choice) => {
+                console.log(choice);
+                return {
+                  ...choice,
+                  selected:
+                    choice.answer === attemptQuestion.answer ? true : false,
+                };
+              });
+
+              console.log("attemptQuestion.answer", attemptQuestion.answer);
               return {
                 ...question,
-                answers: updatedAnswers,
+                choices: updatedChoices,
+                previous_answer: attemptQuestion.answer,
               };
             }
 
@@ -159,6 +171,8 @@ const QuizReview: React.FC = () => {
 
     fetchLatestAttempt();
   }, [qid, quizzes, quiz.questions]);
+
+  console.log("quiz", quiz);
 
   useEffect(() => {
     const updatedQuiz = quizzes.find((q) => q._id === qid);
