@@ -66,6 +66,7 @@ interface Attempt {
 }
 
 interface AttemptQuestionType {
+  currentAnswer: any;
   answer: string;
   question: string;
   _id: string;
@@ -145,7 +146,7 @@ const QuizReview: React.FC = () => {
               return {
                 ...question,
                 choices: updatedChoices,
-                previous_answer: attemptQuestion.answer,
+                currentAnswer: attemptQuestion.currentAnswer,
               };
             }
 

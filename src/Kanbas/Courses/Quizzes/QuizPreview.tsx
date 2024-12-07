@@ -61,6 +61,7 @@ export default function QuizPreview() {
 
         return {
           question: question.title,
+          currentAnswer: question.currentAnswer,
           answer: selectedChoice ? selectedChoice.answer : null,
           correct: selectedChoice ? selectedChoice.correct : false,
         };

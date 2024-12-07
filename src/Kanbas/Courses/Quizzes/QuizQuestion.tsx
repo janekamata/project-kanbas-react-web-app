@@ -1,7 +1,7 @@
 import { FaPencil, FaPlus } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import DOMPurify from "isomorphic-dompurify";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Choice {
   _id: string;
@@ -20,6 +20,7 @@ interface QuizAnswerType {
 interface QuizQuestion {
   previous_answer?: string;
   attemptAnswer: string;
+  currentAnswer?: string; // Added currentAnswer field
   _id: string;
   text: string;
   points: number;
@@ -43,17 +44,30 @@ export default function QuizQuestion({
   updateQuestion: (updatedQuestion: QuizQuestion) => void;
   review: boolean;
 }) {
-  // console.log("question 1", question);
   const [inputValue, setInputValue] = useState("");
 
+  console.log("QUESTION", question);
+  // Initialize currentAnswer if it's already present in the question
+  useEffect(() => {
+    if (question.currentAnswer) {
+      setInputValue(question.currentAnswer);
+    }
+  }, [question.currentAnswer]);
+
   const handleChoiceSelect = (choiceId: string) => {
-    const updatedQuestion = {
+    const selectedChoice = question.choices.find(
+      (choice) => choice._id === choiceId
+    );
+    if (!selectedChoice) return;
+
+    const updatedQuestion: QuizQuestion = {
       ...question,
       choices: question.choices.map((choice) =>
         choice._id === choiceId
           ? { ...choice, selected: true }
           : { ...choice, selected: false }
       ),
+      currentAnswer: selectedChoice.answer, // Set currentAnswer to selected choice's answer
     };
     updateQuestion(updatedQuestion);
   };
@@ -62,15 +76,14 @@ export default function QuizQuestion({
     const value = e.target.value;
     setInputValue(value);
 
-    // Check if input matches any choice's answer
-    const updatedChoices = question.choices.map((choice) => ({
-      ...choice,
-      selected: choice.answer.toLowerCase() === value.toLowerCase(),
-    }));
-
-    const updatedQuestion = {
+    // Update currentAnswer with the input value
+    const updatedQuestion: QuizQuestion = {
       ...question,
-      choices: updatedChoices,
+      choices: question.choices.map((choice) => ({
+        ...choice,
+        selected: false, // Deselect all choices since it's a fill-in-the-blank
+      })),
+      currentAnswer: value, // Set currentAnswer to the input value
     };
     updateQuestion(updatedQuestion);
   };
@@ -150,7 +163,7 @@ export default function QuizQuestion({
         )}
         {question.type === "Fill In the Blank" && review && (
           <div className="form-control border rounded mb-2 mt-2 p-2 ps-3 bg-white w-50 text-start">
-            {question.previous_answer}
+            {question.currentAnswer}
           </div>
         )}
       </form>
