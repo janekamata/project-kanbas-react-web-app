@@ -34,12 +34,34 @@ export default function QuizReview() {
       <ProtectedRouteRole>
         <div
           id="wd-todo-error-message"
-          className="alert alert-danger mt-2 mb-4 border-0"
+          className="alert alert-danger mt-2 mb-2 border-0"
         >
           <RiErrorWarningLine className="text-danger me-2 fs-5" />
           This is a preview of the published version of the quiz
         </div>
       </ProtectedRouteRole>
+      <div className="fs-3 m">
+        <span className="fs-3 fw-bold">Last Attempt: </span>
+        {quiz.attemptDate &&
+          new Date(quiz.attemptDate).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })}
+      </div>
+      <div className="fs-3 mb-2">
+        <span className="fs-3 fw-bold">Score: </span>
+        {quiz.score || ""}/
+        {quiz.questions.reduce(
+          (sumQuestions: any, question: { points: any }) =>
+            sumQuestions + (question.points || 0),
+          0,
+          0
+        )}
+      </div>
       <h3>Quiz Instructions</h3>
       <div className="mt-2">
         {

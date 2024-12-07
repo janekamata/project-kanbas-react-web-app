@@ -181,7 +181,7 @@ export default function QuestionEditor({
                 placeholder="Question"
                 id={`question-text-${currentQuestion._id}`}
                 value={currentQuestion.question}
-                onChange={(e: { target: { value: any; }; }) =>
+                onChange={(e: { target: { value: any } }) =>
                   setQuestion({
                     ...currentQuestion,
                     question: e.target.value,
@@ -388,18 +388,18 @@ export default function QuestionEditor({
         {currentQuestion.edit ? (
           <div>
             <button
-              className="btn btn-m btn-secondary me-1"
+              className="btn btn-secondary me-1"
               onClick={(e) => setQuestion({ ...presaveQuestion, edit: false })}
             >
               Cancel
             </button>
-            <button className="btn btn-m btn-danger me-1" onClick={save}>
+            <button className="btn btn-danger me-1" onClick={save}>
               Save
             </button>
           </div>
         ) : (
           <button
-            className="btn btn-m btn-success me-1"
+            className="btn btn-success me-1"
             onClick={(e) => setQuestion({ ...currentQuestion, edit: true })}
           >
             <FaPencil className="position-relative me-2 mb-1" />
