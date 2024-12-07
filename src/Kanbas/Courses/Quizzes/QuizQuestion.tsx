@@ -11,12 +11,20 @@ interface Choice {
   selected: boolean;
 }
 
+interface QuizAnswerType {
+  _id: string;
+  text: string;
+  selected?: boolean;
+}
+
 interface QuizQuestion {
   _id: string;
+  text: string;
+  points: number;
+  answers: QuizAnswerType[];
   quiz: string;
   title: string;
   type: string;
-  points: number;
   question: string;
   choices: Choice[];
   edit: boolean;
