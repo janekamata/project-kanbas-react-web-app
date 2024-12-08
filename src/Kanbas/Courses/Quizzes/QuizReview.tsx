@@ -10,6 +10,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { FaPencil } from "react-icons/fa6";
 import DOMPurify from "dompurify";
 import * as quizzesClient from "./client"; // Ensure this includes getLatestAttemptForQuiz
+import * as coursesClient from "../client";
 
 interface Quiz {
   score?: number; // Made optional and of type number
@@ -101,6 +102,21 @@ const QuizReview: React.FC = () => {
   };
 
   const [quiz, setQuiz] = useState<Quiz>(initialQuiz);
+
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
+    }
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
 
   // State for the latest attempt
   const [latestAttempt, setLatestAttempt] = useState<Attempt | null>(null);

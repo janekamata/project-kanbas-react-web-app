@@ -11,7 +11,7 @@ interface Choice {
   answer: string;
 }
 
-interface QuizQuestion {
+export interface QuizQuestionType {
   _id: string;
   quiz: string;
   title: string;
@@ -26,8 +26,8 @@ export default function QuestionEditor({
   question,
   updateQuestion,
 }: {
-  question: QuizQuestion;
-  updateQuestion: (updatedQuestion: QuizQuestion) => void;
+  question: QuizQuestionType;
+  updateQuestion: (updatedQuestion: QuizQuestionType) => void;
 }) {
   const [currentQuestion, setQuestion] = useState(question);
   const [presaveQuestion, setPresaveQuestion] = useState(question);

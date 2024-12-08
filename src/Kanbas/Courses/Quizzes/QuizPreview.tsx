@@ -2,26 +2,71 @@ import { useParams, useNavigate, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateQuiz } from "./reducer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProtectedRouteRole from "../ProtectedRouteRole";
 import QuizQuestion from "./QuizQuestion";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { FaPencil } from "react-icons/fa6";
 import DOMPurify from "dompurify";
 import * as quizzesClient from "./client";
+import * as coursesClient from "../client";
+import { QuizQuestionType } from "./QuestionEditor";
 
 export default function QuizPreview() {
   const { cid, qid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
-  const [quiz, setQuiz] = useState(
-    quizzes.find((quiz: { _id: string | undefined }) => quiz._id === qid) ?? {
-      name: "",
-      course: cid,
-      description: "",
-      questions: [],
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
     }
-  );
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+  const [quiz, setQuiz] = useState<{
+    title: string;
+    description: string;
+    quizType: string;
+    assignmentGroup: string;
+    shuffleAnswers: boolean;
+    timeLimit: number;
+    allowMultipleAttempts: boolean;
+    assignTo: string;
+    dueDate: string;
+    availableFrom: string;
+    availableUntil: string;
+    showCorrectAnswers: string;
+    accessCode: string;
+    oneQuestionAtATime: boolean;
+    webcam: boolean;
+    lockQuestions: boolean;
+    questions: QuizQuestionType[];
+  }>({
+    title: "Quiz Title",
+    description: "",
+    quizType: "Graded Quiz",
+    assignmentGroup: "Quizzes",
+    shuffleAnswers: true,
+    timeLimit: 20,
+    allowMultipleAttempts: false,
+    assignTo: "Everyone",
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    showCorrectAnswers: "Immediately",
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcam: false,
+    lockQuestions: false,
+    questions: [],
+  });
 
   const updateQuestionInQuiz = (updatedQuestion: any) => {
     setQuiz({
@@ -39,18 +84,17 @@ export default function QuizPreview() {
       return; // Exit if cid is undefined
     }
 
-    let correctCount = 0;
+    let totalPoints = 0;
 
-    quiz.questions.forEach((question: { choices: any[] }) => {
-      const correctChoice = question.choices.find(
-        (choice) => choice.correct && choice.selected
-      );
-      if (correctChoice) {
-        correctCount++;
+    quiz.questions.forEach((question: { choices: any[]; points: number }) => {
+      if (
+        question.choices.some((choice) => choice.correct && choice.selected)
+      ) {
+        totalPoints += question.points;
       }
     });
 
-    const score = (correctCount / quiz.questions.length) * 100;
+    const score = (totalPoints / quiz.questions.length) * 100;
 
     const attemptData = {
       score: score,

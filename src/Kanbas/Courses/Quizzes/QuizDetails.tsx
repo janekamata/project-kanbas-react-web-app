@@ -57,7 +57,6 @@ interface RootState {
 const QuizDetails: React.FC = () => {
   const { cid, qid } = useParams<{ cid: string; qid: string }>();
   const navigate = useNavigate();
-  const { quizzes } = useSelector((state: RootState) => state.quizzesReducer);
   const { currentUser } = useSelector(
     (state: RootState) => state.accountReducer
   );
@@ -99,8 +98,22 @@ const QuizDetails: React.FC = () => {
     null
   );
 
-  // Find the current quiz based on qid
-  const this_quiz = quizzes.find((quiz) => quiz._id === qid) || defaultQuiz;
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
+    }
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const [this_quiz, setQuiz] = useState(defaultQuiz);
 
   useEffect(() => {
     const fetchUserAttempts = async () => {

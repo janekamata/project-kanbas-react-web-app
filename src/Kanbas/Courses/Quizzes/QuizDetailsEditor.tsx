@@ -12,6 +12,7 @@ export default function QuizDetailsEditor({
   handleSubmit: (quiz: any) => void;
   handleSubmitAndPublish: (quiz: any) => void;
   thisQuiz: any;
+  fetchQuiz: () => void;
   qid: string;
 }) {
   const { cid } = useParams();
@@ -35,8 +36,13 @@ export default function QuizDetailsEditor({
       oneQuestionAtATime: true,
       webcam: false,
       lockQuestions: false,
+      points: 0,
     }
   );
+
+  useEffect(() => {
+    setQuiz(thisQuiz);
+  }, [thisQuiz]);
 
   const handleChange = (field: any, value: any) => {
     setQuiz({ ...quiz, [field]: value });
