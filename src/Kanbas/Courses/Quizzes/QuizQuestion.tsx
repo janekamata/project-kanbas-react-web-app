@@ -95,9 +95,9 @@ export default function QuizQuestion({
         className={`g-4 border rounded p-3 mt-4 bg-light ${
           review &&
           (question.correct
-            ? "border-success"
+            ? "border-success border-2"
             : question.correct === false
-            ? "border-danger"
+            ? "border-danger border-2"
             : "border-warning")
         }`}
       >
@@ -142,7 +142,7 @@ export default function QuizQuestion({
               {question.type !== "Fill In the Blank" && review && (
                 <div
                   className={`border rounded mb-2 mt-2 p-2 ps-3 bg-white w-100 text-start ${
-                    choice.selected && "fw-bolder text-success border-dark"
+                    choice.selected && "fw-bolder border-dark"
                   }`}
                 >
                   {choice.answer}

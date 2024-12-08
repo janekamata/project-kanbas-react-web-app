@@ -94,7 +94,7 @@ export default function QuizPreview() {
       }
     });
 
-    const score = (totalPoints / quiz.questions.length) * 100;
+    const score = totalPoints;
 
     const attemptData = {
       score: score,

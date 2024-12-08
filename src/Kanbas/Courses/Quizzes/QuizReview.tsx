@@ -153,7 +153,9 @@ const QuizReview: React.FC = () => {
               return {
                 ...choice,
                 selected:
-                  choice.answer === attemptQuestion.answer ? true : false,
+                  choice.answer === attemptQuestion.currentAnswer
+                    ? true
+                    : false,
               };
             });
 
@@ -246,7 +248,10 @@ const QuizReview: React.FC = () => {
         {quiz.questions.map((question) => (
           <QuizQuestion
             key={question._id}
-            question={question}
+            question={{
+              ...question,
+              correct: question.choices.some((c) => c.correct && c.selected),
+            }}
             review={true}
             updateQuestion={(updatedQuestion: QuizQuestion) => {
               // Ensure type consistency

@@ -344,7 +344,11 @@ export default function QuestionEditor({
                                 ...currentQuestion,
                                 choices: currentQuestion.choices.map((c) =>
                                   c._id === choice._id
-                                    ? { ...c, answer: e.target.value }
+                                    ? {
+                                        ...c,
+                                        answer: e.target.value,
+                                        correct: true,
+                                      }
                                     : c
                                 ),
                               })
