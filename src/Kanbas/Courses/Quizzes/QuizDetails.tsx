@@ -173,7 +173,10 @@ const QuizDetails: React.FC = () => {
     }
 
     try {
-      // Optionally, you can create a new attempt here or handle it in the attempt page
+      // Increment the user's attempt count
+      await quizzesClient.incrementUserQuizAttempt(cid!, qid!);
+      // Optionally update the local state
+      setUserAttempts((prev) => (prev !== null ? prev + 1 : 1));
       // Navigate to the quiz attempt page
       navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Attempt`);
     } catch (err: any) {

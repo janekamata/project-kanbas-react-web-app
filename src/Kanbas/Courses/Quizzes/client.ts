@@ -4,6 +4,7 @@ import axios from "axios";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const QUIZZES_API = `${REMOTE_SERVER}/api/quizzes`;
 const ATTEMPTS_API = `${REMOTE_SERVER}/api/attempts`;
+const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 const axiosWithCredentials = axios.create({ withCredentials: true });
 
 /**
@@ -13,19 +14,19 @@ const axiosWithCredentials = axios.create({ withCredentials: true });
  * @param {string} quizId - The ID of the quiz.
  * @returns {Promise<{ quizId: string, userId: string, attemptCount: number }>}
  */
-export const getUserQuizAttempts = async (courseId: string, quizId: string) => {
-  try {
-    const response = await axiosWithCredentials.get(
-      `${QUIZZES_API}/${quizId}/attempts`
-    );
-    // Assuming the backend returns all attempts for the quiz,
-    // you may need to filter by the authenticated user on the frontend.
-    return response.data; // { quizId: string, userId: string, attemptCount: number }
-  } catch (error) {
-    console.error("Error fetching user quiz attempts:", error);
-    throw error;
-  }
-};
+// export const getUserQuizAttempts = async (courseId: string, quizId: string) => {
+//   try {
+//     const response = await axiosWithCredentials.get(
+//       `${QUIZZES_API}/${quizId}/attempts`
+//     );
+//     // Assuming the backend returns all attempts for the quiz,
+//     // you may need to filter by the authenticated user on the frontend.
+//     return response.data; // { quizId: string, userId: string, attemptCount: number }
+//   } catch (error) {
+//     console.error("Error fetching user quiz attempts:", error);
+//     throw error;
+//   }
+// };
 
 /**
  * Increment the attempt count for a specific quiz.
@@ -34,21 +35,39 @@ export const getUserQuizAttempts = async (courseId: string, quizId: string) => {
  * @param {string} quizId - The ID of the quiz.
  * @returns {Promise<any>} - Confirmation or updated attempt count.
  */
+// export const incrementUserQuizAttempt = async (
+//   courseId: string,
+//   quizId: string
+// ) => {
+//   try {
+//     const response = await axiosWithCredentials.post(
+//       `${QUIZZES_API}/${quizId}/attempts`
+//       // If the backend requires any data, pass it as the second argument
+//       // For example: {}, if no data is needed
+//     );
+//     return response.data; // Updated attempt count or confirmation
+//   } catch (error) {
+//     console.error("Error incrementing user quiz attempt:", error);
+//     throw error;
+//   }
+// };
+
+// Fetch the number of attempts a user has made on a specific quiz
+export const getUserQuizAttempts = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.get(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/attempts`
+  );
+  return response.data; // Expected to return { quizId: string, userId: string, attemptCount: number }
+};
+// Client-side request updated to match server route
 export const incrementUserQuizAttempt = async (
   courseId: string,
   quizId: string
 ) => {
-  try {
-    const response = await axiosWithCredentials.post(
-      `${QUIZZES_API}/${quizId}/attempts`
-      // If the backend requires any data, pass it as the second argument
-      // For example: {}, if no data is needed
-    );
-    return response.data; // Updated attempt count or confirmation
-  } catch (error) {
-    console.error("Error incrementing user quiz attempt:", error);
-    throw error;
-  }
+  const response = await axiosWithCredentials.post(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}/attempt`
+  );
+  return response.data; // Expected to return updated attempt count or confirmation
 };
 
 /**
