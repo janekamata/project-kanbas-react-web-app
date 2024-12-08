@@ -129,7 +129,7 @@ const QuizDetails: React.FC = () => {
           setLatestAttempt(latest);
         } catch (err: any) {
           console.error("Error fetching latest attempt:", err);
-          setLatestAttemptError("Failed to fetch the latest attempt.");
+          setLatestAttemptError("No prior attempts.");
         } finally {
           setLoadingLatestAttempt(false);
         }
@@ -263,14 +263,17 @@ const QuizDetails: React.FC = () => {
           >
             {loadingAttempts ? "Loading..." : "Begin Quiz"}
           </button>
-          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
-            <button
-              className="btn btn-secondary ms-3"
-              disabled={loadingLatestAttempt || !latestAttempt}
-            >
-              Review Last Attempt
+          {userAttempts !== 0 ? (
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
+              <button className="btn btn-secondary ms-2">
+                Review Last Attempt
+              </button>
+            </Link>
+          ) : (
+            <button className="btn btn-secondary ms-2" disabled>
+              No Prior Attempts
             </button>
-          </Link>
+          )}
           {error && <div className="text-danger mt-2">{error}</div>}
           {latestAttemptError && (
             <div className="text-danger mt-2">{latestAttemptError}</div>
