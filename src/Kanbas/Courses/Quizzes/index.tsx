@@ -17,21 +17,21 @@ export default function Quizzes() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
-  // const fetchQuizzes = async () => {
-  //   const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
-  //   if (currentUser.role === "STUDENT") {
-  //     dispatch(
-  //       setQuizzes(
-  //         quizzes.filter((q: { published: boolean }) => q.published === true)
-  //       )
-  //     );
-  //   } else {
-  //     dispatch(setQuizzes(quizzes));
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchQuizzes();
-  // }, []);
+  const fetchQuizzes = async () => {
+    const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+    if (currentUser.role === "STUDENT") {
+      dispatch(
+        setQuizzes(
+          quizzes.filter((q: { published: boolean }) => q.published === true)
+        )
+      );
+    } else {
+      dispatch(setQuizzes(quizzes));
+    }
+  };
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
 
   console.log("quizzes", quizzes);
   console.log("current user", currentUser);
