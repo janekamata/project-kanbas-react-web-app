@@ -96,3 +96,10 @@ export const unpublishQuiz = async (courseId: string, quizId: string) => {
   );
   return response.data;
 }
+
+export const getQuizById = async (courseId: string, quizId: string) => {
+  const response = await axiosWithCredentials.get(
+    `${COURSES_API}/${courseId}/quizzes/${quizId}`
+  );
+  return response.data;
+}

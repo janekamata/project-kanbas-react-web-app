@@ -184,7 +184,7 @@ export default function QuizEditor() {
           <QuizDetailsEditor
             handleSubmit={handleSubmit}
             handleSubmitAndPublish={handleSubmitAndPublish}
-            quizzes={quizzes}
+            thisQuiz={quiz}
             qid={qid as string}
           />
         )}
