@@ -6,42 +6,43 @@ import Editor from "react-simple-wysiwyg";
 export default function QuizDetailsEditor({
   handleSubmit,
   handleSubmitAndPublish,
-  quizzes,
+  thisQuiz,
   qid,
 }: {
   handleSubmit: (quiz: any) => void;
   handleSubmitAndPublish: (quiz: any) => void;
-  quizzes: any[];
+  thisQuiz: any;
+  fetchQuiz: () => void;
   qid: string;
 }) {
   const { cid } = useParams();
 
-  const [quiz, setQuiz] = useState({
-    _id: "",
-    title: "Quiz Title",
-    description: "",
-    quizType: "Graded Quiz",
-    assignmentGroup: "Quizzes",
-    shuffleAnswers: true,
-    timeLimit: 20,
-    allowMultipleAttempts: false,
-    assignTo: "Everyone",
-    dueDate: "",
-    availableFrom: "",
-    availableUntil: "",
-    showCorrectAnswers: "Immediately",
-    accessCode: "",
-    oneQuestionAtATime: true,
-    webcam: false,
-    lockQuestions: false,
-  });
-
-  const foundQuiz = quizzes.find((q: any) => q._id === qid);
-  useEffect(() => {
-    if (foundQuiz) {
-      setQuiz(foundQuiz);
+  const [quiz, setQuiz] = useState(
+    thisQuiz || {
+      _id: "",
+      title: "Quiz Title",
+      description: "",
+      quizType: "Graded Quiz",
+      assignmentGroup: "Quizzes",
+      shuffleAnswers: true,
+      timeLimit: 20,
+      allowMultipleAttempts: false,
+      assignTo: "Everyone",
+      dueDate: "",
+      availableFrom: "",
+      availableUntil: "",
+      showCorrectAnswers: "Immediately",
+      accessCode: "",
+      oneQuestionAtATime: true,
+      webcam: false,
+      lockQuestions: false,
+      points: 0,
     }
-  }, [foundQuiz]);
+  );
+
+  useEffect(() => {
+    setQuiz(thisQuiz);
+  }, [thisQuiz]);
 
   const handleChange = (field: any, value: any) => {
     setQuiz({ ...quiz, [field]: value });

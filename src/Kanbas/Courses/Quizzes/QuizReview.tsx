@@ -10,6 +10,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { FaPencil } from "react-icons/fa6";
 import DOMPurify from "dompurify";
 import * as quizzesClient from "./client"; // Ensure this includes getLatestAttemptForQuiz
+import * as coursesClient from "../client";
 
 interface Quiz {
   score?: number; // Made optional and of type number
@@ -102,6 +103,21 @@ const QuizReview: React.FC = () => {
 
   const [quiz, setQuiz] = useState<Quiz>(initialQuiz);
 
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
+    }
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
   // State for the latest attempt
   const [latestAttempt, setLatestAttempt] = useState<Attempt | null>(null);
   const [loadingLatestAttempt, setLoadingLatestAttempt] =
@@ -110,77 +126,70 @@ const QuizReview: React.FC = () => {
     null
   );
 
-  useEffect(() => {
-    const fetchLatestAttempt = async () => {
-      if (qid) {
-        try {
-          const attempt: Attempt = await quizzesClient.getLatestAttemptForQuiz(
-            qid
+  const fetchLatestAttempt = async () => {
+    if (quiz._id) {
+      try {
+        const attempt: Attempt = await quizzesClient.getLatestAttemptForQuiz(
+          quiz._id
+        );
+        // console.log("Latest Attempt:", attempt);
+        setLatestAttempt(attempt);
+
+        // Merge attempt data with quiz questions to mark selected answers
+        const updatedQuestions = quiz.questions.map((question) => {
+          // Find the corresponding question in the attempt using questionId
+          const attemptQuestion = attempt.questions.find(
+            (aq) => aq.question === question.title
           );
-          // console.log("Latest Attempt:", attempt);
-          setLatestAttempt(attempt);
 
-          // Merge attempt data with quiz questions to mark selected answers
-          const updatedQuestions = quiz.questions.map((question) => {
-            // Find the corresponding question in the attempt using questionId
-            const attemptQuestion = attempt.questions.find(
-              (aq) => aq.question === question.title
-            );
+          // console.log("attempt question", attempt.questions);
+          // console.log("question A", question);
+          console.log("attemptQuestion", attemptQuestion);
 
-            // console.log("attempt question", attempt.questions);
-            // console.log("question A", question);
-            console.log("attemptQuestion", attemptQuestion);
-
-            if (attemptQuestion) {
-              // Map through the choices and set 'selected' based on attempt data
-              const updatedChoices = question.choices.map((choice) => {
-                console.log(choice);
-                return {
-                  ...choice,
-                  selected:
-                    choice.answer === attemptQuestion.answer ? true : false,
-                };
-              });
-
-              console.log("attemptQuestion.answer", attemptQuestion.answer);
+          if (attemptQuestion) {
+            // Map through the choices and set 'selected' based on attempt data
+            const updatedChoices = question.choices.map((choice) => {
+              console.log(choice);
               return {
-                ...question,
-                choices: updatedChoices,
-                currentAnswer: attemptQuestion.currentAnswer,
+                ...choice,
+                selected:
+                  choice.answer === attemptQuestion.answer ? true : false,
               };
-            }
+            });
 
-            return question; // No changes if the question wasn't attempted
-          });
+            console.log("attemptQuestion.answer", attemptQuestion.answer);
+            return {
+              ...question,
+              choices: updatedChoices,
+              currentAnswer: attemptQuestion.currentAnswer,
+            };
+          }
 
-          setQuiz((prevQuiz) => ({
-            ...prevQuiz,
-            questions: updatedQuestions,
-            score: attempt.score,
-            lastAttempt: attempt.lastAttempt,
-          }));
-        } catch (error: any) {
-          console.error("Error fetching latest attempt:", error);
-          setLatestAttemptError("Failed to fetch the latest attempt.");
-        } finally {
-          setLoadingLatestAttempt(false);
-        }
-      } else {
+          return question; // No changes if the question wasn't attempted
+        });
+
+        setQuiz((prevQuiz) => ({
+          ...prevQuiz,
+          questions: updatedQuestions,
+          score: attempt.score,
+          lastAttempt: attempt.lastAttempt,
+        }));
+      } catch (error: any) {
+        console.error("Error fetching latest attempt:", error);
+        setLatestAttemptError("Failed to fetch the latest attempt.");
+      } finally {
         setLoadingLatestAttempt(false);
       }
-    };
-
-    fetchLatestAttempt();
-  }, [qid, quizzes, quiz.questions]);
-
-  console.log("quiz", quiz);
+    } else {
+      setLoadingLatestAttempt(false);
+    }
+  };
 
   useEffect(() => {
-    const updatedQuiz = quizzes.find((q) => q._id === qid);
-    if (updatedQuiz) {
-      setQuiz(updatedQuiz);
-    }
-  }, [quizzes, qid]);
+    fetchLatestAttempt();
+  }, [quiz]);
+
+  console.log("quiz", quiz);
 
   const save = () => {
     console.log(quiz);

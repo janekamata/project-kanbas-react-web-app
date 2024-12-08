@@ -57,7 +57,6 @@ interface RootState {
 const QuizDetails: React.FC = () => {
   const { cid, qid } = useParams<{ cid: string; qid: string }>();
   const navigate = useNavigate();
-  const { quizzes } = useSelector((state: RootState) => state.quizzesReducer);
   const { currentUser } = useSelector(
     (state: RootState) => state.accountReducer
   );
@@ -99,8 +98,22 @@ const QuizDetails: React.FC = () => {
     null
   );
 
-  // Find the current quiz based on qid
-  const this_quiz = quizzes.find((quiz) => quiz._id === qid) || defaultQuiz;
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        qid as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
+    }
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const [this_quiz, setQuiz] = useState(defaultQuiz);
 
   useEffect(() => {
     const fetchUserAttempts = async () => {
@@ -203,11 +216,17 @@ const QuizDetails: React.FC = () => {
               Edit
             </button>
           </Link>
-          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
-            <button className="btn btn-secondary ms-2">
-              Review Last Attempt
+          {userAttempts !== 0 ? (
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
+              <button className="btn btn-secondary ms-2">
+                Review Last Attempt
+              </button>
+            </Link>
+          ) : (
+            <button className="btn btn-secondary ms-2" disabled>
+              No Prior Attempts
             </button>
-          </Link>
+          )}
           <hr />
           <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
           {/* Quiz Details */}
