@@ -191,6 +191,7 @@ const QuizDetails: React.FC = () => {
 
   return (
     <div>
+      {/* Quiz Details */}
       {(currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN") && (
         <div>
           <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`}>
@@ -210,7 +211,134 @@ const QuizDetails: React.FC = () => {
           <hr />
           <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
           {/* Quiz Details */}
-          {/* ... (Existing quiz details layout) */}
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Quiz Type</strong>
+              </span>
+            </div>
+            <div className="col-9">{this_quiz.quizType}</div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Points</strong>
+              </span>
+            </div>
+            <div className="col-9">{this_quiz.points}</div>
+          </div>
+          <div className="row">
+            <div className="col-3  text-end">
+              <span className="float-end">
+                <strong>Assignment Group</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              {this_quiz.assignmentGroup.toUpperCase()}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3  text-end">
+              <span className="float-end">
+                <strong>Shuffle Answers</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              {this_quiz.shuffleAnswers ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Time Limit</strong>
+              </span>
+            </div>
+            <div className="col-9">{this_quiz.timeLimit} minutes</div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Multiple Attempts</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              {this_quiz.allowMultipleAttempts ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>How Many Attempts</strong>
+              </span>
+            </div>
+            <div className="col-9">{this_quiz.maxAttempts}</div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Show Correct Answers</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              {this_quiz.showCorrectAnswers ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Access Code</strong>
+              </span>
+            </div>
+            <div className="col-9">{this_quiz.accessCode}</div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>One Question at a Time</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              {this_quiz.oneQuestionAtATime ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Webcam Required</strong>
+              </span>
+            </div>
+            <div className="col-9">{this_quiz.webcam ? "Yes" : "No"}</div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end text-end">
+                <strong>Lock Questions after Answering</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              {this_quiz.lockQuestions ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-3 text-end">
+              <span className="float-end">
+                <strong>Due</strong>
+              </span>
+            </div>
+            <div className="col-9">
+              <strong>
+                {this_quiz.dueDate &&
+                  new Date(this_quiz.dueDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                  })}
+              </strong>
+            </div>
+          </div>
           <div className="row">
             <div className="col-3 text-end">
               <span className="float-end">

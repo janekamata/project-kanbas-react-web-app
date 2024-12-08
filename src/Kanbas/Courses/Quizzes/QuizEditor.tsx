@@ -87,6 +87,8 @@ export default function QuizEditor() {
     };
     setQuiz({ ...quiz, questions: [...quiz.questions, newQuestion] });
   };
+
+  console.log("quiz", quiz);
   return (
     <ProtectedRouteRole>
       <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
