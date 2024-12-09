@@ -4,7 +4,7 @@ import { BsBanFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { deleteQuiz, publish, unPublish, updateQuiz } from "./reducer";
 import * as coursesClient from "../client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function QuizControlButtons({
   quiz,
   cid,
@@ -13,10 +13,25 @@ export default function QuizControlButtons({
   cid: string;
 }) {
   const dispatch = useDispatch();
-  const [published, setPublished] = useState(quiz.published);
+  const fetchQuiz = async () => {
+    try {
+      const returnedQuiz = await coursesClient.getQuizById(
+        cid as string,
+        quiz._id as string
+      );
+      setQuiz(returnedQuiz);
+    } catch (err: any) {
+      console.error("Error fetching quiz:", err);
+    }
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const [this_quiz, setQuiz] = useState(quiz);
   return (
     <div className="float-end">
-      {published && (
+      {this_quiz.published && (
         <span
           onClick={async () => {
             const updatedQuiz = await coursesClient.updateQuizForCourse(
@@ -24,13 +39,13 @@ export default function QuizControlButtons({
               { ...quiz, published: false }
             );
             dispatch(updateQuiz(updatedQuiz));
-            setPublished(false);
+            fetchQuiz();
           }}
         >
           <GreenCheckmark />
         </span>
       )}
-      {!published && (
+      {!this_quiz.published && (
         <BsBanFill
           className="text-danger me-1 mt-1 fs-5"
           onClick={async () => {
@@ -39,7 +54,7 @@ export default function QuizControlButtons({
               { ...quiz, published: true }
             );
             dispatch(updateQuiz(updatedQuiz));
-            setPublished(true);
+            fetchQuiz();
           }}
         />
       )}
@@ -70,7 +85,7 @@ export default function QuizControlButtons({
             </button>
           </li>
           <li>
-            {published && (
+            {this_quiz.published && (
               <button
                 className="dropdown-item me-0"
                 onClick={async () => {
@@ -79,13 +94,13 @@ export default function QuizControlButtons({
                     { ...quiz, published: false }
                   );
                   dispatch(updateQuiz(updatedQuiz));
-                  setPublished(false);
+                  fetchQuiz();
                 }}
               >
                 Unpublish
               </button>
             )}
-            {!published && (
+            {!this_quiz.published && (
               <button
                 className="dropdown-item me-0"
                 onClick={async () => {
@@ -94,7 +109,7 @@ export default function QuizControlButtons({
                     { ...quiz, published: true }
                   );
                   dispatch(updateQuiz(updatedQuiz));
-                  setPublished(true);
+                  fetchQuiz();
                 }}
               >
                 Publish
