@@ -195,7 +195,14 @@ export default function QuizEditor() {
                       questions: quiz.questions.map((q) =>
                         q._id === question._id ? question : q
                       ),
-                      points: quiz.points + question.points,
+                      points: quiz.questions.reduce(
+                        (sumQuestions, q) =>
+                          sumQuestions +
+                          ((q._id === question._id
+                            ? question.points
+                            : q.points) || 0),
+                        0
+                      ),
                     });
                   }}
                 />
