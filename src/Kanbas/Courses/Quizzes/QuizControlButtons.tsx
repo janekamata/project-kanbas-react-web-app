@@ -2,8 +2,9 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { BsBanFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import { deleteQuiz, publish, unPublish } from "./reducer";
+import { deleteQuiz, publish, unPublish, updateQuiz } from "./reducer";
 import * as coursesClient from "../client";
+import { useState } from "react";
 export default function QuizControlButtons({
   quiz,
   cid,
@@ -12,24 +13,33 @@ export default function QuizControlButtons({
   cid: string;
 }) {
   const dispatch = useDispatch();
+  const [published, setPublished] = useState(quiz.published);
   return (
     <div className="float-end">
-      {quiz.published && (
+      {published && (
         <span
-          onClick={() => {
-            coursesClient.unpublishQuiz(cid, quiz._id);
-            dispatch(unPublish(quiz));
+          onClick={async () => {
+            const updatedQuiz = await coursesClient.updateQuizForCourse(
+              cid as string,
+              { ...quiz, published: false }
+            );
+            dispatch(updateQuiz(updatedQuiz));
+            setPublished(false);
           }}
         >
           <GreenCheckmark />
         </span>
       )}
-      {!quiz.published && (
+      {!published && (
         <BsBanFill
           className="text-danger me-1 mt-1 fs-5"
-          onClick={() => {
-            coursesClient.publishQuiz(cid, quiz._id);
-            dispatch(publish(quiz));
+          onClick={async () => {
+            const updatedQuiz = await coursesClient.updateQuizForCourse(
+              cid as string,
+              { ...quiz, published: true }
+            );
+            dispatch(updateQuiz(updatedQuiz));
+            setPublished(true);
           }}
         />
       )}
@@ -60,23 +70,31 @@ export default function QuizControlButtons({
             </button>
           </li>
           <li>
-            {quiz.published && (
+            {published && (
               <button
                 className="dropdown-item me-0"
-                onClick={() => {
-                  coursesClient.unpublishQuiz(cid, quiz._id);
-                  dispatch(unPublish(quiz));
+                onClick={async () => {
+                  const updatedQuiz = await coursesClient.updateQuizForCourse(
+                    cid as string,
+                    { ...quiz, published: false }
+                  );
+                  dispatch(updateQuiz(updatedQuiz));
+                  setPublished(false);
                 }}
               >
                 Unpublish
               </button>
             )}
-            {!quiz.published && (
+            {!published && (
               <button
                 className="dropdown-item me-0"
-                onClick={() => {
-                  coursesClient.publishQuiz(cid, quiz._id);
-                  dispatch(publish(quiz));
+                onClick={async () => {
+                  const updatedQuiz = await coursesClient.updateQuizForCourse(
+                    cid as string,
+                    { ...quiz, published: true }
+                  );
+                  dispatch(updateQuiz(updatedQuiz));
+                  setPublished(true);
                 }}
               >
                 Publish
