@@ -5,28 +5,25 @@ const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const QUIZZES_API = `${REMOTE_SERVER}/api/quizzes`;
 const ATTEMPTS_API = `${REMOTE_SERVER}/api/attempts`;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
+const USERS_API = `${REMOTE_SERVER}/api/users`;
 const axiosWithCredentials = axios.create({ withCredentials: true });
 
 /**
- * Fetch the number of attempts a user has made on a specific quiz.
- * Note: The backend does not require courseId for this endpoint.
- * @param {string} courseId - The ID of the course (unused in API call).
- * @param {string} quizId - The ID of the quiz.
- * @returns {Promise<{ quizId: string, userId: string, attemptCount: number }>}
+ * Fetch all attempts made by a specific user.
+ * @param {string} userId - The ID of the user.
+ * @returns {Promise<any[]>} - Array of attempt objects.
  */
-// export const getUserQuizAttempts = async (courseId: string, quizId: string) => {
-//   try {
-//     const response = await axiosWithCredentials.get(
-//       `${QUIZZES_API}/${quizId}/attempts`
-//     );
-//     // Assuming the backend returns all attempts for the quiz,
-//     // you may need to filter by the authenticated user on the frontend.
-//     return response.data; // { quizId: string, userId: string, attemptCount: number }
-//   } catch (error) {
-//     console.error("Error fetching user quiz attempts:", error);
-//     throw error;
-//   }
-// };
+export const getUserAttempts = async (userId: string) => {
+  try {
+    const response = await axiosWithCredentials.get(
+      `${USERS_API}/${userId}/attempts`
+    );
+    return response.data; // Array of attempt objects
+  } catch (error) {
+    console.error(`Error fetching attempts for user ${userId}:`, error);
+    throw error;
+  }
+};
 
 /**
  * Increment the attempt count for a specific quiz.

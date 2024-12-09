@@ -189,7 +189,7 @@ const QuizReview: React.FC = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
 
-  console.log("latestAttempt", latestAttempt);
+  // console.log("latestAttempt", latestAttempt);
 
   return (
     <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">

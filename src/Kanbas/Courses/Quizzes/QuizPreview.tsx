@@ -16,6 +16,7 @@ export default function QuizPreview() {
   const { cid, qid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizzesReducer);
   const dispatch = useDispatch();
+  // console.log("qid", qid);
   const fetchQuiz = async () => {
     try {
       const returnedQuiz = await coursesClient.getQuizById(
@@ -118,6 +119,8 @@ export default function QuizPreview() {
           (choice: any) => choice.selected
         );
 
+        console.log("question", question);
+
         if (question.type === "Fill In the Blank") {
           selectedChoice = question.choices.find(
             (choice: any) => choice.answer.toLowerCase() === question.currentAnswer.toLowerCase()
@@ -148,7 +151,7 @@ export default function QuizPreview() {
     }
   };
 
-  console.log("quiz", quiz);
+  // console.log("quiz", quiz);
 
   return (
     <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
