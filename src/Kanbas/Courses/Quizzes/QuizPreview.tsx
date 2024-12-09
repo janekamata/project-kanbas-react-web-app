@@ -91,7 +91,7 @@ export default function QuizPreview() {
       if (
         question.choices.some((choice) => choice.correct && choice.selected)
       ) {
-        console.log('Adding points', question.points);
+        console.log("Adding points", question.points);
         totalPoints += question.points;
       }
     });
@@ -100,15 +100,19 @@ export default function QuizPreview() {
 
     quiz.questions.forEach((question: any) => {
       if (
-        question.choices.some((choice: any) => choice.correct && choice.answer.toLowerCase() === question.currentAnswer.toLowerCase()) && question.type === "Fill In the Blank"
+        question.choices.some(
+          (choice: any) =>
+            choice.correct &&
+            choice.answer.toLowerCase() ===
+              question.currentAnswer?.toLowerCase()
+        ) &&
+        question.type === "Fill In the Blank"
       ) {
         totalPoints += question.points;
       }
     });
 
     console.log("totalPoints 2", totalPoints);
-
-
 
     const score = totalPoints;
 
@@ -123,7 +127,9 @@ export default function QuizPreview() {
 
         if (question.type === "Fill In the Blank") {
           selectedChoice = question.choices.find(
-            (choice: any) => choice.answer.toLowerCase() === question.currentAnswer.toLowerCase()
+            (choice: any) =>
+              choice.answer.toLowerCase() ===
+              question.currentAnswer?.toLowerCase()
           );
           console.log("selectedChoice", selectedChoice);
         }
