@@ -132,7 +132,6 @@ const QuizReview: React.FC = () => {
         const attempt: Attempt = await quizzesClient.getLatestAttemptForQuiz(
           quiz._id
         );
-        // console.log("Latest Attempt:", attempt);
         setLatestAttempt(attempt);
 
         // Merge attempt data with quiz questions to mark selected answers
@@ -142,14 +141,9 @@ const QuizReview: React.FC = () => {
             (aq) => aq.question === question.title
           );
 
-          // console.log("attempt question", attempt.questions);
-          // console.log("question A", question);
-          console.log("attemptQuestion", attemptQuestion);
-
           if (attemptQuestion) {
             // Map through the choices and set 'selected' based on attempt data
             const updatedChoices = question.choices.map((choice) => {
-              console.log(choice);
               return {
                 ...choice,
                 selected:
@@ -159,7 +153,6 @@ const QuizReview: React.FC = () => {
               };
             });
 
-            console.log("attemptQuestion.answer", attemptQuestion.answer);
             return {
               ...question,
               choices: updatedChoices,
@@ -191,10 +184,7 @@ const QuizReview: React.FC = () => {
     fetchLatestAttempt();
   }, [quiz]);
 
-  console.log("quiz", quiz);
-
   const save = () => {
-    console.log(quiz);
     dispatch(updateQuiz(quiz));
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };

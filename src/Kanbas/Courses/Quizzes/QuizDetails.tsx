@@ -121,7 +121,6 @@ const QuizDetails: React.FC = () => {
         try {
           // Fetch the number of attempts the user has made
           const attemptData = await quizzesClient.getUserQuizAttempts(cid, qid);
-          console.log("Attempt Data:", attemptData);
           setUserAttempts(attemptData.attemptCount);
         } catch (err: any) {
           console.error("Error fetching user attempts:", err);
@@ -138,7 +137,6 @@ const QuizDetails: React.FC = () => {
       if (currentUser && currentUser._id && qid) {
         try {
           const latest = await quizzesClient.getLatestAttemptForQuiz(qid);
-          console.log("Latest Attempt:", latest);
           setLatestAttempt(latest);
         } catch (err: any) {
           console.error("Error fetching latest attempt:", err);

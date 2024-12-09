@@ -77,8 +77,6 @@ export default function QuizEditor() {
 
   const handleSubmit = async (quiz: any) => {
     if (quiz._id) {
-      console.log("Updating Quiz");
-      console.log(quiz);
       const updatedQuiz = await coursesClient.updateQuizForCourse(
         cid as string,
         quiz
@@ -86,7 +84,6 @@ export default function QuizEditor() {
       dispatch(updateQuiz(updatedQuiz));
       navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`);
     } else {
-      console.log("Creating New Quiz");
       const newQuiz = await coursesClient.createQuizForCourse(
         cid as string,
         quiz
@@ -99,8 +96,6 @@ export default function QuizEditor() {
 
   const handleSubmitAndPublish = async (quiz: any) => {
     if (quiz._id) {
-      console.log("Updating Quiz");
-      console.log(quiz);
       const updatedQuiz = await coursesClient.updateQuizForCourse(
         cid as string,
         { ...quiz, published: true }
@@ -108,7 +103,6 @@ export default function QuizEditor() {
       dispatch(updateQuiz(updatedQuiz));
       navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     } else {
-      console.log("Creating New Quiz");
       const newQuiz = await coursesClient.createQuizForCourse(cid as string, {
         ...quiz,
         published: true,
@@ -131,7 +125,6 @@ export default function QuizEditor() {
     setQuiz({ ...quiz, questions: [...quiz.questions, newQuestion] });
   };
 
-  console.log("quiz", quiz);
   return (
     <ProtectedRouteRole>
       <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">

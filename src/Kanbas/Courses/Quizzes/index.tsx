@@ -33,9 +33,6 @@ export default function Quizzes() {
     fetchQuizzes();
   }, []);
 
-  console.log("quizzes", quizzes);
-  console.log("current user", currentUser);
-
   return (
     <div id="wd-quizzes" className="m-5">
       <div id="wd-search-quizzes-box" className="row">
@@ -238,7 +235,7 @@ export default function Quizzes() {
                           <span>
                             Last attempt score:{" "}
                             {quiz.attempts.find((attempt) => {
-                              console.log(attempt);
+                              // console.log(attempt);
                               return attempt.user === currentUser._id;
                             })?.lastScore || "N/A"}
                           </span>

@@ -46,7 +46,6 @@ export default function QuizQuestion({
 }) {
   const [inputValue, setInputValue] = useState("");
 
-  console.log("QUESTION", question);
   // Initialize currentAnswer if it's already present in the question
   useEffect(() => {
     if (question.currentAnswer) {

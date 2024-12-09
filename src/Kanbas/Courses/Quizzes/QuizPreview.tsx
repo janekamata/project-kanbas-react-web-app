@@ -90,19 +90,39 @@ export default function QuizPreview() {
       if (
         question.choices.some((choice) => choice.correct && choice.selected)
       ) {
+        console.log('Adding points', question.points);
         totalPoints += question.points;
       }
     });
+
+    console.log("totalPoints", totalPoints);
+
+    quiz.questions.forEach((question: any) => {
+      if (
+        question.choices.some((choice: any) => choice.correct && choice.answer === question.currentAnswer) && question.type === "Fill In the Blank"
+      ) {
+        totalPoints += question.points;
+      }
+    });
+
+    console.log("totalPoints 2", totalPoints);
+
+
 
     const score = totalPoints;
 
     const attemptData = {
       score: score,
       questions: quiz.questions.map((question: any) => {
-        const selectedChoice = question.choices.find(
+        let selectedChoice = question.choices.find(
           (choice: any) => choice.selected
         );
 
+        if (question.type === "Fill In the Blank") {
+          selectedChoice = question.choices.find(
+            (choice: any) => choice.answer === question.currentAnswer
+          );
+        }
         return {
           question: question.title,
           currentAnswer: question.currentAnswer,
@@ -112,15 +132,12 @@ export default function QuizPreview() {
       }),
     };
 
-    console.log("attemptData", attemptData);
-
     try {
       const response = await quizzesClient.createAttempt(
         cid,
         qid!,
         attemptData
       );
-      console.log("Attempt saved successfully:", response);
       navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`);
     } catch (error) {
       console.error("Error saving attempt:", error);
