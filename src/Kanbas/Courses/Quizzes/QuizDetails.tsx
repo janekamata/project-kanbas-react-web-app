@@ -89,6 +89,8 @@ const QuizDetails: React.FC = () => {
   const [userAttempts, setUserAttempts] = useState<number | null>(null);
   const [loadingAttempts, setLoadingAttempts] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  // const [quiz, setQuiz] = useState<Quiz>(initialQuiz);
+
 
   // New state for the latest attempt
   const [latestAttempt, setLatestAttempt] = useState<Attempt | null>(null);
@@ -214,17 +216,12 @@ const QuizDetails: React.FC = () => {
               Edit
             </button>
           </Link>
-          {userAttempts !== 0 ? (
+
             <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
               <button className="btn btn-secondary ms-2">
                 Review Last Attempt
               </button>
             </Link>
-          ) : (
-            <button className="btn btn-secondary ms-2" disabled>
-              No Prior Attempts
-            </button>
-          )}
           <hr />
           <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
           {/* Quiz Details */}

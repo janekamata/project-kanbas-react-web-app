@@ -189,88 +189,96 @@ const QuizReview: React.FC = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
 
-  // console.log("quiz", quiz);
+  console.log("latestAttempt", latestAttempt);
 
   return (
     <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
-      <h2>{quiz.title || "Unnamed Quiz"}</h2>
-      <ProtectedRouteRole>
-        <div
-          id="wd-todo-error-message"
-          className="alert alert-danger mt-2 mb-2 border-0"
-        >
-          <RiErrorWarningLine className="text-danger me-2 fs-5" />
-          This is a preview of the published version of the quiz
+      {!latestAttempt ? (
+        <div className="alert alert-info">
+          You have not attempted this quiz yet.
         </div>
-      </ProtectedRouteRole>
-      <div className="fs-3 m">
-        <span className="fs-3 fw-bold">Last Attempt: </span>
-        {quiz.lastAttempt ? (
-          new Date(quiz.lastAttempt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          })
-        ) : (
-          <span>No attempts yet.</span>
-        )}
-      </div>
-      <div className="fs-3 mb-2">
-        <span className="fs-3 fw-bold">Score: </span>
-        {quiz.score !== undefined
-          ? `${quiz.score} / ${quiz.questions.reduce(
-              (sum, question) => sum + (question.points || 0),
-              0
-            )}`
-          : "N/A"}
-      </div>
-      <h3>Quiz Instructions</h3>
-      <div className="mt-2">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(quiz.description),
-          }}
-        />
-      </div>
-      <hr />
-      <div>
-        {quiz.questions.map((question) => (
-          <QuizQuestion
-            key={question._id}
-            question={{
-              ...question,
-              correct: question.choices.some((c) => c.correct && c.selected),
-            }}
-            review={true}
-            updateQuestion={(updatedQuestion: QuizQuestion) => {
-              // Ensure type consistency
-              setQuiz((prevQuiz) => ({
-                ...prevQuiz,
-                questions: prevQuiz.questions.map((q) =>
-                  q._id === updatedQuestion._id ? updatedQuestion : q
-                ),
-              }));
-            }}
-          />
-        ))}
-      </div>
-      <hr />
-      <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
-        <button
-          id="wd-quiz-back"
-          className="btn btn-lg btn-secondary ms-4 me-1 float-end"
-        >
-          Exit
-        </button>
-      </Link>
-      {/* Display error message if fetching latest attempt failed */}
-      {latestAttemptError && (
-        <div className="text-danger mt-2">{latestAttemptError}</div>
+      ) : (
+        <>
+          <h2>{quiz.title || "Unnamed Quiz"}</h2>
+          <ProtectedRouteRole>
+            <div
+              id="wd-todo-error-message"
+              className="alert alert-danger mt-2 mb-2 border-0"
+            >
+              <RiErrorWarningLine className="text-danger me-2 fs-5" />
+              This is a preview of the published version of the quiz
+            </div>
+          </ProtectedRouteRole>
+          <div className="fs-3 m">
+            <span className="fs-3 fw-bold">Last Attempt: </span>
+            {quiz.lastAttempt ? (
+              new Date(quiz.lastAttempt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              })
+            ) : (
+              <span>No attempts yet.</span>
+            )}
+          </div>
+          <div className="fs-3 mb-2">
+            <span className="fs-3 fw-bold">Score: </span>
+            {quiz.score !== undefined
+              ? `${quiz.score} / ${quiz.questions.reduce(
+                  (sum, question) => sum + (question.points || 0),
+                  0
+                )}`
+              : "N/A"}
+          </div>
+          <h3>Quiz Instructions</h3>
+          <div className="mt-2">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(quiz.description),
+              }}
+            />
+          </div>
+          <hr />
+          <div>
+            {quiz.questions.map((question) => (
+              <QuizQuestion
+                key={question._id}
+                question={{
+                  ...question,
+                  correct: question.choices.some((c) => c.correct && c.selected),
+                }}
+                review={true}
+                updateQuestion={(updatedQuestion: QuizQuestion) => {
+                  // Ensure type consistency
+                  setQuiz((prevQuiz) => ({
+                    ...prevQuiz,
+                    questions: prevQuiz.questions.map((q) =>
+                      q._id === updatedQuestion._id ? updatedQuestion : q
+                    ),
+                  }));
+                }}
+              />
+            ))}
+          </div>
+          <hr />
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
+            <button
+              id="wd-quiz-back"
+              className="btn btn-lg btn-secondary ms-4 me-1 float-end"
+            >
+              Exit
+            </button>
+          </Link>
+          {/* Display error message if fetching latest attempt failed */}
+          {latestAttemptError && (
+            <div className="text-danger mt-2">{latestAttemptError}</div>
+          )}
+          {loadingLatestAttempt && <div>Loading latest attempt...</div>}
+        </>
       )}
-      {loadingLatestAttempt && <div>Loading latest attempt...</div>}
     </div>
   );
 };
