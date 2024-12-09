@@ -91,7 +91,6 @@ const QuizDetails: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   // const [quiz, setQuiz] = useState<Quiz>(initialQuiz);
 
-
   // New state for the latest attempt
   const [latestAttempt, setLatestAttempt] = useState<Attempt | null>(null);
   const [loadingLatestAttempt, setLoadingLatestAttempt] =
@@ -217,11 +216,11 @@ const QuizDetails: React.FC = () => {
             </button>
           </Link>
 
-            <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
-              <button className="btn btn-secondary ms-2">
-                Review Last Attempt
-              </button>
-            </Link>
+          <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`}>
+            <button className="btn btn-secondary ms-2">
+              Review Last Attempt
+            </button>
+          </Link>
           <hr />
           <h3 className="mt-2 mb-4 ms-3">{this_quiz.title}</h3>
           {/* Quiz Details */}
@@ -403,7 +402,7 @@ const QuizDetails: React.FC = () => {
       {currentUser?.role === "STUDENT" && (
         <div>
           <button
-            className="btn btn-danger ms-3"
+            className="btn btn-danger"
             onClick={handleBeginQuiz}
             disabled={loadingAttempts}
           >
