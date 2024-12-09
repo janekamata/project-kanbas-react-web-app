@@ -121,7 +121,7 @@ export default function QuizPreview() {
         attemptData
       );
       console.log("Attempt saved successfully:", response);
-      navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+      navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Review`);
     } catch (error) {
       console.error("Error saving attempt:", error);
     }
@@ -168,7 +168,7 @@ export default function QuizPreview() {
       >
         Submit Quiz
       </button>
-      <Link to={`/Kanbas/Courses/${cid}/Quizzes`}>
+      <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
         <button
           id="wd-quiz-cancel"
           className="btn btn-lg btn-secondary ms-4 me-1 float-end"

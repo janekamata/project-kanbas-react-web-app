@@ -272,7 +272,11 @@ const QuizDetails: React.FC = () => {
                 <strong>Time Limit</strong>
               </span>
             </div>
-            <div className="col-9">{this_quiz.timeLimit} minutes</div>
+            <div className="col-9">
+              {this_quiz.timeLimit === -1
+                ? "None"
+                : this_quiz.timeLimit + " minutes"}
+            </div>
           </div>
           <div className="row">
             <div className="col-3 text-end">

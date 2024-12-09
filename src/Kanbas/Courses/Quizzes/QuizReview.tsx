@@ -268,10 +268,10 @@ const QuizReview: React.FC = () => {
       <hr />
       <Link to={`/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
         <button
-          id="wd-quiz-cancel"
+          id="wd-quiz-back"
           className="btn btn-lg btn-secondary ms-4 me-1 float-end"
         >
-          Back
+          Exit
         </button>
       </Link>
       {/* Display error message if fetching latest attempt failed */}
