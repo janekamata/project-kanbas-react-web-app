@@ -99,7 +99,7 @@ export default function QuizPreview() {
 
     quiz.questions.forEach((question: any) => {
       if (
-        question.choices.some((choice: any) => choice.correct && choice.answer === question.currentAnswer) && question.type === "Fill In the Blank"
+        question.choices.some((choice: any) => choice.correct && choice.answer.toLowerCase() === question.currentAnswer.toLowerCase()) && question.type === "Fill In the Blank"
       ) {
         totalPoints += question.points;
       }
@@ -120,9 +120,11 @@ export default function QuizPreview() {
 
         if (question.type === "Fill In the Blank") {
           selectedChoice = question.choices.find(
-            (choice: any) => choice.answer === question.currentAnswer
+            (choice: any) => choice.answer.toLowerCase() === question.currentAnswer.toLowerCase()
           );
+          console.log("selectedChoice", selectedChoice);
         }
+
         return {
           question: question.title,
           currentAnswer: question.currentAnswer,
@@ -131,6 +133,8 @@ export default function QuizPreview() {
         };
       }),
     };
+
+    console.log("attemptData", attemptData);
 
     try {
       const response = await quizzesClient.createAttempt(

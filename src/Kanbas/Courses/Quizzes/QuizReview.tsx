@@ -147,7 +147,7 @@ const QuizReview: React.FC = () => {
               return {
                 ...choice,
                 selected:
-                  choice.answer === attemptQuestion.currentAnswer
+                  choice.answer.toLowerCase() === attemptQuestion.currentAnswer.toLowerCase()
                     ? true
                     : false,
               };
@@ -188,6 +188,8 @@ const QuizReview: React.FC = () => {
     dispatch(updateQuiz(quiz));
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
+
+  // console.log("quiz", quiz);
 
   return (
     <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
