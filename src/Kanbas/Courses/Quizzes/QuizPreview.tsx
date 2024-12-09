@@ -151,7 +151,7 @@ export default function QuizPreview() {
     }
   };
 
-  // console.log("quiz", quiz);
+  console.log("quiz", quiz);
 
   return (
     <div className="col col-lg-8 align-items-center justify-content-center ms-auto me-auto">
@@ -189,6 +189,7 @@ export default function QuizPreview() {
         id="wd-quiz-save"
         className="btn btn-lg btn-danger me-1 float-end"
         onClick={save}
+        disabled={!quiz.questions.every((question: any) => question.currentAnswer)}
       >
         Submit Quiz
       </button>
